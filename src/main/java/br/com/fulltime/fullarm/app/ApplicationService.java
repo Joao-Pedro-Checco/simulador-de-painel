@@ -1,21 +1,31 @@
 package br.com.fulltime.fullarm.app;
 
-import br.com.fulltime.fullarm.infra.connection.ConnectionHandler;
+import br.com.fulltime.fullarm.app.javafx.SceneLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApplicationService {
-    private final ConnectionHandler connectionHandler;
+    @Autowired
+    private SceneLoader sceneLoader;
 
-    public ApplicationService(ConnectionHandler connectionHandler) {
-        this.connectionHandler = connectionHandler;
-    }
+    public void start(Stage primaryStage) {
+        Parent root = sceneLoader.loadScene("/view/index.fxml");
+        Scene scene = new Scene(root);
 
-    public void start() {
-        String host = System.getenv("HOST");
-        Integer port = Integer.valueOf(System.getenv("PORT"));
+        primaryStage.setTitle("Simulador de Painel Intelbras");
+        primaryStage.getIcons().add(new Image("/images/fullarm-logo.png"));
+        primaryStage.setScene(scene);
 
-        connectionHandler.createConnection(host, port);
-        connectionHandler.listenForMessage();
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("================{Fechando aplicação}================");
+            System.exit(0);
+        });
+
+        primaryStage.show();
     }
 }
