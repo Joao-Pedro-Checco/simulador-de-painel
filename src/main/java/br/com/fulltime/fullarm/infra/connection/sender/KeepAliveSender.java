@@ -19,8 +19,8 @@ public class KeepAliveSender extends Thread {
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             while (socket.isConnected()) {
-                long oneMinuteInMilliseconds = TimeUnit.MINUTES.toMillis(1);
-                Thread.sleep(oneMinuteInMilliseconds);
+                long sleepTime = TimeUnit.MINUTES.toMillis(1);
+                Thread.sleep(sleepTime);
 
                 System.out.println("================{Enviando pacote de keep-alive}================");
                 byte[] keepAlivePackage = HexStringConverter.hexStringToByteArray("F7");

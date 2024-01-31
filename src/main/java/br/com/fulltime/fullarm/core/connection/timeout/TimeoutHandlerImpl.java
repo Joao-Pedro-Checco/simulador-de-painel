@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.infra.connection.timeout;
+package br.com.fulltime.fullarm.core.connection.timeout;
 
 import br.com.fulltime.fullarm.infra.connection.disconnection.DisconnectionHandler;
 import org.springframework.context.annotation.Lazy;
@@ -21,6 +21,7 @@ public class TimeoutHandlerImpl implements TimeoutHandler {
     @Override
     public void initializeTimeout(long timeoutSeconds) {
         new Thread(() -> {
+            messageArrived = false;
             long initialTime = System.currentTimeMillis();
             long timeout = initialTime + (timeoutSeconds * 1000);
 

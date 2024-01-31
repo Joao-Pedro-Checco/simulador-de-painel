@@ -13,6 +13,6 @@ public class DisconnectionHandlerImpl implements DisconnectionHandler {
 
     @Override
     public void disconnect() {
-        connectionHandler.terminateConnection();
+        connectionHandler.disconnect();
     }
 }

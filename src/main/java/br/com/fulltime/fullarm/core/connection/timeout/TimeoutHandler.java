@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.infra.connection.timeout;
+package br.com.fulltime.fullarm.core.connection.timeout;
 
 public interface TimeoutHandler {
     void messageArrived();

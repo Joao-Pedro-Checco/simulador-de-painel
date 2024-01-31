@@ -1,17 +1,16 @@
 package br.com.fulltime.fullarm.infra.connection.handler;
 
-import br.com.fulltime.fullarm.infra.HexStringConverter;
+import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
 import br.com.fulltime.fullarm.infra.connection.reader.MessageReader;
 import br.com.fulltime.fullarm.infra.connection.sender.KeepAliveSender;
-import br.com.fulltime.fullarm.infra.connection.timeout.TimeoutHandler;
 import org.springframework.stereotype.Service;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
 @Service
 public class ConnectionHandlerImpl implements ConnectionHandler {
+    public static boolean connected;
     private Socket socket;
     private KeepAliveSender keepAliveSender;
     private MessageReader messageReader;
@@ -22,37 +21,25 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     }
 
     @Override
-    public void initializeConnection(String host, Integer port) {
+    public void connect(String host, Integer port) {
         try {
             System.out.println("================{Conectando ao Servidor}================");
+            connected = false;
             socket = new Socket(host, port);
 
-            System.out.println("================{Enviando pacote de autenticação}================");
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            byte[] authenticationPackage = HexStringConverter.hexStringToByteArray("07 94 47 12 34 28 05 01 21");
-            dataOutputStream.write(authenticationPackage);
-            dataOutputStream.flush();
-
-            System.out.println("================{Aguardando resposta do servidor}================");
-            timeoutHandler.initializeTimeout(30);
-            listenForMessage();
-
-            keepAliveSender = new KeepAliveSender(socket);
-            keepAliveSender.start();
+            startListener();
+            startKeepAliveSender();
         } catch (IOException e) {
             System.out.printf("================{Falha na conexão (host: %s | port: %d)}================\n", host, port);
             throw new RuntimeException(e);
         }
     }
 
-    private void listenForMessage() {
-        messageReader = new MessageReader(socket, timeoutHandler);
-        messageReader.start();
-    }
-
     @Override
-    public void terminateConnection() {
+    public void disconnect() {
         try {
+            connected = false;
+
             if (messageReader != null) {
                 messageReader.interrupt();
             }
@@ -69,5 +56,20 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
             System.out.println("================{Falha ao desconectar}================");
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Socket getSocket() {
+        return socket;
+    }
+
+    private void startKeepAliveSender() {
+        keepAliveSender = new KeepAliveSender(socket);
+        keepAliveSender.start();
+    }
+
+    private void startListener() {
+        messageReader = new MessageReader(socket, timeoutHandler);
+        messageReader.start();
     }
 }

@@ -1,7 +1,11 @@
 package br.com.fulltime.fullarm.infra.connection.handler;
 
-public interface ConnectionHandler {
-    void initializeConnection(String host, Integer port);
+import java.net.Socket;
 
-    void terminateConnection();
+public interface ConnectionHandler {
+    void connect(String host, Integer port);
+
+    void disconnect();
+
+    Socket getSocket();
 }

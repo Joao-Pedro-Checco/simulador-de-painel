@@ -1,10 +1,12 @@
 package br.com.fulltime.fullarm.infra.connection.reader;
 
-import br.com.fulltime.fullarm.infra.connection.timeout.TimeoutHandler;
+import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+
+import static br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandlerImpl.connected;
 
 public class MessageReader extends Thread {
     private final Socket socket;
@@ -28,6 +30,7 @@ public class MessageReader extends Thread {
                     System.out.println("Recebido -> " + hexString);
                     if (hexString.equals("FE")) {
                         timeoutHandler.messageArrived();
+                        connected = true;
                     }
                 }
 

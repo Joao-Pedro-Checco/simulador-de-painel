@@ -1,11 +1,10 @@
 package br.com.fulltime.fullarm.app.javafx.controller;
 
-import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
+import br.com.fulltime.fullarm.app.UserInputValidator;
+import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
+import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -21,6 +20,14 @@ public class PanelController {
     @FXML
     private TextField portTextField;
     @FXML
+    private RadioButton ethernetRadioButton;
+    @FXML
+    private RadioButton gprsRadioButton;
+    @FXML
+    private TextField accountTextField;
+    @FXML
+    private TextField macAddressTextField;
+    @FXML
     private Button connectButton;
     @FXML
     private Button disconnectButton;
@@ -31,18 +38,26 @@ public class PanelController {
     @FXML
     private Button disarmPanelButton;
     @Autowired
-    private ConnectionHandler connectionHandler;
+    private ConnectionInitializer connectionInitializer;
+    @Autowired
+    private ConnectionTerminator connectionTerminator;
+    @Autowired
+    private UserInputValidator userInputValidator;
 
     public void connectPanel() {
         String host = hostTextField.getText();
         String port = portTextField.getText();
-        if (host.isEmpty() && port.isEmpty()) {
+        String connectionType = setConnectionType();
+        String account = accountTextField.getText();
+        String macAddress = macAddressTextField.getText();
+
+        if (!userInputValidator.isValid(host, port, account, macAddress)) {
             showAlert();
             return;
         }
 
         int intPort = Integer.parseInt(port);
-        connectionHandler.initializeConnection(host, intPort);
+        connectionInitializer.initializeConnection(host, intPort, connectionType, account, macAddress);
 
         connectionStatusLabel.setText("Conectado");
         connectionStatusLabel.setTextFill(Color.color(0, 1, 0));
@@ -53,7 +68,7 @@ public class PanelController {
     }
 
     public void disconnectPanel() {
-        connectionHandler.terminateConnection();
+        connectionTerminator.terminateConnection();
 
         connectionStatusLabel.setText("Desconectado");
         connectionStatusLabel.setTextFill(Color.color(1, 0, 0));
@@ -84,5 +99,17 @@ public class PanelController {
         alert.setTitle("Erro!");
         alert.setHeaderText("Os dados informados não são válidos! Por favor, tente novamente!");
         alert.showAndWait();
+    }
+
+    private String setConnectionType() {
+        if (ethernetRadioButton.isSelected()) {
+            return  "45";
+        }
+
+        if (gprsRadioButton.isSelected()) {
+            return "47";
+        }
+
+        return "48";
     }
 }
