@@ -35,7 +35,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="connectionStatusLabel" layoutX="28.0" layoutY="100.0" prefHeight="26.0" prefWidth="124.0" text="Desconectado" textFill="RED">
+      <Label fx:id="connectionStatusLabel" layoutX="28.0" layoutY="100.0" prefHeight="26.0" prefWidth="124.0" text="Desconectado" textFill="#565656">
          <font>
             <Font size="16.0" />
          </font>
@@ -53,7 +53,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="panelStatusLabel" layoutX="313.0" layoutY="100.0" prefHeight="26.0" prefWidth="124.0" text="Desarmado" textFill="LIME">
+      <Label fx:id="panelStatusLabel" layoutX="313.0" layoutY="100.0" prefHeight="26.0" prefWidth="124.0" text="Desconectado" textFill="#565656">
          <font>
             <Font size="16.0" />
          </font>

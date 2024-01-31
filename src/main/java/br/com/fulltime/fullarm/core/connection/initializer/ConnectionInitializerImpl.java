@@ -1,8 +1,10 @@
 package br.com.fulltime.fullarm.core.connection.initializer;
 
 import br.com.fulltime.fullarm.core.connection.authenticator.PanelAuthenticator;
+import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.packet.AuthenticationPackageGenerator;
 import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
+import javafx.application.Platform;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,6 +12,7 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
     private final ConnectionHandler connectionHandler;
     private final AuthenticationPackageGenerator authenticationPackageGenerator;
     private final PanelAuthenticator panelAuthenticator;
+    private ConnectionListener connectionListener;
 
     public ConnectionInitializerImpl(ConnectionHandler connectionHandler,
                                      AuthenticationPackageGenerator authenticationPackageGenerator,
@@ -21,8 +24,23 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
 
     @Override
     public void initializeConnection(String host, Integer port, String connectionType, String account, String macAddress) {
-        connectionHandler.connect(host, port);
-        byte[] authenticationPackage = authenticationPackageGenerator.generatePackage(connectionType, account, macAddress);
-        panelAuthenticator.authenticatePanel(authenticationPackage);
+        new Thread(() -> {
+            connectionHandler.connect(host, port);
+            byte[] authenticationPackage = authenticationPackageGenerator.generatePackage(connectionType, account, macAddress);
+            boolean connected = panelAuthenticator.authenticatePanel(authenticationPackage);
+
+            notifyConnected(connected);
+        }).start();
+    }
+
+    @Override
+    public void setConnectionListener(ConnectionListener listener) {
+        connectionListener = listener;
+    }
+
+    private void notifyConnected(boolean connected) {
+        if (connectionListener != null) {
+            Platform.runLater(() -> connectionListener.onConnect(connected));
+        }
     }
 }

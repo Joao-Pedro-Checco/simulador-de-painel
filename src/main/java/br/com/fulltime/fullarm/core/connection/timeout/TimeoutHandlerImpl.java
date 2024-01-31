@@ -19,27 +19,28 @@ public class TimeoutHandlerImpl implements TimeoutHandler {
     }
 
     @Override
-    public void initializeTimeout(long timeoutSeconds) {
-        new Thread(() -> {
-            messageArrived = false;
-            long initialTime = System.currentTimeMillis();
-            long timeout = initialTime + (timeoutSeconds * 1000);
+    public boolean initializeTimeout(long timeoutSeconds) {
 
-            while (System.currentTimeMillis() < timeout) {
-                if (messageArrived) {
-                    System.out.println("================{Autenticado com sucesso}================");
-                    return;
-                }
+        messageArrived = false;
+        long initialTime = System.currentTimeMillis();
+        long timeout = initialTime + (timeoutSeconds * 1000);
 
-                try {
-                    Thread.sleep(16);
-                } catch (InterruptedException e) {
-                    System.out.println("================{Thread de timeout interrompida}================");
-                }
+        while (System.currentTimeMillis() < timeout) {
+            if (messageArrived) {
+                System.out.println("================{Autenticado com sucesso}================");
+                return true;
             }
 
-            System.out.println("================{Falha ao conectar com o servidor. Cancelando operação...}================");
-            disconnectionHandler.disconnect();
-        }).start();
+            try {
+                Thread.sleep(16);
+            } catch (InterruptedException e) {
+                System.out.println("================{Thread de timeout interrompida}================");
+            }
+        }
+
+        System.out.println("================{Falha ao conectar com o servidor. Cancelando operação...}================");
+        disconnectionHandler.disconnect();
+
+        return false;
     }
 }

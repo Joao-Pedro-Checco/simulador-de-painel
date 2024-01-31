@@ -2,6 +2,7 @@ package br.com.fulltime.fullarm.app.javafx.controller;
 
 import br.com.fulltime.fullarm.app.UserInputValidator;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
+import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PanelController {
+public class PanelController implements ConnectionListener {
     @FXML
     private Label connectionStatusLabel;
     @FXML
@@ -43,6 +44,9 @@ public class PanelController {
     private ConnectionTerminator connectionTerminator;
     @Autowired
     private UserInputValidator userInputValidator;
+    private boolean panelIsConnected;
+    private final Color green = Color.color(0, 0.7, 0);
+    private final Color grey = Color.color(0.339, 0.339, 0.339);
 
     public void connectPanel() {
         String host = hostTextField.getText();
@@ -52,30 +56,31 @@ public class PanelController {
         String macAddress = macAddressTextField.getText();
 
         if (!userInputValidator.isValid(host, port, account, macAddress)) {
-            showAlert();
+            showAlert("Os dados informados não são válidos! Por favor, tente novamente!");
             return;
         }
 
+        connectButton.setDisable(true);
+        connectionStatusLabel.setText("Conectando...");
+        connectionStatusLabel.setTextFill(Color.color(0.9, 0.6, 0));
+
         int intPort = Integer.parseInt(port);
         connectionInitializer.initializeConnection(host, intPort, connectionType, account, macAddress);
-
-        connectionStatusLabel.setText("Conectado");
-        connectionStatusLabel.setTextFill(Color.color(0, 1, 0));
-        hostTextField.setDisable(true);
-        portTextField.setDisable(true);
-        connectButton.setDisable(true);
-        disconnectButton.setDisable(false);
     }
 
     public void disconnectPanel() {
         connectionTerminator.terminateConnection();
 
         connectionStatusLabel.setText("Desconectado");
-        connectionStatusLabel.setTextFill(Color.color(1, 0, 0));
-        hostTextField.setDisable(false);
-        portTextField.setDisable(false);
+        connectionStatusLabel.setTextFill(grey);
+        changeConnectionTextFieldsStatus(false);
         connectButton.setDisable(false);
         disconnectButton.setDisable(true);
+
+        panelStatusLabel.setText("Desconectado");
+        panelStatusLabel.setTextFill(grey);
+        armPanelButton.setDisable(true);
+        disarmPanelButton.setDisable(true);
     }
 
     public void armPanel() {
@@ -86,18 +91,18 @@ public class PanelController {
     }
 
     public void disarmPanel() {
-        panelStatusLabel.setTextFill(Color.color(0, 1, 0));
         panelStatusLabel.setText("Desarmado");
+        panelStatusLabel.setTextFill(green);
         armPanelButton.setDisable(false);
         disarmPanelButton.setDisable(true);
     }
 
-    private void showAlert() {
+    private void showAlert(String alertText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("/images/fullarm-logo.png"));
         alert.setTitle("Erro!");
-        alert.setHeaderText("Os dados informados não são válidos! Por favor, tente novamente!");
+        alert.setHeaderText(alertText);
         alert.showAndWait();
     }
 
@@ -111,5 +116,44 @@ public class PanelController {
         }
 
         return "48";
+    }
+
+    @FXML
+    public void initialize() {
+        connectionInitializer.setConnectionListener(this);
+    }
+
+    @Override
+    public void onConnect(boolean connected) {
+        panelIsConnected = connected;
+
+        if (!connected) {
+            connectionStatusLabel.setText("Desconectado");
+            connectionStatusLabel.setTextFill(grey);
+            changeConnectionTextFieldsStatus(false);
+            connectButton.setDisable(false);
+            disconnectButton.setDisable(true);
+            showAlert("Não foi possível se conectar com o servidor. Verifique as informações digitadas.");
+            return;
+        }
+
+        connectionStatusLabel.setText("Conectado");
+        connectionStatusLabel.setTextFill(green);
+        changeConnectionTextFieldsStatus(true);
+        connectButton.setDisable(true);
+        disconnectButton.setDisable(false);
+
+        panelStatusLabel.setText("Desarmado");
+        panelStatusLabel.setTextFill(green);
+        armPanelButton.setDisable(false);
+    }
+
+    private void changeConnectionTextFieldsStatus(boolean disabled) {
+        hostTextField.setDisable(disabled);
+        portTextField.setDisable(disabled);
+        ethernetRadioButton.setDisable(disabled);
+        gprsRadioButton.setDisable(disabled);
+        accountTextField.setDisable(disabled);
+        macAddressTextField.setDisable(disabled);
     }
 }

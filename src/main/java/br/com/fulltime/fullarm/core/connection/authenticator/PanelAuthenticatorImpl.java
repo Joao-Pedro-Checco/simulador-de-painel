@@ -15,11 +15,11 @@ public class PanelAuthenticatorImpl implements PanelAuthenticator {
     }
 
     @Override
-    public void authenticatePanel(byte[] authenticationPackage) {
+    public boolean authenticatePanel(byte[] authenticationPackage) {
         System.out.println("================{Enviando pacote de autenticação}================");
         packageSender.sendPackage(authenticationPackage);
 
         System.out.println("================{Aguardando resposta do servidor}================");
-        timeoutHandler.initializeTimeout(30);
+        return timeoutHandler.initializeTimeout(30);
     }
 }
