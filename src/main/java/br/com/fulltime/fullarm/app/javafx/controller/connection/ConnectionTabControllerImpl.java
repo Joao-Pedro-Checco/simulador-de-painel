@@ -1,6 +1,7 @@
-package br.com.fulltime.fullarm.app.javafx.controller;
+package br.com.fulltime.fullarm.app.javafx.controller.connection;
 
 import br.com.fulltime.fullarm.app.UserInputValidator;
+import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PanelController implements ConnectionListener {
+public class ConnectionTabControllerImpl implements ConnectionTabController {
     @FXML
     private Label connectionStatusLabel;
     @FXML
@@ -32,19 +33,16 @@ public class PanelController implements ConnectionListener {
     private Button connectButton;
     @FXML
     private Button disconnectButton;
-    @FXML
-    private Label panelStatusLabel;
-    @FXML
-    private Button armPanelButton;
-    @FXML
-    private Button disarmPanelButton;
     @Autowired
     private ConnectionInitializer connectionInitializer;
     @Autowired
     private ConnectionTerminator connectionTerminator;
     @Autowired
     private UserInputValidator userInputValidator;
-    private boolean panelIsConnected;
+    @Autowired
+    private PanelTabController panelTabController;
+    @Autowired
+    private ConnectionListener connectionListener;
     private final Color green = Color.color(0, 0.7, 0);
     private final Color grey = Color.color(0.339, 0.339, 0.339);
 
@@ -70,31 +68,13 @@ public class PanelController implements ConnectionListener {
 
     public void disconnectPanel() {
         connectionTerminator.terminateConnection();
+        panelTabController.updatePanelStatus(false);
 
         connectionStatusLabel.setText("Desconectado");
         connectionStatusLabel.setTextFill(grey);
-        changeConnectionTextFieldsStatus(false);
+        setTextFieldStatus(false);
         connectButton.setDisable(false);
         disconnectButton.setDisable(true);
-
-        panelStatusLabel.setText("Desconectado");
-        panelStatusLabel.setTextFill(grey);
-        armPanelButton.setDisable(true);
-        disarmPanelButton.setDisable(true);
-    }
-
-    public void armPanel() {
-        panelStatusLabel.setTextFill(Color.color(1, 0, 0));
-        panelStatusLabel.setText("Armado");
-        armPanelButton.setDisable(true);
-        disarmPanelButton.setDisable(false);
-    }
-
-    public void disarmPanel() {
-        panelStatusLabel.setText("Desarmado");
-        panelStatusLabel.setTextFill(green);
-        armPanelButton.setDisable(false);
-        disarmPanelButton.setDisable(true);
     }
 
     private void showAlert(String alertText) {
@@ -120,17 +100,17 @@ public class PanelController implements ConnectionListener {
 
     @FXML
     public void initialize() {
-        connectionInitializer.setConnectionListener(this);
+        connectionListener.setConnectionController(this);
     }
 
     @Override
-    public void onConnect(boolean connected) {
-        panelIsConnected = connected;
+    public void updateConnectionStatus(boolean connected) {
+        panelTabController.updatePanelStatus(connected);
 
         if (!connected) {
             connectionStatusLabel.setText("Desconectado");
             connectionStatusLabel.setTextFill(grey);
-            changeConnectionTextFieldsStatus(false);
+            setTextFieldStatus(false);
             connectButton.setDisable(false);
             disconnectButton.setDisable(true);
             showAlert("Não foi possível se conectar com o servidor. Verifique as informações digitadas.");
@@ -139,21 +119,17 @@ public class PanelController implements ConnectionListener {
 
         connectionStatusLabel.setText("Conectado");
         connectionStatusLabel.setTextFill(green);
-        changeConnectionTextFieldsStatus(true);
+        setTextFieldStatus(true);
         connectButton.setDisable(true);
         disconnectButton.setDisable(false);
-
-        panelStatusLabel.setText("Desarmado");
-        panelStatusLabel.setTextFill(green);
-        armPanelButton.setDisable(false);
     }
 
-    private void changeConnectionTextFieldsStatus(boolean disabled) {
-        hostTextField.setDisable(disabled);
-        portTextField.setDisable(disabled);
-        ethernetRadioButton.setDisable(disabled);
-        gprsRadioButton.setDisable(disabled);
-        accountTextField.setDisable(disabled);
-        macAddressTextField.setDisable(disabled);
+    private void setTextFieldStatus(boolean isDisabled) {
+        hostTextField.setDisable(isDisabled);
+        portTextField.setDisable(isDisabled);
+        ethernetRadioButton.setDisable(isDisabled);
+        gprsRadioButton.setDisable(isDisabled);
+        accountTextField.setDisable(isDisabled);
+        macAddressTextField.setDisable(isDisabled);
     }
 }
