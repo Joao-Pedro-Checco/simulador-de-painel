@@ -1,5 +1,7 @@
 package br.com.fulltime.fullarm.core.connection.timeout;
 
+import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.infra.connection.ConnectionStatus;
 import br.com.fulltime.fullarm.infra.connection.disconnection.DisconnectionHandler;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -27,18 +29,19 @@ public class TimeoutHandlerImpl implements TimeoutHandler {
 
         while (System.currentTimeMillis() < timeout) {
             if (messageArrived) {
-                System.out.println("================{Autenticado com sucesso}================");
+                ConnectionStatus.isAuthenticated = true;
+                Logger.log("Autenticado com sucesso");
                 return true;
             }
 
             try {
                 Thread.sleep(16);
             } catch (InterruptedException e) {
-                System.out.println("================{Thread de timeout interrompida}================");
+                Logger.log("Thread de timeout interrompida");
             }
         }
 
-        System.out.println("================{Falha ao conectar com o servidor. Cancelando operação...}================");
+        Logger.log("A conexão expirou");
         disconnectionHandler.disconnect();
 
         return false;

@@ -1,7 +1,8 @@
 package br.com.fulltime.fullarm.core.connection.authenticator;
 
 import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
-import br.com.fulltime.fullarm.infra.connection.sender.PackageSender;
+import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,11 +16,11 @@ public class PanelAuthenticatorImpl implements PanelAuthenticator {
     }
 
     @Override
-    public boolean authenticatePanel(byte[] authenticationPackage) {
-        System.out.println("================{Enviando pacote de autenticação}================");
+    public boolean authenticatePanel(String authenticationPackage) {
+        Logger.log("Enviando pacote de autenticação");
         packageSender.sendPackage(authenticationPackage);
 
-        System.out.println("================{Aguardando resposta do servidor}================");
+        Logger.log("Aguardando resposta do servidor");
         return timeoutHandler.initializeTimeout(30);
     }
 }

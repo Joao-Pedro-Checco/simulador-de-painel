@@ -2,10 +2,11 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController">
    <children>
@@ -24,7 +25,36 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="armPanelButton" disable="true" layoutX="148.0" layoutY="172.0" mnemonicParsing="false" onAction="#armPanel" text="Armar" />
-      <Button fx:id="disarmPanelButton" disable="true" layoutX="147.0" layoutY="206.0" mnemonicParsing="false" onAction="#disarmPanel" text="Desarmar" />
+      <Button fx:id="armPanelButton" disable="true" layoutX="148.0" layoutY="289.0" mnemonicParsing="false" onAction="#armPanel" text="Armar" />
+      <Button fx:id="disarmPanelButton" disable="true" layoutX="147.0" layoutY="335.0" mnemonicParsing="false" onAction="#disarmPanel" text="Desarmar" />
+      <Button fx:id="stayArmPanelButton" disable="true" layoutX="218.0" layoutY="289.0" mnemonicParsing="false" onAction="#stayArmPanel" text="Stay" />
+      <Text layoutX="148.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Conexão">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <RadioButton fx:id="ethernetIp1Radio" layoutX="147.0" layoutY="209.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" selected="true" text="Ethernet IP 1">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="connectionType" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="ethernetIp2Radio" layoutX="147.0" layoutY="237.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" text="Ethernet IP 2" toggleGroup="$connectionType">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="gprsIp1Radio" layoutX="262.0" layoutY="208.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" text="GPRS IP 1" toggleGroup="$connectionType">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="gprsIp2Radio" layoutX="262.0" layoutY="237.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" text="GPRS IP 2" toggleGroup="$connectionType">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </RadioButton>
    </children>
 </AnchorPane>

@@ -117,6 +117,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
             return;
         }
 
+        panelTabController.setAccount(accountTextField.getText());
         connectionStatusLabel.setText("Conectado");
         connectionStatusLabel.setTextFill(green);
         setTextFieldStatus(true);

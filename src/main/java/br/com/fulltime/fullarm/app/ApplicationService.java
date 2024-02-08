@@ -1,6 +1,7 @@
 package br.com.fulltime.fullarm.app;
 
 import br.com.fulltime.fullarm.app.javafx.SceneLoader;
+import br.com.fulltime.fullarm.core.logger.Logger;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -22,7 +23,7 @@ public class ApplicationService {
         primaryStage.setScene(scene);
 
         primaryStage.setOnCloseRequest(event -> {
-            System.out.println("================{Fechando aplicação}================");
+            Logger.log("Fechando aplicação");
             System.exit(0);
         });
 

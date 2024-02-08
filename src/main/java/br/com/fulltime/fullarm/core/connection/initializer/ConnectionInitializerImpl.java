@@ -26,7 +26,7 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
     public void initializeConnection(String host, Integer port, String connectionType, String account, String macAddress) {
         new Thread(() -> {
             connectionHandler.connect(host, port);
-            byte[] authenticationPackage = authenticationPackageGenerator.generatePackage(connectionType, account, macAddress);
+            String authenticationPackage = authenticationPackageGenerator.generatePackage(connectionType, account, macAddress);
             boolean connected = panelAuthenticator.authenticatePanel(authenticationPackage);
 
             notifyConnected(connected);
