@@ -1,6 +1,7 @@
 package br.com.fulltime.fullarm.app.javafx.controller.connection;
 
 import br.com.fulltime.fullarm.app.UserInputValidator;
+import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
@@ -8,7 +9,6 @@ import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,8 +43,6 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     private PanelTabController panelTabController;
     @Autowired
     private ConnectionListener connectionListener;
-    private final Color green = Color.color(0, 0.7, 0);
-    private final Color grey = Color.color(0.339, 0.339, 0.339);
 
     public void connectPanel() {
         String host = hostTextField.getText();
@@ -60,7 +58,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
         connectButton.setDisable(true);
         connectionStatusLabel.setText("Conectando...");
-        connectionStatusLabel.setTextFill(Color.color(0.9, 0.6, 0));
+        connectionStatusLabel.setTextFill(Colors.YELLOW);
 
         int intPort = Integer.parseInt(port);
         connectionInitializer.initializeConnection(host, intPort, connectionType, account, macAddress);
@@ -71,7 +69,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         panelTabController.updatePanelStatus(false);
 
         connectionStatusLabel.setText("Desconectado");
-        connectionStatusLabel.setTextFill(grey);
+        connectionStatusLabel.setTextFill(Colors.GREY);
         setTextFieldStatus(false);
         connectButton.setDisable(false);
         disconnectButton.setDisable(true);
@@ -109,7 +107,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
         if (!connected) {
             connectionStatusLabel.setText("Desconectado");
-            connectionStatusLabel.setTextFill(grey);
+            connectionStatusLabel.setTextFill(Colors.GREY);
             setTextFieldStatus(false);
             connectButton.setDisable(false);
             disconnectButton.setDisable(true);
@@ -119,7 +117,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
         panelTabController.setAccount(accountTextField.getText());
         connectionStatusLabel.setText("Conectado");
-        connectionStatusLabel.setTextFill(green);
+        connectionStatusLabel.setTextFill(Colors.GREEN);
         setTextFieldStatus(true);
         connectButton.setDisable(true);
         disconnectButton.setDisable(false);

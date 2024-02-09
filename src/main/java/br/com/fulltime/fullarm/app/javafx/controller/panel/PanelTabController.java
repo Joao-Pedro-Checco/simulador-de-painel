@@ -1,5 +1,6 @@
 package br.com.fulltime.fullarm.app.javafx.controller.panel;
 
+import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.packet.sender.EventSender;
@@ -13,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PanelTabController {
-    private boolean panelIsConnected;
-    private boolean panelIsArmed;
     @FXML
     private Label panelStatusLabel;
     @FXML
@@ -31,8 +30,10 @@ public class PanelTabController {
     private RadioButton gprsIp1Radio;
     @FXML
     private RadioButton gprsIp2Radio;
-    private final Color green = Color.color(0, 0.7, 0);
-    private final Color grey = Color.color(0.339, 0.339, 0.339);
+    @FXML
+    private Button setOffButton;
+    @FXML
+    private Button cancelSetOffButton;
     @Autowired
     private EventSender eventSender;
     @Autowired
@@ -40,21 +41,21 @@ public class PanelTabController {
     private String connectionType;
     private String account;
     private String eventCode;
-    private String partition;
+    private final String partition = "01";
 
     public void armPanel() {
         Logger.log("Armando painel");
         armPanelButton.setDisable(true);
         stayArmPanelButton.setDisable(true);
         disarmPanelButton.setDisable(false);
+        setOffButton.setDisable(false);
         panelStatusLabel.setText("Armado");
-        panelStatusLabel.setTextFill(Color.color(1, 0, 0));
+        panelStatusLabel.setTextFill(Colors.RED);
 
         setRadioStatus(true);
 
         connectionType = getConnectionType();
         eventCode = "3401";
-        partition = "01";
 
         String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
@@ -65,6 +66,7 @@ public class PanelTabController {
         stayArmPanelButton.setDisable(true);
         armPanelButton.setDisable(true);
         disarmPanelButton.setDisable(false);
+        setOffButton.setDisable(false);
         panelStatusLabel.setText("Armado Stay");
         panelStatusLabel.setTextFill(Color.color(0.9, 0.6, 0));
 
@@ -72,7 +74,6 @@ public class PanelTabController {
 
         connectionType = getConnectionType();
         eventCode = "3441";
-        partition = "01";
 
         String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
@@ -83,36 +84,65 @@ public class PanelTabController {
         armPanelButton.setDisable(false);
         stayArmPanelButton.setDisable(false);
         disarmPanelButton.setDisable(true);
+        setOffButton.setDisable(true);
+        cancelSetOffButton.setDisable(true);
         panelStatusLabel.setText("Desarmado");
-        panelStatusLabel.setTextFill(green);
+        panelStatusLabel.setTextFill(Colors.GREEN);
 
         setRadioStatus(false);
 
         connectionType = getConnectionType();
         eventCode = "1401";
-        partition = "01";
+
+        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        eventSender.sendEvent(eventPackage);
+    }
+
+    public void setOff() {
+        Logger.log("Enviando evento de disparo");
+        setOffButton.setDisable(true);
+        cancelSetOffButton.setDisable(false);
+        panelStatusLabel.setText("Disparado");
+
+        connectionType = getConnectionType();
+        eventCode = "1130";
+
+        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        eventSender.sendEvent(eventPackage);
+    }
+
+    public void cancelSetOff() {
+        Logger.log("Enviando evento de restauração");
+        setOffButton.setDisable(false);
+        cancelSetOffButton.setDisable(true);
+
+        connectionType = getConnectionType();
+        eventCode = "3130";
 
         String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
     }
 
     public void updatePanelStatus(boolean connected) {
-        panelIsConnected = connected;
-
         if (!connected) {
             panelStatusLabel.setText("Desconectado");
-            panelStatusLabel.setTextFill(grey);
-            armPanelButton.setDisable(true);
-            stayArmPanelButton.setDisable(true);
-            disarmPanelButton.setDisable(true);
+            panelStatusLabel.setTextFill(Colors.GREY);
+            disableAllButtons();
             return;
         }
 
         armPanelButton.setDisable(false);
         stayArmPanelButton.setDisable(false);
         panelStatusLabel.setText("Desarmado");
-        panelStatusLabel.setTextFill(green);
-        armPanelButton.setDisable(false);
+        panelStatusLabel.setTextFill(Colors.GREEN);
+    }
+
+    private void disableAllButtons() {
+        armPanelButton.setDisable(true);
+        stayArmPanelButton.setDisable(true);
+        disarmPanelButton.setDisable(true);
+        setOffButton.setDisable(true);
+        cancelSetOffButton.setDisable(true);
     }
 
     public void setAccount(String account) {
