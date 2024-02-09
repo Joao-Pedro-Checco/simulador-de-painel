@@ -17,7 +17,7 @@ public class AuthenticationPackageGeneratorImpl implements AuthenticationPackage
         StringBuilder splitPackage = splitBytes("0794" + connectionType + account + macAddress);
         byte checksum = checksumGenerator.generateChecksum(splitPackage.toString());
 
-        String checksumToString = Integer.toHexString(checksum);
+        String checksumToString = Integer.toHexString(checksum).toUpperCase();
         splitPackage.append(checksumToString);
 
         return splitPackage.toString().trim();

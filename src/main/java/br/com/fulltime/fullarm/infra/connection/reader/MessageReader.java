@@ -27,7 +27,7 @@ public class MessageReader extends Thread {
                 byte[] bytes = read();
                 if (bytes != null) {
                     String hexString = printHexBinary(bytes);
-                    System.out.println("Recebido -> " + hexString);
+                    Logger.log("Recebido <- " + hexString);
                     if (hexString.equals("FE") && !ConnectionStatus.isAuthenticated) {
                         timeoutHandler.messageArrived();
                     }

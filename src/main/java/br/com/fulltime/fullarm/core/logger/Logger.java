@@ -8,6 +8,6 @@ public class Logger {
         LocalTime currentTime = LocalTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SS");
         String formattedDateTime = currentTime.format(dateTimeFormatter);
-        System.out.printf("==================== { %s | %s } ====================\n", logMessage, formattedDateTime);
+        System.out.printf("%s: %s\n", formattedDateTime, logMessage);
     }
 }

@@ -15,7 +15,7 @@ public class PackageSenderImpl implements PackageSender {
     @Override
     public void sendPackage(String hexString) {
         try {
-            System.out.println("Enviando pacote -> " + hexString);
+            Logger.log("Enviando pacote -> " + hexString);
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
             byte[] packet = HexStringConverter.hexStringToByteArray(hexString);
 

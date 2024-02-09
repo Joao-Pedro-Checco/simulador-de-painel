@@ -28,15 +28,15 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     public void connect(String host, Integer port) {
         try {
             ConnectionStatus.isAuthenticated = false;
-            Logger.log("Conectando ao servidor");
+            Logger.log(String.format("Conectando ao servidor (host: %s | port: %d)", host, port));
             socket = new Socket(host, port);
             packageSender.setSocket(socket);
 
             startListener();
             startKeepAliveSender();
         } catch (IOException e) {
-            String connectionFailedLogMessage = String.format("Falha na conexão (host: %s | port %d)", host, port);
-            Logger.log(connectionFailedLogMessage);
+            String logMessage = String.format("Falha na conexão (host: %s | port: %d)", host, port);
+            Logger.log(logMessage);
             throw new RuntimeException(e);
         }
     }

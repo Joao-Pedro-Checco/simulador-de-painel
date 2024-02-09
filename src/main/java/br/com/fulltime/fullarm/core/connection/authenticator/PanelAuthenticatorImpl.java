@@ -17,7 +17,6 @@ public class PanelAuthenticatorImpl implements PanelAuthenticator {
 
     @Override
     public boolean authenticatePanel(String authenticationPackage) {
-        Logger.log("Enviando pacote de autenticação");
         packageSender.sendPackage(authenticationPackage);
 
         Logger.log("Aguardando resposta do servidor");
