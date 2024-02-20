@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.connection.handler;
 
-import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
 import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.core.packet.interpreter.PackageInterpreter;
 import br.com.fulltime.fullarm.infra.connection.ConnectionStatus;
 import br.com.fulltime.fullarm.infra.connection.reader.MessageReader;
 import br.com.fulltime.fullarm.infra.connection.sender.KeepAliveSender;
@@ -16,11 +16,11 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     private Socket socket;
     private KeepAliveSender keepAliveSender;
     private MessageReader messageReader;
-    private final TimeoutHandler timeoutHandler;
+    private final PackageInterpreter packageInterpreter;
     private final PackageSender packageSender;
 
-    public ConnectionHandlerImpl(TimeoutHandler timeoutHandler, PackageSender packageSender) {
-        this.timeoutHandler = timeoutHandler;
+    public ConnectionHandlerImpl(PackageInterpreter packageInterpreter, PackageSender packageSender) {
+        this.packageInterpreter = packageInterpreter;
         this.packageSender = packageSender;
     }
 
@@ -70,7 +70,7 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     }
 
     private void startListener() {
-        messageReader = new MessageReader(socket, timeoutHandler);
+        messageReader = new MessageReader(socket, packageInterpreter);
         messageReader.start();
     }
 }

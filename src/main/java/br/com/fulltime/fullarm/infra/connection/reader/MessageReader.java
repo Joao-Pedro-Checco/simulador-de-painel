@@ -1,8 +1,7 @@
 package br.com.fulltime.fullarm.infra.connection.reader;
 
-import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.infra.connection.ConnectionStatus;
+import br.com.fulltime.fullarm.core.packet.interpreter.PackageInterpreter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,11 +11,11 @@ public class MessageReader extends Thread {
     private final Socket socket;
     private InputStream in;
     private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
-    private final TimeoutHandler timeoutHandler;
+    private final PackageInterpreter packageInterpreter;
 
-    public MessageReader(Socket socket, TimeoutHandler timeoutHandler) {
+    public MessageReader(Socket socket, PackageInterpreter packageInterpreter) {
         this.socket = socket;
-        this.timeoutHandler = timeoutHandler;
+        this.packageInterpreter = packageInterpreter;
     }
 
     @Override
@@ -28,9 +27,7 @@ public class MessageReader extends Thread {
                 if (bytes != null) {
                     String hexString = printHexBinary(bytes);
                     Logger.log("Recebido <- " + hexString);
-                    if (hexString.equals("FE") && !ConnectionStatus.isAuthenticated) {
-                        timeoutHandler.messageArrived();
-                    }
+                    packageInterpreter.interpretPackage(hexString);
                 }
 
                 Thread.sleep(16);
