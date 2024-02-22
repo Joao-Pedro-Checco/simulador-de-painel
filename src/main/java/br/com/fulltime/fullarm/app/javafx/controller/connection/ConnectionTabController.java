@@ -1,5 +1,7 @@
 package br.com.fulltime.fullarm.app.javafx.controller.connection;
 
-public interface ConnectionTabController {
+import br.com.fulltime.fullarm.app.javafx.controller.Controller;
+
+public interface ConnectionTabController extends Controller {
     void updateConnectionStatus(boolean connected);
 }

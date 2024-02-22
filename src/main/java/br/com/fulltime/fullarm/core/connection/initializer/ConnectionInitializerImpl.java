@@ -3,7 +3,7 @@ package br.com.fulltime.fullarm.core.connection.initializer;
 import br.com.fulltime.fullarm.core.connection.authenticator.PanelAuthenticator;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.AuthenticationPackageGenerator;
+import br.com.fulltime.fullarm.core.packet.generator.authentication.AuthenticationPackageGenerator;
 import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
 import javafx.application.Platform;
 import org.springframework.stereotype.Service;

@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.MainController">
    <children>
-      <TabPane layoutX="1.0" layoutY="-3.0" prefHeight="601.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Conexão">
-               <content>
-                  <fx:include source="connectionTab.fxml" />
-               </content></Tab>
-          <Tab text="Painel">
-               <content>
-                  <fx:include source="panelTab.fxml" />
-               </content></Tab>
-        </tabs>
-      </TabPane>
+      <StackPane fx:id="contentPane" layoutX="154.4" layoutY="-1.0" prefHeight="606.0" prefWidth="846.0" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0" />
+      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="154.0" spacing="50.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="connectionPaneButton" mnemonicParsing="false" onAction="#setConnectionPane" prefHeight="30.0" prefWidth="110.0" text="Conexão">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="panelPaneButton" mnemonicParsing="false" onAction="#setPanelPane" prefHeight="30.0" prefWidth="110.0" text="Paniel">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets top="100.0" />
+         </padding>
+      </VBox>
    </children>
 </AnchorPane>

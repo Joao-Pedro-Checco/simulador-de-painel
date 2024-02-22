@@ -9,41 +9,41 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="connectionTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.connection.ConnectionTabControllerImpl">
+<AnchorPane fx:id="connectionTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.connection.ConnectionTabControllerImpl">
    <children>
-      <Text layoutX="48.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Conexão" textAlignment="CENTER" wrappingWidth="679.0">
+      <Text layoutX="6.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Conexão" wrappingWidth="202.2000617980957">
          <font>
-            <Font size="24.0" />
+            <Font size="48.0" />
          </font>
       </Text>
-      <Text layoutX="160.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
+      <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="connectionStatusLabel" layoutX="160.0" layoutY="148.0" prefHeight="26.0" prefWidth="110.0" text="Desconectado" textFill="#565656">
+      <Label fx:id="connectionStatusLabel" layoutX="14.0" layoutY="102.0" prefHeight="26.0" prefWidth="110.0" text="Desconectado" textFill="#565656">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Text layoutX="160.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" wrappingWidth="48.744140625">
+      <Text layoutX="14.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host" wrappingWidth="48.744140625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="hostTextField" layoutX="160.0" layoutY="227.0" prefHeight="26.0" prefWidth="196.0" promptText="localhost" text="gateways.dev.fullarm.com" />
-      <Text layoutX="473.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="48.744140625">
+      <TextField fx:id="hostTextField" layoutX="14.0" layoutY="170.0" prefHeight="26.0" prefWidth="178.0" promptText="localhost" text="gateways.dev.fullarm.com" />
+      <Text layoutX="14.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="48.744140625">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="portTextField" layoutX="473.0" layoutY="224.0" prefHeight="26.0" prefWidth="58.0" promptText="8080" text="9071" />
-      <Text layoutX="160.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Conexão" wrappingWidth="230.39999999999998">
+      <TextField fx:id="portTextField" layoutX="14.0" layoutY="240.0" prefHeight="26.0" prefWidth="58.0" promptText="8080" text="9071" />
+      <Text layoutX="257.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Conexão" wrappingWidth="230.39999999999998">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <RadioButton fx:id="ethernetRadioButton" layoutX="160.0" layoutY="316.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" selected="true" text="Ethernet">
+      <RadioButton fx:id="ethernetRadioButton" layoutX="257.0" layoutY="185.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" selected="true" text="Ethernet">
          <font>
             <Font size="16.0" />
          </font>
@@ -51,24 +51,24 @@
             <ToggleGroup fx:id="connectionType" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="gprsRadioButton" layoutX="160.0" layoutY="354.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="GPRS" toggleGroup="$connectionType">
+      <RadioButton fx:id="gprsRadioButton" layoutX="257.0" layoutY="223.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="GPRS" toggleGroup="$connectionType">
          <font>
             <Font size="16.0" />
          </font>
       </RadioButton>
-      <Text layoutX="473.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Conta" wrappingWidth="58.399999999999864">
+      <Text layoutX="14.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Conta" wrappingWidth="58.399999999999864">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="accountTextField" layoutX="473.0" layoutY="293.0" prefHeight="26.0" prefWidth="100.0" promptText="1234" text="1234" />
-      <Text layoutX="473.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço MAC" wrappingWidth="131.1999877929686">
+      <TextField fx:id="accountTextField" layoutX="14.0" layoutY="329.0" prefHeight="26.0" prefWidth="100.0" promptText="1234" text="1234" />
+      <Text layoutX="14.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço MAC" wrappingWidth="131.1999877929686">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="macAddressTextField" layoutX="473.0" layoutY="350.0" prefHeight="26.0" prefWidth="131.0" promptText="123456" text="280501" />
-      <Button fx:id="connectButton" layoutX="303.0" layoutY="439.0" mnemonicParsing="false" onAction="#connectPanel" text="Conectar" />
-      <Button fx:id="disconnectButton" disable="true" layoutX="391.0" layoutY="439.0" mnemonicParsing="false" onAction="#disconnectPanel" text="Desconectar" />
+      <TextField fx:id="macAddressTextField" layoutX="14.0" layoutY="396.0" prefHeight="26.0" prefWidth="131.0" promptText="123456" text="280501" />
+      <Button fx:id="connectButton" layoutX="14.0" layoutY="453.0" mnemonicParsing="false" onAction="#connectPanel" text="Conectar" />
+      <Button fx:id="disconnectButton" disable="true" layoutX="102.0" layoutY="453.0" mnemonicParsing="false" onAction="#disconnectPanel" text="Desconectar" />
    </children>
 </AnchorPane>

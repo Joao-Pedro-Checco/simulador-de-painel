@@ -1,19 +1,23 @@
 package br.com.fulltime.fullarm.app.javafx.controller.panel;
 
 import br.com.fulltime.fullarm.app.javafx.Colors;
+import br.com.fulltime.fullarm.app.javafx.controller.Controller;
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.EventPackageGenerator;
+import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.packet.sender.EventSender;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PanelTabController {
+public class PanelTabController implements Controller {
+    @FXML
+    private Pane panelTab;
     @FXML
     private Label panelStatusLabel;
     @FXML
@@ -174,5 +178,10 @@ public class PanelTabController {
         ethernetIp2Radio.setDisable(isDisabled);
         gprsIp1Radio.setDisable(isDisabled);
         gprsIp2Radio.setDisable(isDisabled);
+    }
+
+    @Override
+    public Pane getRoot() {
+        return panelTab;
     }
 }

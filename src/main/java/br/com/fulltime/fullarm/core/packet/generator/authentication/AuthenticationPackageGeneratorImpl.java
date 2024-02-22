@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.core.packet;
+package br.com.fulltime.fullarm.core.packet.generator.authentication;
 
 import br.com.fulltime.fullarm.infra.ChecksumGenerator;
 import br.com.fulltime.fullarm.infra.ChecksumGeneratorImpl;

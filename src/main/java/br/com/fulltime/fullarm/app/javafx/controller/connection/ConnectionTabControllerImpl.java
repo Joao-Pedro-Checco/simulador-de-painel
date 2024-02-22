@@ -9,12 +9,15 @@ import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ConnectionTabControllerImpl implements ConnectionTabController {
+    @FXML
+    private Pane connectionTab;
     @FXML
     private Label connectionStatusLabel;
     @FXML
@@ -130,5 +133,10 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         gprsRadioButton.setDisable(isDisabled);
         accountTextField.setDisable(isDisabled);
         macAddressTextField.setDisable(isDisabled);
+    }
+
+    @Override
+    public Pane getRoot() {
+        return connectionTab;
     }
 }

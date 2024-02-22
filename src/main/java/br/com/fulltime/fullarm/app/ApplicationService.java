@@ -23,7 +23,7 @@ public class ApplicationService {
         primaryStage.setScene(scene);
 
         primaryStage.setOnCloseRequest(event -> {
-            Logger.log("Fechando aplicação");
+            Logger.log("Encerrando aplicação");
             System.exit(0);
         });
 

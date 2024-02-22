@@ -8,32 +8,32 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="544.0" prefWidth="783.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController">
+<AnchorPane fx:id="panelTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController">
    <children>
-      <Text layoutX="1.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Painel" textAlignment="CENTER" wrappingWidth="783.0">
+      <Text layoutX="14.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Painel" wrappingWidth="187.56314086914062">
          <font>
-            <Font size="24.0" />
+            <Font size="48.0" />
          </font>
       </Text>
-      <Text layoutX="110.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" wrappingWidth="58.3441162109375">
+      <Text layoutX="15.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status" wrappingWidth="58.3441162109375">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Label fx:id="panelStatusLabel" layoutX="110.0" layoutY="134.0" prefHeight="26.0" prefWidth="114.0" text="Desconectado" textFill="#565656">
+      <Label fx:id="panelStatusLabel" layoutX="15.0" layoutY="131.0" prefHeight="26.0" prefWidth="114.0" text="Desconectado" textFill="#565656">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="armPanelButton" disable="true" layoutX="110.0" layoutY="289.0" mnemonicParsing="false" onAction="#armPanel" text="Armar" />
-      <Button fx:id="disarmPanelButton" disable="true" layoutX="109.0" layoutY="335.0" mnemonicParsing="false" onAction="#disarmPanel" text="Desarmar" />
-      <Button fx:id="stayArmPanelButton" disable="true" layoutX="180.0" layoutY="289.0" mnemonicParsing="false" onAction="#stayArmPanel" text="Stay" />
-      <Text layoutX="110.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Conexão">
+      <Button fx:id="armPanelButton" disable="true" layoutX="15.0" layoutY="286.0" mnemonicParsing="false" onAction="#armPanel" text="Armar" />
+      <Button fx:id="disarmPanelButton" disable="true" layoutX="14.0" layoutY="332.0" mnemonicParsing="false" onAction="#disarmPanel" text="Desarmar" />
+      <Button fx:id="stayArmPanelButton" disable="true" layoutX="85.0" layoutY="286.0" mnemonicParsing="false" onAction="#stayArmPanel" text="Stay" />
+      <Text layoutX="15.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Conexão">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <RadioButton fx:id="ethernetIp1Radio" layoutX="109.0" layoutY="209.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" selected="true" text="Ethernet IP 1">
+      <RadioButton fx:id="ethernetIp1Radio" layoutX="14.0" layoutY="206.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" selected="true" text="Ethernet IP 1">
          <font>
             <Font size="14.0" />
          </font>
@@ -41,27 +41,27 @@
             <ToggleGroup fx:id="connectionType" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="ethernetIp2Radio" layoutX="109.0" layoutY="237.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" text="Ethernet IP 2" toggleGroup="$connectionType">
+      <RadioButton fx:id="ethernetIp2Radio" layoutX="14.0" layoutY="234.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" text="Ethernet IP 2" toggleGroup="$connectionType">
          <font>
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="gprsIp1Radio" layoutX="224.0" layoutY="208.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="107.0" text="GPRS IP 1" toggleGroup="$connectionType">
+      <RadioButton fx:id="gprsIp1Radio" layoutX="129.0" layoutY="205.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="107.0" text="GPRS IP 1" toggleGroup="$connectionType">
          <font>
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton fx:id="gprsIp2Radio" layoutX="224.0" layoutY="237.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="107.0" text="GPRS IP 2" toggleGroup="$connectionType">
+      <RadioButton fx:id="gprsIp2Radio" layoutX="129.0" layoutY="234.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="107.0" text="GPRS IP 2" toggleGroup="$connectionType">
          <font>
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <Text layoutX="391.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Disparo" wrappingWidth="74.76312255859375">
+      <Text layoutX="236.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Disparo" wrappingWidth="74.76312255859375">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Button fx:id="setOffButton" disable="true" layoutX="391.0" layoutY="207.0" mnemonicParsing="false" onAction="#setOff" text="Disparar" />
-      <Button fx:id="cancelSetOffButton" disable="true" layoutX="479.0" layoutY="207.0" mnemonicParsing="false" onAction="#cancelSetOff" text="Restaurar" />
+      <Button fx:id="setOffButton" disable="true" layoutX="236.0" layoutY="206.0" mnemonicParsing="false" onAction="#setOff" text="Disparar" />
+      <Button fx:id="cancelSetOffButton" disable="true" layoutX="324.0" layoutY="207.0" mnemonicParsing="false" onAction="#cancelSetOff" text="Restaurar" />
    </children>
 </AnchorPane>
