@@ -2,6 +2,7 @@ package br.com.fulltime.fullarm.app.javafx.controller.connection;
 
 import br.com.fulltime.fullarm.app.UserInputValidator;
 import br.com.fulltime.fullarm.app.javafx.Colors;
+import br.com.fulltime.fullarm.app.javafx.Panes;
 import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
@@ -9,12 +10,17 @@ import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static br.com.fulltime.fullarm.app.javafx.PaneMap.paneMap;
+
 @Component
 public class ConnectionTabControllerImpl implements ConnectionTabController {
+    @FXML
+    private Pane connectionTab;
     @FXML
     private Label connectionStatusLabel;
     @FXML
@@ -40,9 +46,8 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     @Autowired
     private UserInputValidator userInputValidator;
     @Autowired
-    private PanelTabController panelTabController;
-    @Autowired
     private ConnectionListener connectionListener;
+    private PanelTabController panelTabController;
 
     public void connectPanel() {
         String host = hostTextField.getText();
@@ -66,7 +71,11 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
     public void disconnectPanel() {
         connectionTerminator.terminateConnection();
-        panelTabController.updatePanelStatus(false);
+
+        panelTabController = (PanelTabController) paneMap.get(Panes.PANEL);
+        if (panelTabController != null) {
+            panelTabController.updatePanelStatus(false);
+        }
 
         connectionStatusLabel.setText("Desconectado");
         connectionStatusLabel.setTextFill(Colors.GREY);
@@ -103,8 +112,6 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
     @Override
     public void updateConnectionStatus(boolean connected) {
-        panelTabController.updatePanelStatus(connected);
-
         if (!connected) {
             connectionStatusLabel.setText("Desconectado");
             connectionStatusLabel.setTextFill(Colors.GREY);
@@ -115,7 +122,12 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
             return;
         }
 
-        panelTabController.setAccount(accountTextField.getText());
+        panelTabController = (PanelTabController) paneMap.get(Panes.PANEL);
+        if (panelTabController != null) {
+            panelTabController.updatePanelStatus(connected);
+            panelTabController.setAccount(accountTextField.getText());
+        }
+
         connectionStatusLabel.setText("Conectado");
         connectionStatusLabel.setTextFill(Colors.GREEN);
         setTextFieldStatus(true);
@@ -130,5 +142,11 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         gprsRadioButton.setDisable(isDisabled);
         accountTextField.setDisable(isDisabled);
         macAddressTextField.setDisable(isDisabled);
+    }
+
+
+    @Override
+    public Pane getRoot() {
+        return connectionTab;
     }
 }

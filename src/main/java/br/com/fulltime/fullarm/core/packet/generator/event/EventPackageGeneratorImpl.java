@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.core.packet;
+package br.com.fulltime.fullarm.core.packet.generator.event;
 
 import br.com.fulltime.fullarm.infra.ChecksumGenerator;
 import org.springframework.stereotype.Service;
