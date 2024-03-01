@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.core.packet.generator.status;
 
-import br.com.fulltime.fullarm.core.packet.PanelStatus;
+import br.com.fulltime.fullarm.core.packet.StatusPackage;
 
 public interface PanelStatusGenerator {
-    PanelStatus generateStatus();
+    StatusPackage generateStatus();
 }

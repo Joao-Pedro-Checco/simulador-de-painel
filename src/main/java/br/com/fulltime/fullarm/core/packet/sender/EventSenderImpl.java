@@ -1,5 +1,6 @@
 package br.com.fulltime.fullarm.core.packet.sender;
 
+import br.com.fulltime.fullarm.core.packet.EventPackage;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public class EventSenderImpl implements EventSender {
     }
 
     @Override
-    public void sendEvent(String eventPackage) {
+    public void sendEvent(EventPackage eventPackage) {
         packageSender.sendPackage(eventPackage);
     }
 }

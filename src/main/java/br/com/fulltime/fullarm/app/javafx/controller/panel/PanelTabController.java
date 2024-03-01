@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.app.javafx.controller.panel;
 import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.app.javafx.controller.Controller;
 import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.core.packet.EventPackage;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.packet.sender.EventSender;
 import br.com.fulltime.fullarm.core.panel.Panel;
@@ -59,10 +60,11 @@ public class PanelTabController implements Controller {
 
         setRadioStatus(true);
 
+        account = Panel.account;
         connectionType = getConnectionType();
         eventCode = "3401";
 
-        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
     }
 
@@ -77,10 +79,11 @@ public class PanelTabController implements Controller {
 
         setRadioStatus(true);
 
+        account = Panel.account;
         connectionType = getConnectionType();
         eventCode = "3441";
 
-        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
     }
 
@@ -96,10 +99,11 @@ public class PanelTabController implements Controller {
 
         setRadioStatus(false);
 
+        account = Panel.account;
         connectionType = getConnectionType();
         eventCode = "1401";
 
-        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
     }
 
@@ -109,10 +113,11 @@ public class PanelTabController implements Controller {
         cancelSetOffButton.setDisable(false);
         panelStatusLabel.setText("Disparado");
 
+        account = Panel.account;
         connectionType = getConnectionType();
         eventCode = "1130";
 
-        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
     }
 
@@ -121,10 +126,11 @@ public class PanelTabController implements Controller {
         setOffButton.setDisable(false);
         cancelSetOffButton.setDisable(true);
 
+        account = Panel.account;
         connectionType = getConnectionType();
         eventCode = "3130";
 
-        String eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(connectionType, account, eventCode, partition);
         eventSender.sendEvent(eventPackage);
     }
 
@@ -148,10 +154,6 @@ public class PanelTabController implements Controller {
         disarmPanelButton.setDisable(true);
         setOffButton.setDisable(true);
         cancelSetOffButton.setDisable(true);
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
     }
 
     private String getConnectionType() {

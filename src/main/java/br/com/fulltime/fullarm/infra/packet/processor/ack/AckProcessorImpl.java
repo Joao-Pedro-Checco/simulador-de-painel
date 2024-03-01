@@ -2,7 +2,7 @@ package br.com.fulltime.fullarm.infra.packet.processor.ack;
 
 import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.infra.connection.ConnectionStatus;
+import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.packet.constants.PackageIdentifier;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class AckProcessorImpl implements AckProcessor {
     @Override
     public void processPackage(String hexString) {
         Logger.log("Processando pacote ACK");
-        if (!ConnectionStatus.isAuthenticated) {
+        if (!Panel.isAuthenticated) {
             timeoutHandler.messageArrived();
         }
     }

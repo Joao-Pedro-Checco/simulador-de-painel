@@ -1,5 +1,7 @@
 package br.com.fulltime.fullarm.core.connection.authenticator;
 
+import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+
 public interface PanelAuthenticator {
-    boolean authenticatePanel(String authenticationPackage);
+    boolean authenticatePanel(AuthenticationPackage authenticationPackage);
 }

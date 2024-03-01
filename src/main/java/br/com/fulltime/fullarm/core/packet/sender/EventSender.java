@@ -1,5 +1,7 @@
 package br.com.fulltime.fullarm.core.packet.sender;
 
+import br.com.fulltime.fullarm.core.packet.EventPackage;
+
 public interface EventSender {
-    void sendEvent(String eventPackage);
+    void sendEvent(EventPackage eventPackage);
 }

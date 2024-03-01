@@ -1,9 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet;
 
-import java.net.Socket;
+import br.com.fulltime.fullarm.core.packet.GenericPackage;
 
 public interface PackageSender {
-    void sendPackage(String hexString);
-
-    void setSocket(Socket socket);
+    void sendPackage(GenericPackage genericPackage);
 }

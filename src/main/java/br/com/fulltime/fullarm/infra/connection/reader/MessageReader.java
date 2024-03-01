@@ -2,30 +2,29 @@ package br.com.fulltime.fullarm.infra.connection.reader;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.interpreter.PackageInterpreter;
+import br.com.fulltime.fullarm.infra.HexStringFormatter;
+import br.com.fulltime.fullarm.infra.connection.Connection;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
 public class MessageReader extends Thread {
-    private final Socket socket;
     private InputStream in;
-    private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
     private final PackageInterpreter packageInterpreter;
 
-    public MessageReader(Socket socket, PackageInterpreter packageInterpreter) {
-        this.socket = socket;
+    public MessageReader(PackageInterpreter packageInterpreter) {
         this.packageInterpreter = packageInterpreter;
     }
 
     @Override
     public void run() {
         try {
-            in = socket.getInputStream();
-            while (socket.isConnected()) {
+            in = Connection.socket.getInputStream();
+            while (!Connection.socket.isClosed()) {
                 byte[] bytes = read();
                 if (bytes != null) {
-                    String hexString = printHexBinary(bytes);
+                    String hexString = HexStringFormatter.printHexBinary(bytes);
                     Logger.log("Recebido <- " + hexString);
                     packageInterpreter.interpretPackage(hexString);
                 }
@@ -37,15 +36,6 @@ public class MessageReader extends Thread {
         } catch (InterruptedException e) {
             Logger.log("Thread de Reader interrompida");
         }
-    }
-
-    private String printHexBinary(byte[] data) {
-        StringBuilder r = new StringBuilder(data.length * 2);
-        for (byte b : data) {
-            r.append(hexCode[(b >> 4) & 0xF]);
-            r.append(hexCode[(b & 0xF)]);
-        }
-        return r.toString();
     }
 
     private byte[] read() throws IOException {

@@ -5,7 +5,7 @@ import br.com.fulltime.fullarm.core.panel.components.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PanelStatus {
+public class StatusPackage extends GenericPackage {
     private List<Zone> zones;
     private String panelModel;
     private String firmwareVersion;
@@ -13,8 +13,8 @@ public class PanelStatus {
     private List<Boolean> activatedPartitions;
     private boolean problemsDetected;
     private boolean sirenTurnedOn;
-    private boolean setOffZones;
-    private boolean panelActivated;
+    private boolean burgledZones;
+    private boolean panelArmed;
     private LocalDateTime dateTime;
     private boolean electricNetworkFail;
     private boolean lowBattery;
@@ -23,13 +23,18 @@ public class PanelStatus {
     private boolean auxiliaryOutputOverload;
     private List<Keyboard> keyboards;
     private List<Receiver> receivers;
-    private List<Expander> expanders;
-    private BatteryIcon batteryIcon;
+    private List<Expander> pgmExpanders;
+    private List<Expander> zoneExpanders;
+    private Battery battery;
     private boolean sirenWireCut;
     private boolean sirenWireShortCircuited;
     private boolean phoneLineCut;
     private boolean failureToCommunicateEvent;
     private List<Pgm> pgmList;
+
+    public StatusPackage() {
+        super(PackageType.STATUS);
+    }
 
     public List<Zone> getZones() {
         return zones;
@@ -87,20 +92,20 @@ public class PanelStatus {
         this.sirenTurnedOn = sirenTurnedOn;
     }
 
-    public boolean isSetOffZones() {
-        return setOffZones;
+    public boolean isBurgledZones() {
+        return burgledZones;
     }
 
-    public void setSetOffZones(boolean setOffZones) {
-        this.setOffZones = setOffZones;
+    public void setBurgledZones(boolean burgledZones) {
+        this.burgledZones = burgledZones;
     }
 
-    public boolean isPanelActivated() {
-        return panelActivated;
+    public boolean isPanelArmed() {
+        return panelArmed;
     }
 
-    public void setPanelActivated(boolean panelActivated) {
-        this.panelActivated = panelActivated;
+    public void setPanelArmed(boolean panelArmed) {
+        this.panelArmed = panelArmed;
     }
 
     public LocalDateTime getDateTime() {
@@ -167,20 +172,28 @@ public class PanelStatus {
         this.receivers = receivers;
     }
 
-    public List<Expander> getExpanders() {
-        return expanders;
+    public List<Expander> getPgmExpanders() {
+        return pgmExpanders;
     }
 
-    public void setExpanders(List<Expander> expanders) {
-        this.expanders = expanders;
+    public void setPgmExpanders(List<Expander> pgmExpanders) {
+        this.pgmExpanders = pgmExpanders;
     }
 
-    public BatteryIcon getBatteryIcon() {
-        return batteryIcon;
+    public List<Expander> getZoneExpanders() {
+        return zoneExpanders;
     }
 
-    public void setBatteryIcon(BatteryIcon batteryIcon) {
-        this.batteryIcon = batteryIcon;
+    public void setZoneExpanders(List<Expander> zoneExpanders) {
+        this.zoneExpanders = zoneExpanders;
+    }
+
+    public Battery getBattery() {
+        return battery;
+    }
+
+    public void setBattery(Battery battery) {
+        this.battery = battery;
     }
 
     public boolean isSirenWireCut() {

@@ -7,6 +7,9 @@ import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
+import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.packet.generator.authentication.AuthenticationPackageGenerator;
+import br.com.fulltime.fullarm.core.panel.Panel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -47,6 +50,8 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     private UserInputValidator userInputValidator;
     @Autowired
     private ConnectionListener connectionListener;
+    @Autowired
+    private AuthenticationPackageGenerator authenticationPackageGenerator;
     private PanelTabController panelTabController;
 
     public void connectPanel() {
@@ -61,12 +66,16 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
             return;
         }
 
+        Panel.account = account;
+
         connectButton.setDisable(true);
         connectionStatusLabel.setText("Conectando...");
         connectionStatusLabel.setTextFill(Colors.YELLOW);
 
         int intPort = Integer.parseInt(port);
-        connectionInitializer.initializeConnection(host, intPort, connectionType, account, macAddress);
+        AuthenticationPackage authenticationPackage =
+                authenticationPackageGenerator.generatePackage(connectionType, account, macAddress);
+        connectionInitializer.initializeConnection(host, intPort, authenticationPackage);
     }
 
     public void disconnectPanel() {
@@ -125,7 +134,6 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         panelTabController = (PanelTabController) paneMap.get(Panes.PANEL);
         if (panelTabController != null) {
             panelTabController.updatePanelStatus(connected);
-            panelTabController.setAccount(accountTextField.getText());
         }
 
         connectionStatusLabel.setText("Conectado");

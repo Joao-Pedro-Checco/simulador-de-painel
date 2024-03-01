@@ -1,30 +1,32 @@
-package br.com.fulltime.fullarm.infra.connection.sender;
+package br.com.fulltime.fullarm.core.connection.sender;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.core.packet.KeepAlivePackage;
+import br.com.fulltime.fullarm.infra.connection.Connection;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
+import org.springframework.stereotype.Service;
 
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
-public class KeepAliveSender extends Thread {
+@Service
+public class KeepAliveSender implements Runnable {
     private final PackageSender packageSender;
-    private final Socket socket;
 
-    public KeepAliveSender(PackageSender packageSender, Socket socket) {
+    public KeepAliveSender(PackageSender packageSender) {
         this.packageSender = packageSender;
-        this.socket = socket;
     }
 
     @Override
     public void run() {
         try {
-            while (socket.isConnected()) {
+            do {
+                Logger.log("Enviando pacote de keep-alive");
+                packageSender.sendPackage(new KeepAlivePackage());
+
                 long sleepTime = TimeUnit.MINUTES.toMillis(1);
                 Thread.sleep(sleepTime);
-
-                Logger.log("Enviando pacote de keep-alive");
-                packageSender.sendPackage("F7");
-            }
+            } while (!Connection.socket.isClosed());
         } catch (InterruptedException e) {
             Logger.log("Thread de keep-alive interrompida");
         }

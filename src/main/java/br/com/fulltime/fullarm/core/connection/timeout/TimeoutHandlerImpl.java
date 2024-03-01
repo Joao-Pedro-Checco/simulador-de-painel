@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.core.connection.timeout;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.infra.connection.ConnectionStatus;
+import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.connection.disconnection.DisconnectionHandler;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class TimeoutHandlerImpl implements TimeoutHandler {
 
         while (System.currentTimeMillis() < timeout) {
             if (messageArrived) {
-                ConnectionStatus.isAuthenticated = true;
+                Panel.isAuthenticated = true;
                 Logger.log("Autenticado com sucesso");
                 return true;
             }

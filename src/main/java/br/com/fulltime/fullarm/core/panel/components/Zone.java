@@ -1,13 +1,21 @@
 package br.com.fulltime.fullarm.core.panel.components;
 
 public class Zone {
+    private int zoneNumber;
     private boolean open;
     private boolean violated;
-    private boolean annulled;
+    private boolean bypassed;
     private boolean tampered;
-    private boolean shortCircuited;
+    private boolean shortCircuit;
     private boolean batteryLowOnWirelessSensor;
-    private boolean setOff;
+
+    public int getZoneNumber() {
+        return zoneNumber;
+    }
+
+    public void setZoneNumber(int zoneNumber) {
+        this.zoneNumber = zoneNumber;
+    }
 
     public boolean isOpen() {
         return open;
@@ -25,12 +33,12 @@ public class Zone {
         this.violated = violated;
     }
 
-    public boolean isAnnulled() {
-        return annulled;
+    public boolean isBypassed() {
+        return bypassed;
     }
 
-    public void setAnnulled(boolean annulled) {
-        this.annulled = annulled;
+    public void setBypassed(boolean bypassed) {
+        this.bypassed = bypassed;
     }
 
     public boolean isTampered() {
@@ -41,12 +49,12 @@ public class Zone {
         this.tampered = tampered;
     }
 
-    public boolean isShortCircuited() {
-        return shortCircuited;
+    public boolean isShortCircuit() {
+        return shortCircuit;
     }
 
-    public void setShortCircuited(boolean shortCircuited) {
-        this.shortCircuited = shortCircuited;
+    public void setShortCircuit(boolean shortCircuit) {
+        this.shortCircuit = shortCircuit;
     }
 
     public boolean isBatteryLowOnWirelessSensor() {
@@ -55,13 +63,5 @@ public class Zone {
 
     public void setBatteryLowOnWirelessSensor(boolean batteryLowOnWirelessSensor) {
         this.batteryLowOnWirelessSensor = batteryLowOnWirelessSensor;
-    }
-
-    public boolean isSetOff() {
-        return setOff;
-    }
-
-    public void setSetOff(boolean setOff) {
-        this.setOff = setOff;
     }
 }

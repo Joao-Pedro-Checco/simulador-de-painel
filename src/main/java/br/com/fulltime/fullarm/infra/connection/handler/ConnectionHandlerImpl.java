@@ -2,10 +2,9 @@ package br.com.fulltime.fullarm.infra.connection.handler;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.interpreter.PackageInterpreter;
-import br.com.fulltime.fullarm.infra.connection.ConnectionStatus;
+import br.com.fulltime.fullarm.core.panel.Panel;
+import br.com.fulltime.fullarm.infra.connection.Connection;
 import br.com.fulltime.fullarm.infra.connection.reader.MessageReader;
-import br.com.fulltime.fullarm.infra.connection.sender.KeepAliveSender;
-import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,27 +12,21 @@ import java.net.Socket;
 
 @Service
 public class ConnectionHandlerImpl implements ConnectionHandler {
-    private Socket socket;
-    private KeepAliveSender keepAliveSender;
     private MessageReader messageReader;
     private final PackageInterpreter packageInterpreter;
-    private final PackageSender packageSender;
 
-    public ConnectionHandlerImpl(PackageInterpreter packageInterpreter, PackageSender packageSender) {
+    public ConnectionHandlerImpl(PackageInterpreter packageInterpreter) {
         this.packageInterpreter = packageInterpreter;
-        this.packageSender = packageSender;
     }
 
     @Override
     public void connect(String host, Integer port) {
         try {
-            ConnectionStatus.isAuthenticated = false;
+            Panel.isAuthenticated = false;
             Logger.log(String.format("Conectando ao servidor (host: %s | port: %d)", host, port));
-            socket = new Socket(host, port);
-            packageSender.setSocket(socket);
+            Connection.socket = new Socket(host, port);
 
             startListener();
-            startKeepAliveSender();
         } catch (IOException e) {
             String logMessage = String.format("Falha na conexão (host: %s | port: %d)", host, port);
             Logger.log(logMessage);
@@ -44,19 +37,15 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     @Override
     public void disconnect() {
         try {
-            ConnectionStatus.isAuthenticated = false;
+            Panel.isAuthenticated = false;
 
             if (messageReader != null) {
                 messageReader.interrupt();
             }
 
-            if (keepAliveSender != null) {
-                keepAliveSender.interrupt();
-            }
-
-            if (socket != null) {
+            if (Connection.socket != null) {
                 Logger.log("Encerrando conexão");
-                socket.close();
+                Connection.socket.close();
             }
         } catch (IOException e) {
             Logger.log("Falha ao desconectar");
@@ -64,13 +53,8 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
         }
     }
 
-    private void startKeepAliveSender() {
-        keepAliveSender = new KeepAliveSender(packageSender, socket);
-        keepAliveSender.start();
-    }
-
     private void startListener() {
-        messageReader = new MessageReader(socket, packageInterpreter);
+        messageReader = new MessageReader(packageInterpreter);
         messageReader.start();
     }
 }

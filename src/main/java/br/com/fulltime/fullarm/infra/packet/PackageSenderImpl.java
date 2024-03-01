@@ -1,22 +1,29 @@
 package br.com.fulltime.fullarm.infra.packet;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.infra.HexStringConverter;
+import br.com.fulltime.fullarm.infra.connection.Connection;
+import br.com.fulltime.fullarm.infra.packet.parser.PackageParserFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 @Service
 public class PackageSenderImpl implements PackageSender {
-    private Socket socket;
+    private final PackageParserFactory packageParserFactory;
+
+    public PackageSenderImpl(PackageParserFactory packageParserFactory) {
+        this.packageParserFactory = packageParserFactory;
+    }
 
     @Override
-    public void sendPackage(String hexString) {
+    public void sendPackage(GenericPackage genericPackage) {
         try {
+            String hexString = packageParserFactory.getParser(genericPackage).parsePackage(genericPackage);
             Logger.log("Enviando pacote -> " + hexString);
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            DataOutputStream dataOutputStream = new DataOutputStream(Connection.socket.getOutputStream());
             byte[] packet = HexStringConverter.hexStringToByteArray(hexString);
 
             dataOutputStream.write(packet);
@@ -25,10 +32,5 @@ public class PackageSenderImpl implements PackageSender {
             Logger.log("Falha no envio do pacote");
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void setSocket(Socket socket) {
-        this.socket = socket;
     }
 }
