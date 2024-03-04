@@ -31,7 +31,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="hostTextField" layoutX="14.0" layoutY="170.0" prefHeight="26.0" prefWidth="178.0" promptText="localhost" text="gateways.dev.fullarm.com" />
+      <TextField fx:id="hostTextField" layoutX="14.0" layoutY="170.0" prefHeight="26.0" prefWidth="194.0" promptText="localhost" text="gateways.dev.fullarm.com" />
       <Text layoutX="14.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="48.744140625">
          <font>
             <Font size="18.0" />

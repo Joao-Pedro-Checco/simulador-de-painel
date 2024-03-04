@@ -2,8 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -25,43 +23,13 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="armPanelButton" disable="true" layoutX="15.0" layoutY="286.0" mnemonicParsing="false" onAction="#armPanel" text="Armar" />
-      <Button fx:id="disarmPanelButton" disable="true" layoutX="14.0" layoutY="332.0" mnemonicParsing="false" onAction="#disarmPanel" text="Desarmar" />
-      <Button fx:id="stayArmPanelButton" disable="true" layoutX="85.0" layoutY="286.0" mnemonicParsing="false" onAction="#stayArmPanel" text="Stay" />
-      <Text layoutX="15.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de Conexão">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <RadioButton fx:id="ethernetIp1Radio" layoutX="14.0" layoutY="206.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" selected="true" text="Ethernet IP 1">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <toggleGroup>
-            <ToggleGroup fx:id="connectionType" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="ethernetIp2Radio" layoutX="14.0" layoutY="234.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="142.0" text="Ethernet IP 2" toggleGroup="$connectionType">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <RadioButton fx:id="gprsIp1Radio" layoutX="129.0" layoutY="205.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="107.0" text="GPRS IP 1" toggleGroup="$connectionType">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <RadioButton fx:id="gprsIp2Radio" layoutX="129.0" layoutY="234.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="107.0" text="GPRS IP 2" toggleGroup="$connectionType">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
+      <Button fx:id="armPanelButton" disable="true" layoutX="11.0" layoutY="206.0" mnemonicParsing="false" onAction="#armDisarmPanel" text="Armar" />
       <Text layoutX="236.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Disparo" wrappingWidth="74.76312255859375">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
       <Button fx:id="setOffButton" disable="true" layoutX="236.0" layoutY="206.0" mnemonicParsing="false" onAction="#setOff" text="Disparar" />
-      <Button fx:id="cancelSetOffButton" disable="true" layoutX="324.0" layoutY="207.0" mnemonicParsing="false" onAction="#cancelSetOff" text="Restaurar" />
+      <Button fx:id="cancelSetOffButton" disable="true" layoutX="324.0" layoutY="207.0" mnemonicParsing="false" onAction="#restore" text="Restaurar" />
    </children>
 </AnchorPane>

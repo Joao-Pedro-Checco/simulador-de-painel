@@ -1,7 +1,8 @@
 package br.com.fulltime.fullarm.core.packet.generator.authentication;
 
 import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.panel.ConnectionType;
 
 public interface AuthenticationPackageGenerator {
-    AuthenticationPackage generatePackage(String connectionType, String account, String macAddress);
+    AuthenticationPackage generatePackage(ConnectionType connectionType, String macAddress);
 }

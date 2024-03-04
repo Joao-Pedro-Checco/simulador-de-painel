@@ -17,7 +17,7 @@ public class AuthenticationPackageParserImpl implements AuthenticationPackagePar
     @Override
     public String parsePackage(GenericPackage genericPackage) {
         AuthenticationPackage authenticationPackage = (AuthenticationPackage) genericPackage;
-        String connectionType = authenticationPackage.getConnectionType();
+        String connectionType = authenticationPackage.getConnectionType().getAuthIdentifier();
         String account = authenticationPackage.getAccount();
         String macAddress = authenticationPackage.getMacAddress();
 

@@ -28,14 +28,13 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
     public void initializeConnection(String host, Integer port, AuthenticationPackage authenticationPackage) {
         new Thread(() -> {
             connectionHandler.connect(host, port);
-            boolean connected = panelAuthenticator.authenticatePanel(authenticationPackage);
+            Panel.connected = panelAuthenticator.authenticatePanel(authenticationPackage);
 
-            Panel.connected = connected;
-            if (connected) {
+            if (Panel.connected) {
                 new Thread(keepAliveSender).start();
             }
 
-            notifyConnected(connected);
+            notifyConnected(Panel.connected);
         }).start();
     }
 

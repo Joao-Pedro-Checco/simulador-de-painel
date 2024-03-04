@@ -9,6 +9,7 @@ import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.packet.generator.authentication.AuthenticationPackageGenerator;
+import br.com.fulltime.fullarm.core.panel.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -57,7 +58,8 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     public void connectPanel() {
         String host = hostTextField.getText();
         String port = portTextField.getText();
-        String connectionType = setConnectionType();
+        ConnectionType connectionType = getConnectionType();
+        Panel.connectionType = connectionType;
         String account = accountTextField.getText();
         String macAddress = macAddressTextField.getText();
 
@@ -74,7 +76,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
         int intPort = Integer.parseInt(port);
         AuthenticationPackage authenticationPackage =
-                authenticationPackageGenerator.generatePackage(connectionType, account, macAddress);
+                authenticationPackageGenerator.generatePackage(connectionType, macAddress);
         connectionInitializer.initializeConnection(host, intPort, authenticationPackage);
     }
 
@@ -102,16 +104,16 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         alert.showAndWait();
     }
 
-    private String setConnectionType() {
+    private ConnectionType getConnectionType() {
         if (ethernetRadioButton.isSelected()) {
-            return  "45";
+            return ConnectionType.ETHERNET;
         }
 
         if (gprsRadioButton.isSelected()) {
-            return "47";
+            return ConnectionType.GPRS;
         }
 
-        return "48";
+        return ConnectionType.UNKNOWN;
     }
 
     @FXML
@@ -133,7 +135,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
         panelTabController = (PanelTabController) paneMap.get(Panes.PANEL);
         if (panelTabController != null) {
-            panelTabController.updatePanelStatus(connected);
+            panelTabController.updatePanelStatus(true);
         }
 
         connectionStatusLabel.setText("Conectado");

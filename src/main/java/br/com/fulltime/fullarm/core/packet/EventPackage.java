@@ -1,7 +1,9 @@
 package br.com.fulltime.fullarm.core.packet;
 
+import br.com.fulltime.fullarm.core.panel.ConnectionType;
+
 public class EventPackage extends GenericPackage {
-    private String connectionType;
+    private ConnectionType connectionType;
     private String account;
     private String contactId;
     private String qualifier;
@@ -13,11 +15,11 @@ public class EventPackage extends GenericPackage {
         super(PackageType.EVENT);
     }
 
-    public String getConnectionType() {
+    public ConnectionType getConnectionType() {
         return connectionType;
     }
 
-    public void setConnectionType(String connectionType) {
+    public void setConnectionType(ConnectionType connectionType) {
         this.connectionType = connectionType;
     }
 

@@ -21,7 +21,7 @@ public class EventPackageParserImpl implements EventPackageParser {
     @Override
     public String parsePackage(GenericPackage genericPackage) {
         EventPackage eventPackage = (EventPackage) genericPackage;
-        String connectionType = eventPackage.getConnectionType();
+        String connectionType = eventPackage.getConnectionType().getEventIdentifier();
         String account = stringToHex(eventPackage.getAccount());
         String contactId = stringToHex(eventPackage.getContactId());
         String qualifier = stringToHex(eventPackage.getQualifier());

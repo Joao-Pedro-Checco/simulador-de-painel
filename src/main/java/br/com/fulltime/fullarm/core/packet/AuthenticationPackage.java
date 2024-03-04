@@ -1,7 +1,9 @@
 package br.com.fulltime.fullarm.core.packet;
 
+import br.com.fulltime.fullarm.core.panel.ConnectionType;
+
 public class AuthenticationPackage extends GenericPackage {
-    private String connectionType;
+    private ConnectionType connectionType;
     private String account;
     private String macAddress;
 
@@ -9,11 +11,11 @@ public class AuthenticationPackage extends GenericPackage {
         super(PackageType.AUTHENTICATION);
     }
 
-    public String getConnectionType() {
+    public ConnectionType getConnectionType() {
         return connectionType;
     }
 
-    public void setConnectionType(String connectionType) {
+    public void setConnectionType(ConnectionType connectionType) {
         this.connectionType = connectionType;
     }
 

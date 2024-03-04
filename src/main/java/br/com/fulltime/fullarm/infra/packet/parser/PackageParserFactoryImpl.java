@@ -1,6 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.parser;
 
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
+import br.com.fulltime.fullarm.infra.packet.parser.ack.AckPackageParser;
 import br.com.fulltime.fullarm.infra.packet.parser.authentication.AuthenticationPackageParser;
 import br.com.fulltime.fullarm.infra.packet.parser.event.EventPackageParser;
 import br.com.fulltime.fullarm.infra.packet.parser.keepalive.KeepAlivePackageParser;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Service
 public class PackageParserFactoryImpl implements PackageParserFactory {
+    private final AckPackageParser ackPackageParser;
     private final AuthenticationPackageParser authenticationPackageParser;
     private final EventPackageParser eventPackageParser;
     private final KeepAlivePackageParser keepAlivePackageParser;
@@ -20,11 +22,13 @@ public class PackageParserFactoryImpl implements PackageParserFactory {
     private final UnknownPackageParser unknownPackageParser;
     private final List<PackageParser> parserList = new ArrayList<>();
 
-    public PackageParserFactoryImpl(AuthenticationPackageParser authenticationPackageParser,
+    public PackageParserFactoryImpl(AckPackageParser ackPackageParser,
+                                    AuthenticationPackageParser authenticationPackageParser,
                                     EventPackageParser eventPackageParser,
                                     KeepAlivePackageParser keepAlivePackageParser,
                                     StatusPackageParser statusPackageParser,
                                     UnknownPackageParser unknownPackageParser) {
+        this.ackPackageParser = ackPackageParser;
         this.authenticationPackageParser = authenticationPackageParser;
         this.eventPackageParser = eventPackageParser;
         this.keepAlivePackageParser = keepAlivePackageParser;
@@ -35,6 +39,7 @@ public class PackageParserFactoryImpl implements PackageParserFactory {
     }
 
     private void initializeList() {
+        parserList.add(ackPackageParser);
         parserList.add(authenticationPackageParser);
         parserList.add(eventPackageParser);
         parserList.add(statusPackageParser);

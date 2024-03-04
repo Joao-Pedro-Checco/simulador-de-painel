@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Panel {
+    public static ConnectionType connectionType;
     public static String account;
     public static final PanelModel model = PanelModel.AMT4010SMART;
     public static boolean connected;
