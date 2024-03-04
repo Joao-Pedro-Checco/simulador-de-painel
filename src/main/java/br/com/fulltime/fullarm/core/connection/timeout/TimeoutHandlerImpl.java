@@ -29,7 +29,7 @@ public class TimeoutHandlerImpl implements TimeoutHandler {
 
         while (System.currentTimeMillis() < timeout) {
             if (messageArrived) {
-                Panel.isAuthenticated = true;
+                Panel.setIsAuthenticated(true);
                 Logger.log("Autenticado com sucesso");
                 return true;
             }

@@ -10,8 +10,8 @@ public class EventPackageGeneratorImpl implements EventPackageGenerator {
     @Override
     public EventPackage generateEvent(String eventCode) {
         EventPackage eventPackage = new EventPackage();
-        eventPackage.setConnectionType(Panel.connectionType);
-        eventPackage.setAccount(Panel.account);
+        eventPackage.setConnectionType(Panel.getConnectionType());
+        eventPackage.setAccount(Panel.getAccount());
         eventPackage.setContactId("18");
         eventPackage.setQualifier(eventCode.substring(0, 1));
         eventPackage.setEventCode(eventCode.substring(1));

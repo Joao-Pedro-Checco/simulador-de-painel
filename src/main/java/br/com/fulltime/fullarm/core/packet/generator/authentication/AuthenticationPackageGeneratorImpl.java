@@ -11,7 +11,7 @@ public class AuthenticationPackageGeneratorImpl implements AuthenticationPackage
     public AuthenticationPackage generatePackage(ConnectionType connectionType, String macAddress) {
         AuthenticationPackage authenticationPackage = new AuthenticationPackage();
         authenticationPackage.setConnectionType(connectionType);
-        authenticationPackage.setAccount(Panel.account);
+        authenticationPackage.setAccount(Panel.getAccount());
         authenticationPackage.setMacAddress(macAddress);
 
         return authenticationPackage;

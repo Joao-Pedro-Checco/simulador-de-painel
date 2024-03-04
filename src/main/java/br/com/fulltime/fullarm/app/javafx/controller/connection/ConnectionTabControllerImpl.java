@@ -59,7 +59,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         String host = hostTextField.getText();
         String port = portTextField.getText();
         ConnectionType connectionType = getConnectionType();
-        Panel.connectionType = connectionType;
+        Panel.setConnectionType(connectionType);
         String account = accountTextField.getText();
         String macAddress = macAddressTextField.getText();
 
@@ -68,7 +68,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
             return;
         }
 
-        Panel.account = account;
+        Panel.setAccount(account);
 
         connectButton.setDisable(true);
         connectionStatusLabel.setText("Conectando...");

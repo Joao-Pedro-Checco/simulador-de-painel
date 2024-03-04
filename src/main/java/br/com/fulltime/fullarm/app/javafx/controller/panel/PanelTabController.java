@@ -33,14 +33,14 @@ public class PanelTabController implements Controller {
     private String eventCode;
 
     public void armDisarmPanel() {
-        if (!Panel.armed) {
+        if (!Panel.isArmed()) {
             Logger.log("Armando painel");
             armPanelButton.setText("Desarmar");
             setOffButton.setDisable(false);
             panelStatusLabel.setText("Armado");
             panelStatusLabel.setTextFill(Colors.RED);
 
-            Panel.armed = true;
+            Panel.setArmed(true);
             eventCode = "3401";
             EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode);
             eventSender.sendEvent(eventPackage);
@@ -54,7 +54,7 @@ public class PanelTabController implements Controller {
         panelStatusLabel.setText("Desarmado");
         panelStatusLabel.setTextFill(Colors.GREEN);
 
-        Panel.armed = false;
+        Panel.setArmed(false);
         eventCode = "1401";
         EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode);
         eventSender.sendEvent(eventPackage);
@@ -102,7 +102,7 @@ public class PanelTabController implements Controller {
 
     @FXML
     private void initialize() {
-        updatePanelStatus(Panel.connected);
+        updatePanelStatus(Panel.isConnected());
     }
 
     @Override

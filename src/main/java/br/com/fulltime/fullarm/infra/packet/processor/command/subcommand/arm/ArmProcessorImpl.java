@@ -50,13 +50,13 @@ public class ArmProcessorImpl implements ArmProcessor {
     private void armPartitions(List<String> bytes) {
         EventPackage armEvent = eventPackageGenerator.generateEvent("3407");
         if (bytes.size() == 1) {
-            Panel.partitions.forEach(p -> p.setActivated(true));
+            Panel.getPartitions().forEach(p -> p.setActivated(true));
             packageSender.sendPackage(armEvent);
             return;
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
-        partitions.forEach(p -> Panel.partitions.get(p - 1).setActivated(true));
+        partitions.forEach(p -> Panel.getPartitions().get(p - 1).setActivated(true));
         packageSender.sendPackage(armEvent);
     }
 

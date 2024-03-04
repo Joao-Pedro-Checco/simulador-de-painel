@@ -51,13 +51,13 @@ public class DisarmProcessorImpl implements DisarmProcessor {
     private void disarmPartitions(List<String> bytes) {
         EventPackage disarmEvent = eventPackageGenerator.generateEvent("1407");
         if (bytes.size() == 1) {
-            Panel.partitions.forEach(p -> p.setActivated(false));
+            Panel.getPartitions().forEach(p -> p.setActivated(false));
             packageSender.sendPackage(disarmEvent);
             return;
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
-        partitions.forEach(p -> Panel.partitions.get(p - 1).setActivated(false));
+        partitions.forEach(p -> Panel.getPartitions().get(p - 1).setActivated(false));
         packageSender.sendPackage(disarmEvent);
     }
 
@@ -68,13 +68,13 @@ public class DisarmProcessorImpl implements DisarmProcessor {
     }
 
     private void unBypassZones(List<String> bytes) {
-        if (!Panel.partitioned) {
-            Panel.zones.forEach(z -> z.setBypassed(false));
+        if (!Panel.isPartitioned()) {
+            Panel.getZones().forEach(z -> z.setBypassed(false));
             return;
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
-        Panel.zones.forEach(z -> {
+        Panel.getZones().forEach(z -> {
             if (partitions.contains(z.getPartition())) {
                 z.setBypassed(false);
             }

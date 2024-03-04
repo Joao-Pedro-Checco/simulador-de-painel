@@ -15,6 +15,6 @@ public class ConnectionTerminatorImpl implements ConnectionTerminator {
     @Override
     public void terminateConnection() {
         disconnectionHandler.disconnect();
-        Panel.connected = false;
+        Panel.setConnected(false);
     }
 }

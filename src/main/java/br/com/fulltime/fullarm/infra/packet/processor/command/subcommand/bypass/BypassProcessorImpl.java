@@ -24,7 +24,7 @@ public class BypassProcessorImpl implements BypassProcessor {
 
         List<String> zonesBytes = bytes.subList(1, bytes.size());
         List<Integer> zones = parseZones(zonesBytes);
-        zones.forEach(z -> Panel.zones.get(z - 1).setBypassed(true));
+        zones.forEach(z -> Panel.getZones().get(z - 1).setBypassed(true));
         packageSender.sendPackage(new AckPackage());
     }
 

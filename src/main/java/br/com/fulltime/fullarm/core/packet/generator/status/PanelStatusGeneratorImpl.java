@@ -47,27 +47,27 @@ public class PanelStatusGeneratorImpl implements PanelStatusGenerator {
     public StatusPackage generateStatus() {
         Logger.log("Gerando pacote de status");
         StatusPackage statusPackage = new StatusPackage();
-        statusPackage.setZones(Panel.zones);
+        statusPackage.setZones(Panel.getZones());
 
-        statusPackage.setPanelModel(Panel.model.getModelByte());
+        statusPackage.setPanelModel(Panel.getModel().getModelByte());
 
         String firmwareVersion = "52";
         statusPackage.setFirmwareVersion(firmwareVersion);
 
-        statusPackage.setPartitioned(Panel.partitioned);
+        statusPackage.setPartitioned(Panel.isPartitioned());
 
-        List<Boolean> activatedPartitions = Panel.partitions.stream().map(Partition::isActivated).collect(Collectors.toList());
+        List<Boolean> activatedPartitions = Panel.getPartitions().stream().map(Partition::isActivated).collect(Collectors.toList());
         statusPackage.setActivatedPartitions(activatedPartitions);
 
-        Panel.siren = new Siren();
-        Panel.siren.setTurnedOn(false);
-        boolean sirenIsOn = Panel.siren.isTurnedOn();
+        Panel.setSiren(new Siren());
+        Panel.getSiren().setTurnedOn(false);
+        boolean sirenIsOn = Panel.getSiren().isTurnedOn();
         statusPackage.setSirenTurnedOn(sirenIsOn);
 
-        boolean burgledZones = Panel.zones.stream().anyMatch(Zone::isViolated);
+        boolean burgledZones = Panel.getZones().stream().anyMatch(Zone::isViolated);
         statusPackage.setBurgledZones(burgledZones);
 
-        boolean panelIsArmed = Panel.armed;
+        boolean panelIsArmed = Panel.isArmed();
         statusPackage.setPanelArmed(panelIsArmed);
 
         boolean problemsDetected = sirenIsOn || burgledZones || panelIsArmed;
@@ -98,16 +98,16 @@ public class PanelStatusGeneratorImpl implements PanelStatusGenerator {
 
         statusPackage.setZoneExpanders(zoneExpanders);
 
-        Panel.battery = new Battery();
-        Panel.battery.setBatteryOutlineOn(true);
-        Panel.battery.setLevelOneCellOn(true);
-        Panel.battery.setLevelTwoCellOn(true);
-        Panel.battery.setLevelThreeCellOn(true);
-        Panel.battery.setBatteryOutlineBlink(false);
-        Panel.battery.setLevelOneCellBlink(false);
-        Panel.battery.setLevelTwoCellBlink(false);
-        Panel.battery.setLevelThreeCellBlink(false);
-        statusPackage.setBattery(Panel.battery);
+        Panel.setBattery(new Battery());
+        Panel.getBattery().setBatteryOutlineOn(true);
+        Panel.getBattery().setLevelOneCellOn(true);
+        Panel.getBattery().setLevelTwoCellOn(true);
+        Panel.getBattery().setLevelThreeCellOn(true);
+        Panel.getBattery().setBatteryOutlineBlink(false);
+        Panel.getBattery().setLevelOneCellBlink(false);
+        Panel.getBattery().setLevelTwoCellBlink(false);
+        Panel.getBattery().setLevelThreeCellBlink(false);
+        statusPackage.setBattery(Panel.getBattery());
 
         boolean sirenWireCut = false;
         statusPackage.setSirenWireCut(sirenWireCut);
@@ -121,7 +121,7 @@ public class PanelStatusGeneratorImpl implements PanelStatusGenerator {
         boolean failureToCommunicateEvent = false;
         statusPackage.setFailureToCommunicateEvent(failureToCommunicateEvent);
 
-        statusPackage.setPgmList(Panel.pgmList);
+        statusPackage.setPgmList(Panel.getPgmList());
 
         return statusPackage;
     }
