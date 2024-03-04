@@ -1,6 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.processor.command;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.infra.HexStringFormatter;
 import br.com.fulltime.fullarm.infra.packet.constants.PackageIdentifier;
 import br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.SubcommandProcessorFactory;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class CommandProcessorImpl implements CommandProcessor {
         Logger.log("Processando pacote de comando");
         List<String> bytes = splitBytes(hexString);
         String subcommandBytes = extractSubcommandBytes(bytes);
-        subcommandProcessorFactory.getProcessor(subcommandBytes).processSubcommand(subcommandBytes);
+        String subcommand = HexStringFormatter.format(subcommandBytes);
+        subcommandProcessorFactory.getProcessor(subcommand).processSubcommand(subcommand);
     }
 
     @Override

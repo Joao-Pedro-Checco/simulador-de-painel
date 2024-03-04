@@ -2,6 +2,7 @@ package br.com.fulltime.fullarm.core.panel.components;
 
 public class Zone {
     private int zoneNumber;
+    private int partition;
     private boolean open;
     private boolean violated;
     private boolean bypassed;
@@ -15,6 +16,14 @@ public class Zone {
 
     public void setZoneNumber(int zoneNumber) {
         this.zoneNumber = zoneNumber;
+    }
+
+    public int getPartition() {
+        return partition;
+    }
+
+    public void setPartition(int partition) {
+        this.partition = partition;
     }
 
     public boolean isOpen() {

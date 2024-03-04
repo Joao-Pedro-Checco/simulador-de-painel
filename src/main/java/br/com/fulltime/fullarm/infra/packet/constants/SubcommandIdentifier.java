@@ -2,6 +2,7 @@ package br.com.fulltime.fullarm.infra.packet.constants;
 
 public enum SubcommandIdentifier {
     ARM("41"),
+    BYPASS("42"),
     DISARM("44"),
     STATUS_REQUEST("5B"),
     UNKNOWN("");

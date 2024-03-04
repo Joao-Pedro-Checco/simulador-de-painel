@@ -28,6 +28,7 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         Logger.log("Processando comando de desarme");
         List<String> bytes = splitBytes(subcommand);
 
+        unBypassZones(bytes);
         disarmPartitions(bytes);
         packageSender.sendPackage(new AckPackage());
     }
@@ -48,7 +49,7 @@ public class DisarmProcessorImpl implements DisarmProcessor {
     }
 
     private void disarmPartitions(List<String> bytes) {
-        EventPackage disarmEvent = eventPackageGenerator.generateEvent("1401");
+        EventPackage disarmEvent = eventPackageGenerator.generateEvent("1407");
         if (bytes.size() == 1) {
             Panel.partitions.forEach(p -> p.setActivated(false));
             packageSender.sendPackage(disarmEvent);
@@ -64,5 +65,19 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         return partitionBytes.stream()
                 .map(b -> Integer.parseInt(b, 16) - 0x41)
                 .collect(Collectors.toList());
+    }
+
+    private void unBypassZones(List<String> bytes) {
+        if (!Panel.partitioned) {
+            Panel.zones.forEach(z -> z.setBypassed(false));
+            return;
+        }
+
+        List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
+        Panel.zones.forEach(z -> {
+            if (partitions.contains(z.getPartition())) {
+                z.setBypassed(false);
+            }
+        });
     }
 }

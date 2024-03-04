@@ -48,7 +48,7 @@ public class ArmProcessorImpl implements ArmProcessor {
     }
 
     private void armPartitions(List<String> bytes) {
-        EventPackage armEvent = eventPackageGenerator.generateEvent("3401");
+        EventPackage armEvent = eventPackageGenerator.generateEvent("3407");
         if (bytes.size() == 1) {
             Panel.partitions.forEach(p -> p.setActivated(true));
             packageSender.sendPackage(armEvent);
