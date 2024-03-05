@@ -5,8 +5,10 @@ import br.com.fulltime.fullarm.core.packet.AckPackage;
 import br.com.fulltime.fullarm.core.packet.EventPackage;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
+import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;
+import javafx.application.Platform;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -17,10 +19,14 @@ import java.util.stream.Collectors;
 public class DisarmProcessorImpl implements DisarmProcessor {
     private final PackageSender packageSender;
     private final EventPackageGenerator eventPackageGenerator;
+    private final PanelStatusListener panelStatusListener;
 
-    public DisarmProcessorImpl(PackageSender packageSender, EventPackageGenerator eventPackageGenerator) {
+    public DisarmProcessorImpl(PackageSender packageSender,
+                               EventPackageGenerator eventPackageGenerator,
+                               PanelStatusListener panelStatusListener) {
         this.packageSender = packageSender;
         this.eventPackageGenerator = eventPackageGenerator;
+        this.panelStatusListener = panelStatusListener;
     }
 
     @Override
@@ -31,6 +37,10 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         unBypassZones(bytes);
         disarmPartitions(bytes);
         packageSender.sendPackage(new AckPackage());
+
+        if (panelStatusListener != null) {
+            Platform.runLater(panelStatusListener::onDisarm);
+        }
     }
 
     @Override
@@ -50,6 +60,7 @@ public class DisarmProcessorImpl implements DisarmProcessor {
 
     private void disarmPartitions(List<String> bytes) {
         EventPackage disarmEvent = eventPackageGenerator.generateEvent("1407");
+        Panel.setArmed(false);
         if (bytes.size() == 1) {
             Panel.getPartitions().forEach(p -> p.setActivated(false));
             packageSender.sendPackage(disarmEvent);

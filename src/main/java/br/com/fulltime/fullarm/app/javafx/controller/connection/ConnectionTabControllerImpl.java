@@ -3,7 +3,7 @@ package br.com.fulltime.fullarm.app.javafx.controller.connection;
 import br.com.fulltime.fullarm.app.UserInputValidator;
 import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.app.javafx.Panes;
-import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController;
+import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabControllerImpl;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
@@ -53,7 +53,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     private ConnectionListener connectionListener;
     @Autowired
     private AuthenticationPackageGenerator authenticationPackageGenerator;
-    private PanelTabController panelTabController;
+    private PanelTabControllerImpl panelTabController;
 
     public void connectPanel() {
         String host = hostTextField.getText();
@@ -83,9 +83,9 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     public void disconnectPanel() {
         connectionTerminator.terminateConnection();
 
-        panelTabController = (PanelTabController) paneMap.get(Panes.PANEL);
+        panelTabController = (PanelTabControllerImpl) paneMap.get(Panes.PANEL);
         if (panelTabController != null) {
-            panelTabController.updatePanelStatus(false);
+            panelTabController.updatePanelConnection(false);
         }
 
         connectionStatusLabel.setText("Desconectado");
@@ -133,9 +133,9 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
             return;
         }
 
-        panelTabController = (PanelTabController) paneMap.get(Panes.PANEL);
+        panelTabController = (PanelTabControllerImpl) paneMap.get(Panes.PANEL);
         if (panelTabController != null) {
-            panelTabController.updatePanelStatus(true);
+            panelTabController.updatePanelConnection(true);
         }
 
         connectionStatusLabel.setText("Conectado");

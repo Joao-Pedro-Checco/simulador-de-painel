@@ -5,8 +5,10 @@ import br.com.fulltime.fullarm.core.packet.AckPackage;
 import br.com.fulltime.fullarm.core.packet.EventPackage;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
+import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;
+import javafx.application.Platform;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -17,10 +19,14 @@ import java.util.stream.Collectors;
 public class ArmProcessorImpl implements ArmProcessor {
     private final PackageSender packageSender;
     private final EventPackageGenerator eventPackageGenerator;
+    private final PanelStatusListener panelStatusListener;
 
-    public ArmProcessorImpl(PackageSender packageSender, EventPackageGenerator eventPackageGenerator) {
+    public ArmProcessorImpl(PackageSender packageSender,
+                            EventPackageGenerator eventPackageGenerator,
+                            PanelStatusListener panelStatusListener) {
         this.packageSender = packageSender;
         this.eventPackageGenerator = eventPackageGenerator;
+        this.panelStatusListener = panelStatusListener;
     }
 
     @Override
@@ -30,6 +36,10 @@ public class ArmProcessorImpl implements ArmProcessor {
 
         armPartitions(bytes);
         packageSender.sendPackage(new AckPackage());
+
+        if (panelStatusListener != null) {
+            Platform.runLater(panelStatusListener::onArm);
+        }
     }
 
     @Override
@@ -49,6 +59,7 @@ public class ArmProcessorImpl implements ArmProcessor {
 
     private void armPartitions(List<String> bytes) {
         EventPackage armEvent = eventPackageGenerator.generateEvent("3407");
+        Panel.setArmed(true);
         if (bytes.size() == 1) {
             Panel.getPartitions().forEach(p -> p.setActivated(true));
             packageSender.sendPackage(armEvent);
