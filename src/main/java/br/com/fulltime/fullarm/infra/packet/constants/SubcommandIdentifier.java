@@ -4,6 +4,7 @@ public enum SubcommandIdentifier {
     ARM("41"),
     BYPASS("42"),
     DISARM("44"),
+    PGM_CONTROL("50"),
     STATUS_REQUEST("5B"),
     UNKNOWN("");
 
