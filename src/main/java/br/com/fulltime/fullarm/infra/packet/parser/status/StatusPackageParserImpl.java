@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.parser.status;
 
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
-import br.com.fulltime.fullarm.core.packet.PackageType;
+import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.core.packet.StatusPackage;
 import br.com.fulltime.fullarm.core.panel.components.*;
 import br.com.fulltime.fullarm.infra.ChecksumGenerator;

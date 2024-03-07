@@ -1,5 +1,7 @@
 package br.com.fulltime.fullarm.core.packet;
 
+import br.com.fulltime.fullarm.core.packet.constants.EventCode;
+import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.core.panel.ConnectionType;
 
 public class EventPackage extends GenericPackage {
@@ -7,7 +9,7 @@ public class EventPackage extends GenericPackage {
     private String account;
     private String contactId;
     private String qualifier;
-    private String eventCode;
+    private EventCode eventCode;
     private String partition;
     private String argument;
 
@@ -47,11 +49,11 @@ public class EventPackage extends GenericPackage {
         this.qualifier = qualifier;
     }
 
-    public String getEventCode() {
+    public EventCode getEventCode() {
         return eventCode;
     }
 
-    public void setEventCode(String eventCode) {
+    public void setEventCode(EventCode eventCode) {
         this.eventCode = eventCode;
     }
 

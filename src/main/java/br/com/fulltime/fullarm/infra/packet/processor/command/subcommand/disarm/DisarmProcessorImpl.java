@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.disarm
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.AckPackage;
 import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
@@ -41,6 +42,16 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         if (panelStatusListener != null) {
             Platform.runLater(panelStatusListener::onDisarm);
         }
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            EventPackage disarmEvent = eventPackageGenerator.generateEvent(EventCode.DISARM);
+            packageSender.sendPackage(disarmEvent);
+        }).start();
     }
 
     @Override
@@ -59,17 +70,14 @@ public class DisarmProcessorImpl implements DisarmProcessor {
     }
 
     private void disarmPartitions(List<String> bytes) {
-        EventPackage disarmEvent = eventPackageGenerator.generateEvent("1407");
         Panel.setArmed(false);
         if (bytes.size() == 1) {
             Panel.getPartitions().forEach(p -> p.setActivated(false));
-            packageSender.sendPackage(disarmEvent);
             return;
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
         partitions.forEach(p -> Panel.getPartitions().get(p - 1).setActivated(false));
-        packageSender.sendPackage(disarmEvent);
     }
 
     private List<Integer> parsePartitions(List<String> partitionBytes) {

@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.app.javafx.controller.panel;
 import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.packet.sender.EventSender;
 import br.com.fulltime.fullarm.core.panel.Panel;
@@ -38,8 +39,7 @@ public class PanelTabControllerImpl implements PanelTabController {
         if (!Panel.isArmed()) {
             Panel.setArmed(true);
             Panel.getPartitions().forEach(p -> p.setActivated(true));
-            eventCode = "3401";
-            EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode);
+            EventPackage eventPackage = eventPackageGenerator.generateEvent(EventCode.ARM);
             eventSender.sendEvent(eventPackage);
 
             Logger.log("Armando painel");
@@ -51,9 +51,10 @@ public class PanelTabControllerImpl implements PanelTabController {
         }
 
         Panel.setArmed(false);
+        Panel.getZones().forEach(z -> z.setBypassed(false));
         Panel.getPartitions().forEach(p -> p.setActivated(false));
         eventCode = "1401";
-        EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(EventCode.DISARM);
         eventSender.sendEvent(eventPackage);
 
         Logger.log("Desarmando painel");
@@ -70,8 +71,7 @@ public class PanelTabControllerImpl implements PanelTabController {
         restoreButton.setDisable(false);
         panelStatusLabel.setText("Disparado");
 
-        eventCode = "1130";
-        EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(EventCode.BURGLARY_ALARM);
         eventSender.sendEvent(eventPackage);
     }
 
@@ -80,8 +80,7 @@ public class PanelTabControllerImpl implements PanelTabController {
         setOffButton.setDisable(false);
         restoreButton.setDisable(true);
 
-        eventCode = "3130";
-        EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode);
+        EventPackage eventPackage = eventPackageGenerator.generateEvent(EventCode.ALARM_RESTORE);
         eventSender.sendEvent(eventPackage);
     }
 

@@ -2,7 +2,7 @@ package br.com.fulltime.fullarm.infra.packet.parser.event;
 
 import br.com.fulltime.fullarm.core.packet.EventPackage;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
-import br.com.fulltime.fullarm.core.packet.PackageType;
+import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.infra.ChecksumGenerator;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class EventPackageParserImpl implements EventPackageParser {
         String account = stringToHex(eventPackage.getAccount());
         String contactId = stringToHex(eventPackage.getContactId());
         String qualifier = stringToHex(eventPackage.getQualifier());
-        String eventCode = stringToHex(eventPackage.getEventCode());
+        String eventCode = stringToHex(eventPackage.getEventCode().getCode().substring(1));
         String partition = stringToHex(eventPackage.getPartition());
         String argument = stringToHex(eventPackage.getArgument());
 

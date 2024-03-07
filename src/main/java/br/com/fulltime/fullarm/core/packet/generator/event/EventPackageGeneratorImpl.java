@@ -1,6 +1,7 @@
 package br.com.fulltime.fullarm.core.packet.generator.event;
 
 import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.panel.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import org.springframework.stereotype.Service;
@@ -8,13 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class EventPackageGeneratorImpl implements EventPackageGenerator {
     @Override
-    public EventPackage generateEvent(String eventCode) {
+    public EventPackage generateEvent(EventCode eventCode) {
         EventPackage eventPackage = new EventPackage();
         eventPackage.setConnectionType(Panel.getConnectionType());
         eventPackage.setAccount(Panel.getAccount());
         eventPackage.setContactId("18");
-        eventPackage.setQualifier(eventCode.substring(0, 1));
-        eventPackage.setEventCode(eventCode.substring(1));
+        eventPackage.setQualifier(eventCode.getCode().substring(0, 1));
+        eventPackage.setEventCode(eventCode);
         eventPackage.setPartition("01");
         eventPackage.setArgument("001");
 

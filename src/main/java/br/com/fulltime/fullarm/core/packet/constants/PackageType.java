@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.core.packet;
+package br.com.fulltime.fullarm.core.packet.constants;
 
 public enum PackageType {
     ACK,

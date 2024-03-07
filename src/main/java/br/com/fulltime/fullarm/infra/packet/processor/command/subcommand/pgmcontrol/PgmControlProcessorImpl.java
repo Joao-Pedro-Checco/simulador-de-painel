@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.pgmcon
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.AckPackage;
 import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
@@ -61,13 +62,13 @@ public class PgmControlProcessorImpl implements PgmControlProcessor {
     }
 
     private void turnPgmsOn(List<Integer> pgmBytes) {
-        EventPackage pgmActivationEvent = eventPackageGenerator.generateEvent("1422");
+        EventPackage pgmActivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_ACTIVATION);
         pgmBytes.forEach(b -> Panel.getPgmList().get(b - 1).setTurnedOn(true));
         packageSender.sendPackage(pgmActivationEvent);
     }
 
     private void turnPgmsOff(List<Integer> pgmBytes) {
-        EventPackage pgmDeactivationEvent = eventPackageGenerator.generateEvent("3422");
+        EventPackage pgmDeactivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_DEACTIVATION);
         pgmBytes.forEach(b -> Panel.getPgmList().get(b - 1).setTurnedOn(false));
         packageSender.sendPackage(pgmDeactivationEvent);
     }

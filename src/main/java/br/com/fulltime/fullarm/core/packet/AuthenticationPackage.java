@@ -1,5 +1,6 @@
 package br.com.fulltime.fullarm.core.packet;
 
+import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.core.panel.ConnectionType;
 
 public class AuthenticationPackage extends GenericPackage {

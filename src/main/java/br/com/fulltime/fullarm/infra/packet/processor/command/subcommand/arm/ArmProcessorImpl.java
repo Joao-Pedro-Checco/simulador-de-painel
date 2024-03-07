@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.arm;
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.AckPackage;
 import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
@@ -40,6 +41,16 @@ public class ArmProcessorImpl implements ArmProcessor {
         if (panelStatusListener != null) {
             Platform.runLater(panelStatusListener::onArm);
         }
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            EventPackage armEvent = eventPackageGenerator.generateEvent(EventCode.ARM);
+            packageSender.sendPackage(armEvent);
+        }).start();
     }
 
     @Override
@@ -58,17 +69,15 @@ public class ArmProcessorImpl implements ArmProcessor {
     }
 
     private void armPartitions(List<String> bytes) {
-        EventPackage armEvent = eventPackageGenerator.generateEvent("3407");
         Panel.setArmed(true);
         if (bytes.size() == 1) {
             Panel.getPartitions().forEach(p -> p.setActivated(true));
-            packageSender.sendPackage(armEvent);
             return;
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
         partitions.forEach(p -> Panel.getPartitions().get(p - 1).setActivated(true));
-        packageSender.sendPackage(armEvent);
+
     }
 
     private List<Integer> parsePartitions(List<String> partitionBytes) {
