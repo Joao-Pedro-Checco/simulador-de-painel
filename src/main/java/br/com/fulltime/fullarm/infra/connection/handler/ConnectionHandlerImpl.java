@@ -24,13 +24,16 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
         try {
             Panel.setIsAuthenticated(false);
             Logger.log(String.format("Conectando ao servidor (host: %s | port: %d)", host, port));
-            Connection.socket = new Socket(host, port);
+            Connection.setSocket(new Socket(host, port));
+            Connection.setHost(host);
+            Connection.setPort(port);
 
             startListener();
         } catch (IOException e) {
             String logMessage = String.format("Falha na conexão (host: %s | port: %d)", host, port);
             Logger.log(logMessage);
-            throw new RuntimeException(e);
+            Logger.log("Tentando reconectar...");
+            connect(host, port);
         }
     }
 
@@ -43,9 +46,9 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
                 messageReader.interrupt();
             }
 
-            if (Connection.socket != null) {
+            if (Connection.getSocket() != null) {
                 Logger.log("Encerrando conexão");
-                Connection.socket.close();
+                Connection.getSocket().close();
             }
         } catch (IOException e) {
             Logger.log("Falha ao desconectar");

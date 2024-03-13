@@ -26,7 +26,7 @@ public class KeepAliveSender implements Runnable {
 
                 long sleepTime = TimeUnit.MINUTES.toMillis(1);
                 Thread.sleep(sleepTime);
-            } while (!Connection.socket.isClosed());
+            } while (!Connection.getSocket().isClosed());
         } catch (InterruptedException e) {
             Logger.log("Thread de keep-alive interrompida");
         }

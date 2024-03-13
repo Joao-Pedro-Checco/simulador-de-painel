@@ -4,6 +4,7 @@ import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.infra.HexStringConverter;
 import br.com.fulltime.fullarm.infra.connection.Connection;
+import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
 import br.com.fulltime.fullarm.infra.packet.parser.PackageParserFactory;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +24,9 @@ public class PackageSenderImpl implements PackageSender {
         try {
             String hexString = packageParserFactory.getParser(genericPackage).parsePackage(genericPackage);
             Logger.log("Enviando pacote -> " + hexString);
-            DataOutputStream dataOutputStream = new DataOutputStream(Connection.socket.getOutputStream());
             byte[] packet = HexStringConverter.hexStringToByteArray(hexString);
 
+            DataOutputStream dataOutputStream = new DataOutputStream(Connection.getSocket().getOutputStream());
             dataOutputStream.write(packet);
             dataOutputStream.flush();
         } catch (IOException e) {

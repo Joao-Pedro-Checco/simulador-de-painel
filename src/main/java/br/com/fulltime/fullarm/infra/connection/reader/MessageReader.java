@@ -20,8 +20,8 @@ public class MessageReader extends Thread {
     @Override
     public void run() {
         try {
-            in = Connection.socket.getInputStream();
-            while (!Connection.socket.isClosed()) {
+            in = Connection.getSocket().getInputStream();
+            while (!Connection.getSocket().isClosed()) {
                 byte[] bytes = read();
                 if (bytes != null) {
                     String hexString = HexStringFormatter.printHexBinary(bytes);

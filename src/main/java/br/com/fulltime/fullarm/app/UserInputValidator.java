@@ -4,8 +4,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserInputValidator {
-    public boolean isValid(String host, String port, String account, String macAddress) {
-        return hostIsValid(host) && portIsValid(port) && accountIsValid(account) && macAdressIsValid(macAddress);
+    public boolean isValid(String host, String port, String account, String password, String macAddress) {
+        return hostIsValid(host) && portIsValid(port)
+                && accountIsValid(account) && passwordIsValid(password) && macAdressIsValid(macAddress);
     }
 
     private boolean hostIsValid(String host) {
@@ -18,6 +19,14 @@ public class UserInputValidator {
 
     private boolean accountIsValid(String account) {
         return !account.isEmpty();
+    }
+
+    private boolean passwordIsValid(String password) {
+        if (password.length() < 4 || password.length() > 6) {
+            return false;
+        }
+
+        return !password.isEmpty();
     }
 
     private boolean macAdressIsValid(String macAddress) {

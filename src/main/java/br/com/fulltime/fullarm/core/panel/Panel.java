@@ -9,6 +9,7 @@ import java.util.Random;
 public class Panel {
     private static ConnectionType connectionType;
     private static String account;
+    private static String password;
     private static final PanelModel model = PanelModel.AMT4010SMART;
     private static boolean connected;
     private static boolean armed;
@@ -58,6 +59,14 @@ public class Panel {
 
     public static void setAccount(String account) {
         Panel.account = account;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static void setPassword(String password) {
+        Panel.password = password;
     }
 
     public static PanelModel getModel() {

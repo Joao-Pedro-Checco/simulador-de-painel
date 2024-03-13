@@ -38,6 +38,8 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     @FXML
     private TextField accountTextField;
     @FXML
+    private TextField passwordTextField;
+    @FXML
     private TextField macAddressTextField;
     @FXML
     private Button connectButton;
@@ -61,14 +63,16 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         ConnectionType connectionType = getConnectionType();
         Panel.setConnectionType(connectionType);
         String account = accountTextField.getText();
+        String password = passwordTextField.getText();
         String macAddress = macAddressTextField.getText();
 
-        if (!userInputValidator.isValid(host, port, account, macAddress)) {
+        if (!userInputValidator.isValid(host, port, account, password, macAddress)) {
             showAlert("Os dados informados não são válidos! Por favor, tente novamente!");
             return;
         }
 
         Panel.setAccount(account);
+        Panel.setPassword(password);
 
         connectButton.setDisable(true);
         connectionStatusLabel.setText("Conectando...");
