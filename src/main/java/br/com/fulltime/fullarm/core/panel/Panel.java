@@ -9,23 +9,13 @@ import java.util.Random;
 public class Panel {
     private static ConnectionType connectionType;
     private static String account;
-    private static PanelModel model = PanelModel.AMT4010SMART;
+    private static final PanelModel model = PanelModel.AMT4010SMART;
     private static boolean connected;
     private static boolean armed;
     private static boolean isAuthenticated;
     private static boolean partitioned;
     private static Siren siren;
     private static Battery battery;
-    private static final List<Zone> zones = new ArrayList<Zone>(){{
-        for (int i = 0; i < 64; i++) {
-            Zone zone = new Zone();
-            zone.setZoneNumber(i + 1);
-            zone.setOpen(false);
-            zone.setViolated(false);
-            zone.setPartition(1);
-            add(zone);
-        }
-    }};
     private static final List<Partition> partitions = new ArrayList<Partition>(){{
         for (int i = 0; i < 4; i++) {
             Partition partition = new Partition();
@@ -34,11 +24,22 @@ public class Panel {
             add(partition);
         }
     }};
+    private static final List<Zone> zones = new ArrayList<Zone>(){{
+        for (int i = 0; i < 64; i++) {
+            Zone zone = new Zone();
+            zone.setZoneNumber(i + 1);
+            zone.setOpen(false);
+            zone.setViolated(false);
+            zone.setPartition(Panel.getPartitions().get(0));
+            add(zone);
+        }
+    }};
     private static final List<Pgm> pgmList = new ArrayList<Pgm>(){{
         for (int i = 0; i < 19; i++) {
             Pgm pgm = new Pgm();
             pgm.setPgmNumber(i + 1);
             pgm.setTurnedOn(false);
+            pgm.setPartition(Panel.getPartitions().get(0));
             add(pgm);
         }
     }};
@@ -61,10 +62,6 @@ public class Panel {
 
     public static PanelModel getModel() {
         return model;
-    }
-
-    public static void setModel(PanelModel model) {
-        Panel.model = model;
     }
 
     public static boolean isConnected() {

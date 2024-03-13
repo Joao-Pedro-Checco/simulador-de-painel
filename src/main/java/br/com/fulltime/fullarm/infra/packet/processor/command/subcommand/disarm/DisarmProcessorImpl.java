@@ -36,7 +36,7 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         List<String> bytes = splitBytes(subcommand);
 
         unBypassZones(bytes);
-        disarmPartitions(bytes);
+        EventPackage disarmEvent = disarmPartitions(bytes);
         packageSender.sendPackage(new AckPackage());
 
         if (panelStatusListener != null) {
@@ -49,7 +49,7 @@ public class DisarmProcessorImpl implements DisarmProcessor {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            EventPackage disarmEvent = eventPackageGenerator.generateEvent(EventCode.DISARM);
+
             packageSender.sendPackage(disarmEvent);
         }).start();
     }
@@ -69,15 +69,16 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         return SubcommandIdentifier.getByValue(bytes.get(0)) == SubcommandIdentifier.DISARM;
     }
 
-    private void disarmPartitions(List<String> bytes) {
+    private EventPackage disarmPartitions(List<String> bytes) {
         Panel.setArmed(false);
         if (bytes.size() == 1) {
             Panel.getPartitions().forEach(p -> p.setActivated(false));
-            return;
+            return eventPackageGenerator.generateEvent(EventCode.DISARM, Panel.getPartitions().get(0), 0);
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
-        partitions.forEach(p -> Panel.getPartitions().get(p - 1).setActivated(false));
+        partitions.forEach(p -> Panel.getPartitions().get(p).setActivated(false));
+        return eventPackageGenerator.generateEvent(EventCode.DISARM, Panel.getPartitions().get(partitions.get(0)), 0);
     }
 
     private List<Integer> parsePartitions(List<String> partitionBytes) {

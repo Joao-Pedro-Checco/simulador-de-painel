@@ -26,10 +26,12 @@ public class EventPackageParserImpl implements EventPackageParser {
         String contactId = stringToHex(eventPackage.getContactId());
         String qualifier = stringToHex(eventPackage.getQualifier());
         String eventCode = stringToHex(eventPackage.getEventCode().getCode().substring(1));
-        String partition = stringToHex(eventPackage.getPartition());
-        String argument = stringToHex(eventPackage.getArgument());
+        String partition = stringToHex("0" + eventPackage.getPartition().getPartitionNumber());
+        int argument = eventPackage.getArgument();
 
-        String hexString = "11B0" + connectionType + account + contactId + qualifier + eventCode + partition + argument;
+        String hexArgument = stringToHex(argument < 10 ? "00" + argument : "0" + argument);
+
+        String hexString = "11B0" + connectionType + account + contactId + qualifier + eventCode + partition + hexArgument;
         List<String> formattedBytes = formatBytes(hexString);
         String finalHexString = parse0AByte(formattedBytes);
 

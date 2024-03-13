@@ -35,7 +35,7 @@ public class ArmProcessorImpl implements ArmProcessor {
         Logger.log("Processando comando de arme");
         List<String> bytes = splitBytes(subcommand);
 
-        armPartitions(bytes);
+        EventPackage armEvent = armPartitions(bytes.subList(1, bytes.size()));
         packageSender.sendPackage(new AckPackage());
 
         if (panelStatusListener != null) {
@@ -48,7 +48,7 @@ public class ArmProcessorImpl implements ArmProcessor {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            EventPackage armEvent = eventPackageGenerator.generateEvent(EventCode.ARM);
+
             packageSender.sendPackage(armEvent);
         }).start();
     }
@@ -68,16 +68,16 @@ public class ArmProcessorImpl implements ArmProcessor {
         return SubcommandIdentifier.getByValue(bytes.get(0)) == SubcommandIdentifier.ARM;
     }
 
-    private void armPartitions(List<String> bytes) {
+    private EventPackage armPartitions(List<String> bytes) {
         Panel.setArmed(true);
-        if (bytes.size() == 1) {
+        if (bytes.isEmpty()) {
             Panel.getPartitions().forEach(p -> p.setActivated(true));
-            return;
+            return eventPackageGenerator.generateEvent(EventCode.ARM, Panel.getPartitions().get(0), 0);
         }
 
-        List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
-        partitions.forEach(p -> Panel.getPartitions().get(p - 1).setActivated(true));
-
+        List<Integer> partitions = parsePartitions(bytes);
+        partitions.forEach(p -> Panel.getPartitions().get(p).setActivated(true));
+        return eventPackageGenerator.generateEvent(EventCode.ARM, Panel.getPartitions().get(partitions.get(0)), 0);
     }
 
     private List<Integer> parsePartitions(List<String> partitionBytes) {

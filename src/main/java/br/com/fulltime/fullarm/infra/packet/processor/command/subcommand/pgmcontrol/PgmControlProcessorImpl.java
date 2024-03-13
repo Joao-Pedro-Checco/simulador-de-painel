@@ -6,6 +6,7 @@ import br.com.fulltime.fullarm.core.packet.EventPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
+import br.com.fulltime.fullarm.core.panel.components.Partition;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;
 import org.springframework.stereotype.Service;
@@ -62,14 +63,16 @@ public class PgmControlProcessorImpl implements PgmControlProcessor {
     }
 
     private void turnPgmsOn(List<Integer> pgmBytes) {
-        EventPackage pgmActivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_ACTIVATION);
         pgmBytes.forEach(b -> Panel.getPgmList().get(b - 1).setTurnedOn(true));
+        Partition partition = Panel.getPgmList().get(pgmBytes.get(0)).getPartition();
+        EventPackage pgmActivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_ACTIVATION, partition, 0);
         packageSender.sendPackage(pgmActivationEvent);
     }
 
     private void turnPgmsOff(List<Integer> pgmBytes) {
-        EventPackage pgmDeactivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_DEACTIVATION);
         pgmBytes.forEach(b -> Panel.getPgmList().get(b - 1).setTurnedOn(false));
+        Partition partition = Panel.getPgmList().get(pgmBytes.get(0)).getPartition();
+        EventPackage pgmDeactivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_DEACTIVATION, partition, 0);
         packageSender.sendPackage(pgmDeactivationEvent);
     }
 

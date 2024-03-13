@@ -21,6 +21,7 @@ public class ApplicationService {
         primaryStage.setTitle("Simulador de Painel Intelbras");
         primaryStage.getIcons().add(new Image("/images/fullarm-logo.png"));
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
 
         primaryStage.setOnCloseRequest(event -> {
             Logger.log("Encerrando aplicação");

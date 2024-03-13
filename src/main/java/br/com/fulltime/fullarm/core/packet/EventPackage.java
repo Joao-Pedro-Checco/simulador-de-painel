@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.core.packet;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.core.panel.ConnectionType;
+import br.com.fulltime.fullarm.core.panel.components.Partition;
 
 public class EventPackage extends GenericPackage {
     private ConnectionType connectionType;
@@ -10,8 +11,8 @@ public class EventPackage extends GenericPackage {
     private String contactId;
     private String qualifier;
     private EventCode eventCode;
-    private String partition;
-    private String argument;
+    private Partition partition;
+    private Integer argument;
 
     public EventPackage() {
         super(PackageType.EVENT);
@@ -57,19 +58,19 @@ public class EventPackage extends GenericPackage {
         this.eventCode = eventCode;
     }
 
-    public String getPartition() {
+    public Partition getPartition() {
         return partition;
     }
 
-    public void setPartition(String partition) {
+    public void setPartition(Partition partition) {
         this.partition = partition;
     }
 
-    public String getArgument() {
+    public Integer getArgument() {
         return argument;
     }
 
-    public void setArgument(String argument) {
+    public void setArgument(Integer argument) {
         this.argument = argument;
     }
 }

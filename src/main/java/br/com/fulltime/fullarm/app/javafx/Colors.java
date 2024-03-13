@@ -7,4 +7,5 @@ public class Colors {
     public static final Color GREY = Color.color(0.339, 0.339, 0.339);
     public static final Color RED = Color.color(1, 0, 0);
     public static final Color YELLOW = Color.color(0.9, 0.6, 0);
+    public static final Color BLACK = Color.color(0, 0, 0);
 }
