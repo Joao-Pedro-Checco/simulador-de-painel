@@ -1,6 +1,7 @@
 package br.com.fulltime.fullarm.core.panel.handler;
 
 import br.com.fulltime.fullarm.core.panel.components.Partition;
+import br.com.fulltime.fullarm.core.panel.components.Pgm;
 import br.com.fulltime.fullarm.core.panel.components.Zone;
 
 public interface PanelHandler {
@@ -12,5 +13,6 @@ public interface PanelHandler {
     void disarmPartition(Partition partition);
     void openZone(Zone zone);
     void closeZone(Zone zone);
-    void setCanArmWithOpenZones(boolean canArm);
+    void turnPgmOn(Pgm pgm);
+    void turnPgmOff(Pgm pgm);
 }

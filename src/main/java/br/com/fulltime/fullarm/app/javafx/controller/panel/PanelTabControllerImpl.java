@@ -1,23 +1,18 @@
 package br.com.fulltime.fullarm.app.javafx.controller.panel;
 
 import br.com.fulltime.fullarm.app.javafx.Colors;
+import br.com.fulltime.fullarm.app.javafx.generator.list.pgm.PgmListGenerator;
+import br.com.fulltime.fullarm.app.javafx.generator.list.sector.SectorListGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
-import br.com.fulltime.fullarm.core.panel.components.Zone;
 import br.com.fulltime.fullarm.core.panel.handler.PanelHandler;
 import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class PanelTabControllerImpl implements PanelTabController {
@@ -38,19 +33,31 @@ public class PanelTabControllerImpl implements PanelTabController {
     @FXML
     private Button nextPartitionButton;
     @FXML
-    private CheckBox openZonesArmToggle;
-    @FXML
-    private Button armPartitionButton;
+    private ListView<HBox> pgmListView;
+    @Autowired
+    private SectorListGenerator sectorListGenerator;
     @Autowired
     private PanelStatusListener panelStatusListener;
     @Autowired
     private PanelHandler panelHandler;
+    @Autowired
+    private PgmListGenerator pgmListGenerator;
     private int currentPartition = 1;
 
     public void armDisarmPanel() {
         if (!Panel.isArmed()) {
+            if (Panel.isPartitioned()) {
+                armDisarmPartition();
+                return;
+            }
+
             panelHandler.armPanel();
             updateArmStatus(Panel.isArmed());
+            return;
+        }
+
+        if (Panel.isPartitioned()) {
+            armDisarmPartition();
             return;
         }
 
@@ -61,40 +68,25 @@ public class PanelTabControllerImpl implements PanelTabController {
     public void partitionPanel() {
         if (partitionToggle.isSelected()) {
             panelHandler.partitionPanel();
-            armPartitionButton.setDisable(false);
-            armPanelButton.setDisable(true);
-            panelStatusLabel.setText("Particionado");
-            panelStatusLabel.setTextFill(Colors.BLACK);
+            setPartitionVisibility(true);
             return;
         }
 
         panelHandler.unPartitionPanel();
-        armPartitionButton.setDisable(true);
-        armPanelButton.setDisable(false);
+        setPartitionVisibility(false);
+        currentPartition = 1;
+        partitionLabel.setText("Partição 1");
+        updateSectorList(currentPartition);
         updateArmStatus(Panel.isArmed());
     }
 
-    public void goToPreviousPartition() {
-        if (currentPartition > 1) {
-            currentPartition--;
-        }
-
-        updateSectorList(currentPartition);
+    private void setPartitionVisibility(boolean isVisible) {
+        partitionLabel.setVisible(isVisible);
+        previousPartitionButton.setVisible(isVisible);
+        nextPartitionButton.setVisible(isVisible);
     }
 
-    public void goToNextPartition() {
-        if (currentPartition < 4) {
-            currentPartition++;
-        }
-
-        updateSectorList(currentPartition);
-    }
-
-    public void allowArmWithOpenZones() {
-        panelHandler.setCanArmWithOpenZones(openZonesArmToggle.isSelected());
-    }
-
-    public void armPartition() {
+    private void armDisarmPartition() {
         Partition partition = Panel.getPartitions().get(currentPartition - 1);
         if (!partition.isActivated()) {
             panelHandler.armPartition(partition);
@@ -106,15 +98,31 @@ public class PanelTabControllerImpl implements PanelTabController {
         updatePartitionStatus(partition.isActivated());
     }
 
-    private void updatePartitionStatus(boolean isArmed) {
-        if (isArmed) {
-            armPartitionButton.setText("Desarmar");
-            partitionToggle.setDisable(true);
+    public void goToPreviousPartition() {
+        if (currentPartition <= 1) {
             return;
         }
 
-        armPartitionButton.setText("Armar");
-        partitionToggle.setDisable(false);
+        currentPartition--;
+        updateSectorList(currentPartition);
+        Partition partition = Panel.getPartitions().get(currentPartition - 1);
+        updatePartitionStatus(partition.isActivated());
+    }
+
+    public void goToNextPartition() {
+        if (currentPartition >= 4) {
+            return;
+        }
+
+        currentPartition++;
+        updateSectorList(currentPartition);
+        Partition partition = Panel.getPartitions().get(currentPartition - 1);
+        updatePartitionStatus(partition.isActivated());
+    }
+
+    private void updatePartitionStatus(boolean isArmed) {
+        partitionLabel.setText("Partição " + currentPartition);
+        updateArmStatus(isArmed);
     }
 
     public void updatePanelConnection(boolean connected) {
@@ -134,25 +142,30 @@ public class PanelTabControllerImpl implements PanelTabController {
         armPanelButton.setDisable(disabled);
         partitionToggle.setDisable(disabled);
         sectorListView.setDisable(disabled);
+        pgmListView.setDisable(disabled);
         previousPartitionButton.setDisable(disabled);
         nextPartitionButton.setDisable(disabled);
-        openZonesArmToggle.setDisable(disabled);
     }
 
     @Override
     public void updateArmStatus(boolean armed) {
+        boolean anyPartitionIsActivated = Panel.getPartitions().stream().anyMatch(Partition::isActivated);
+        partitionToggle.setDisable(anyPartitionIsActivated);
+
+        if (Panel.isPartitioned()) {
+            armed = Panel.getPartitions().get(currentPartition - 1).isActivated();
+        }
+
         if (!armed) {
             panelStatusLabel.setText("Desarmado");
             panelStatusLabel.setTextFill(Colors.GREEN);
             armPanelButton.setText("Armar");
-            partitionToggle.setDisable(false);
             return;
         }
 
         panelStatusLabel.setText("Armado");
         panelStatusLabel.setTextFill(Colors.RED);
         armPanelButton.setText("Desarmar");
-        partitionToggle.setDisable(true);
     }
 
     @FXML
@@ -163,6 +176,7 @@ public class PanelTabControllerImpl implements PanelTabController {
             updateArmStatus(Panel.isArmed());
         }
         updateSectorList(currentPartition);
+        updatePgmList();
     }
 
     @Override
@@ -171,34 +185,11 @@ public class PanelTabControllerImpl implements PanelTabController {
     }
 
     private void updateSectorList(int currentPartition) {
-        if (!sectorListView.getItems().isEmpty()) {
-            sectorListView.getItems().clear();
-        }
-
-        partitionLabel.setText("Partição " + currentPartition);
-        List<Zone> zones = Panel.getPartitions().get(currentPartition - 1).getZones();
-        zones.forEach(zone -> {
-            HBox hBox = new HBox();
-            Button openCloseButton = new Button(zone.isOpen() ? "Fechar" : "Abrir");
-
-            int zoneNumber = zone.getZoneNumber();
-            String text = "Setor " + (zoneNumber <= 9 ? "0" + zoneNumber : zoneNumber);
-            openCloseButton.setOnAction(event -> openCloseSector(zone, openCloseButton));
-            hBox.getChildren().addAll(new Text(text), openCloseButton);
-            hBox.setSpacing(220);
-
-            sectorListView.getItems().add(hBox);
-        });
+        Partition partition = Panel.getPartitions().get(currentPartition - 1);
+        sectorListGenerator.generateList(sectorListView, partition);
     }
 
-    private void openCloseSector(Zone zone, Button openCloseButton) {
-        if (!zone.isOpen()) {
-            panelHandler.openZone(zone);
-            openCloseButton.setText("Fechar");
-            return;
-        }
-
-        panelHandler.closeZone(zone);
-        openCloseButton.setText("Abrir");
+    private void updatePgmList() {
+        pgmListGenerator.generateList(pgmListView);
     }
 }

@@ -64,14 +64,14 @@ public class PgmControlProcessorImpl implements PgmControlProcessor {
 
     private void turnPgmsOn(List<Integer> pgmBytes) {
         pgmBytes.forEach(b -> Panel.getPgmList().get(b - 1).setTurnedOn(true));
-        Partition partition = Panel.getPgmList().get(pgmBytes.get(0)).getPartition();
+        Partition partition = Panel.getPartitions().get(0);
         EventPackage pgmActivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_ACTIVATION, partition, 0);
         packageSender.sendPackage(pgmActivationEvent);
     }
 
     private void turnPgmsOff(List<Integer> pgmBytes) {
         pgmBytes.forEach(b -> Panel.getPgmList().get(b - 1).setTurnedOn(false));
-        Partition partition = Panel.getPgmList().get(pgmBytes.get(0)).getPartition();
+        Partition partition = Panel.getPartitions().get(0);
         EventPackage pgmDeactivationEvent = eventPackageGenerator.generateEvent(EventCode.PGM_DEACTIVATION, partition, 0);
         packageSender.sendPackage(pgmDeactivationEvent);
     }

@@ -40,7 +40,6 @@ public class Panel {
             Pgm pgm = new Pgm();
             pgm.setPgmNumber(i + 1);
             pgm.setTurnedOn(false);
-            pgm.setPartition(Panel.getPartitions().get(0));
             add(pgm);
         }
     }};

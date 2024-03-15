@@ -6,6 +6,7 @@ import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
+import br.com.fulltime.fullarm.core.panel.components.Pgm;
 import br.com.fulltime.fullarm.core.panel.components.Zone;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import java.util.stream.Collectors;
 public class PanelHandlerImpl implements PanelHandler {
     private final EventPackageGenerator eventPackageGenerator;
     private final PackageSender packageSender;
-    private boolean canArmWithOpenZones;
 
     public PanelHandlerImpl(EventPackageGenerator eventPackageGenerator, PackageSender packageSender) {
         this.eventPackageGenerator = eventPackageGenerator;
@@ -26,17 +26,13 @@ public class PanelHandlerImpl implements PanelHandler {
 
     @Override
     public void armPanel() {
-        List<Zone> openZones = Panel.getZones().stream().filter(Zone::isOpen).collect(Collectors.toList());
-        if (!canArmWithOpenZones && !openZones.isEmpty()) {
-            return;
-        }
-
         Logger.log("Armando painel");
         Panel.setArmed(true);
         Panel.getPartitions().forEach(p -> p.setActivated(true));
         Partition partition = Panel.getPartitions().get(0);
         sendEvent(EventCode.ARM, partition, 0);
 
+        List<Zone> openZones = Panel.getZones().stream().filter(Zone::isOpen).collect(Collectors.toList());
         if (!openZones.isEmpty()) {
             openZones.forEach(z -> sendEvent(EventCode.BURGLARY_ALARM, partition, z.getZoneNumber()));
         }
@@ -65,16 +61,17 @@ public class PanelHandlerImpl implements PanelHandler {
 
     @Override
     public void armPartition(Partition partition) {
-        List<Zone> openZones = partition.getZones().stream().filter(Zone::isOpen).collect(Collectors.toList());
-        if (!canArmWithOpenZones && !openZones.isEmpty()) {
-            return;
+        Logger.log("Armando Partição " + partition.getPartitionNumber());
+
+        boolean anyPartitionIsArmed = Panel.getPartitions().stream().anyMatch(Partition::isActivated);
+        if (!anyPartitionIsArmed) {
+            Panel.setArmed(true);
         }
 
-        Logger.log("Armando Partição " + partition.getPartitionNumber());
-        Panel.setArmed(true);
         partition.setActivated(true);
         sendEvent(EventCode.ARM, partition, 0);
 
+        List<Zone> openZones = partition.getZones().stream().filter(Zone::isOpen).collect(Collectors.toList());
         if (!openZones.isEmpty()) {
             openZones.forEach(z -> sendEvent(EventCode.BURGLARY_ALARM, partition, z.getZoneNumber()));
         }
@@ -83,8 +80,14 @@ public class PanelHandlerImpl implements PanelHandler {
     @Override
     public void disarmPartition(Partition partition) {
         Logger.log("Desarmando Partição " + partition.getPartitionNumber());
-        Panel.setArmed(false);
+        List<Partition> activatedPartitions = Panel.getPartitions().stream()
+                .filter(Partition::isActivated).collect(Collectors.toList());
+        if (activatedPartitions.size() == 1) {
+            Panel.setArmed(false);
+        }
+
         partition.setActivated(false);
+        partition.getZones().forEach(z -> z.setBypassed(false));
         sendEvent(EventCode.DISARM, partition, 0);
     }
 
@@ -93,7 +96,7 @@ public class PanelHandlerImpl implements PanelHandler {
         Logger.log("Abrindo zona " + zone.getZoneNumber());
         zone.setOpen(true);
 
-        if (!zone.isBypassed()) {
+        if (Panel.isArmed() && !zone.isBypassed()) {
             Partition partition = zone.getPartition();
             int argument = zone.getZoneNumber();
             sendEvent(EventCode.BURGLARY_ALARM, partition, argument);
@@ -105,7 +108,7 @@ public class PanelHandlerImpl implements PanelHandler {
         Logger.log("Fechando zona " + zone.getZoneNumber());
         zone.setOpen(false);
 
-        if (!zone.isBypassed()) {
+        if (Panel.isArmed() && !zone.isBypassed()) {
             Partition partition = zone.getPartition();
             int argument = zone.getZoneNumber();
             sendEvent(EventCode.ALARM_RESTORE, partition, argument);
@@ -113,9 +116,17 @@ public class PanelHandlerImpl implements PanelHandler {
     }
 
     @Override
-    public void setCanArmWithOpenZones(boolean canArm) {
-        Logger.log("Permissão para armar partição com zonas abertas: " + canArm);
-        this.canArmWithOpenZones = canArm;
+    public void turnPgmOn(Pgm pgm) {
+        Logger.log("Ligando PGM " + pgm.getPgmNumber());
+        pgm.setTurnedOn(true);
+        sendEvent(EventCode.PGM_ACTIVATION, Panel.getPartitions().get(0), pgm.getPgmNumber());
+    }
+
+    @Override
+    public void turnPgmOff(Pgm pgm) {
+        Logger.log("Desligando PGM " + pgm.getPgmNumber());
+        pgm.setTurnedOn(false);
+        sendEvent(EventCode.PGM_DEACTIVATION, Panel.getPartitions().get(0), pgm.getPgmNumber());
     }
 
     private void sendEvent(EventCode eventCode, Partition partition, Integer argument) {
