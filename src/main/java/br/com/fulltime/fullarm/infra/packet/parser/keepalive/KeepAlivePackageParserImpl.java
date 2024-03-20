@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.parser.keepalive;
 
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
-import br.com.fulltime.fullarm.core.packet.KeepAlivePackage;
+import br.com.fulltime.fullarm.core.packet.keepalive.KeepAlivePackage;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import org.springframework.stereotype.Service;
 

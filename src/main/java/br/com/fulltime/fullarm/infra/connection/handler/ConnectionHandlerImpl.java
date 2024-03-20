@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.connection.handler;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.interpreter.PackageInterpreter;
+import br.com.fulltime.fullarm.core.packet.PackageInterpreter;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.connection.Connection;
 import br.com.fulltime.fullarm.infra.connection.reader.MessageReader;

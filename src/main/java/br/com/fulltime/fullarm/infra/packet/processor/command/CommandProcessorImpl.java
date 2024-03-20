@@ -1,7 +1,11 @@
 package br.com.fulltime.fullarm.infra.packet.processor.command;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
+import br.com.fulltime.fullarm.core.packet.nack.NackPackage;
+import br.com.fulltime.fullarm.core.packet.nack.NackType;
+import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.HexStringFormatter;
+import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.PackageIdentifier;
 import br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.SubcommandProcessorFactory;
 import org.springframework.stereotype.Service;
@@ -14,17 +18,27 @@ import java.util.stream.Collectors;
 @Service
 public class CommandProcessorImpl implements CommandProcessor {
     private final SubcommandProcessorFactory subcommandProcessorFactory;
+    private final PackageSender packageSender;
     private final List<String> validPasswordCharacters = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9");
 
-    public CommandProcessorImpl(SubcommandProcessorFactory subcommandProcessorFactory) {
+    public CommandProcessorImpl(SubcommandProcessorFactory subcommandProcessorFactory, PackageSender packageSender) {
         this.subcommandProcessorFactory = subcommandProcessorFactory;
+        this.packageSender = packageSender;
     }
 
     @Override
     public void processPackage(String hexString) {
         Logger.log("Processando pacote de comando");
         List<String> bytes = splitBytes(hexString);
-        String subcommandBytes = extractSubcommandBytes(bytes);
+        String commandPassword = getCommandPassword(bytes);
+
+        if (!commandPassword.equals(Panel.getPassword())) {
+            Logger.log("Comando com senha inválida");
+            packageSender.sendPackage(new NackPackage(NackType.WRONG_PASSWORD));
+            return;
+        }
+
+        String subcommandBytes = extractSubcommandBytes(bytes, commandPassword.length());
         String subcommand = HexStringFormatter.format(subcommandBytes);
         subcommandProcessorFactory.getProcessor(subcommand).processSubcommand(subcommand);
     }
@@ -41,13 +55,13 @@ public class CommandProcessorImpl implements CommandProcessor {
         return bytes.subList(0, 4);
     }
 
-    private int getPasswordSize(List<String> bytes) {
+    private String getCommandPassword(List<String> bytes) {
         List<String> password = bytes.stream().map(this::parseHexToAscii)
                 .filter(validPasswordCharacters::contains)
                 .collect(Collectors.toList());
 
         password = getPasswordBytes(password);
-        return password.size();
+        return String.join("", password);
     }
 
     private String parseHexToAscii(String passwordByte) {
@@ -60,8 +74,7 @@ public class CommandProcessorImpl implements CommandProcessor {
         return stringBuilder.toString().trim();
     }
 
-    private String extractSubcommandBytes(List<String> bytes) {
-        int passwordSize = getPasswordSize(bytes);
+    private String extractSubcommandBytes(List<String> bytes, int passwordSize) {
         int startOfSubcommand = 3 + passwordSize;
 
         List<String> subcommandBytes = new ArrayList<>();

@@ -2,7 +2,7 @@ package br.com.fulltime.fullarm.core.connection.authenticator;
 
 import br.com.fulltime.fullarm.core.connection.timeout.TimeoutHandler;
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import org.springframework.stereotype.Service;
 

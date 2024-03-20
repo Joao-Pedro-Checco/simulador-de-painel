@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.bypass;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.AckPackage;
+import br.com.fulltime.fullarm.core.packet.ack.AckPackage;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;

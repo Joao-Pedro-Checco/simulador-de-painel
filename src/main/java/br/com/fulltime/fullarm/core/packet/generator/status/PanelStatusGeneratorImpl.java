@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.core.packet.generator.status;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.StatusPackage;
+import br.com.fulltime.fullarm.core.packet.status.StatusPackage;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.*;
 import org.springframework.stereotype.Service;

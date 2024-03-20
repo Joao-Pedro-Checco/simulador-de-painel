@@ -11,7 +11,9 @@ public class PanelStatusListenerImpl implements PanelStatusListener {
 
     @Override
     public void onUpdate() {
-        controller.updateInterface();
+        if (controller != null) {
+            controller.updateInterface();
+        }
     }
 
     @Override

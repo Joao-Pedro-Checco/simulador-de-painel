@@ -5,5 +5,6 @@ public enum PackageType {
     AUTHENTICATION,
     EVENT,
     STATUS,
-    KEEP_ALIVE
+    KEEP_ALIVE,
+    NACK
 }

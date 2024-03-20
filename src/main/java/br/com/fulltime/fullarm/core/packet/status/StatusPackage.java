@@ -1,5 +1,6 @@
-package br.com.fulltime.fullarm.core.packet;
+package br.com.fulltime.fullarm.core.packet.status;
 
+import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.core.panel.components.*;
 

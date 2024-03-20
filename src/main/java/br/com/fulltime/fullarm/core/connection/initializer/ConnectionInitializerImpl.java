@@ -3,7 +3,7 @@ package br.com.fulltime.fullarm.core.connection.initializer;
 import br.com.fulltime.fullarm.core.connection.authenticator.PanelAuthenticator;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.sender.KeepAliveSender;
-import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
 import javafx.application.Platform;

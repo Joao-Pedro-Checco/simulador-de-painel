@@ -4,7 +4,6 @@ import br.com.fulltime.fullarm.core.panel.components.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Panel {
     private static ConnectionType connectionType;

@@ -1,13 +1,12 @@
 package br.com.fulltime.fullarm.infra.connection.reader;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.interpreter.PackageInterpreter;
+import br.com.fulltime.fullarm.core.packet.PackageInterpreter;
 import br.com.fulltime.fullarm.infra.HexStringFormatter;
 import br.com.fulltime.fullarm.infra.connection.Connection;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
 
 public class MessageReader extends Thread {
     private InputStream in;

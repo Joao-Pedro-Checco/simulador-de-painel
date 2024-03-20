@@ -1,12 +1,11 @@
 package br.com.fulltime.fullarm.core.connection.sender;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.KeepAlivePackage;
+import br.com.fulltime.fullarm.core.packet.keepalive.KeepAlivePackage;
 import br.com.fulltime.fullarm.infra.connection.Connection;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import org.springframework.stereotype.Service;
 
-import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 @Service

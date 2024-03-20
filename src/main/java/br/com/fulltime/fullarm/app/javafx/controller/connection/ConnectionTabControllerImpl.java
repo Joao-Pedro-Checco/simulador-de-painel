@@ -7,7 +7,7 @@ import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabControllerImp
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
-import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.packet.generator.authentication.AuthenticationPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.Panel;
@@ -155,6 +155,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
         ethernetRadioButton.setDisable(isDisabled);
         gprsRadioButton.setDisable(isDisabled);
         accountTextField.setDisable(isDisabled);
+        passwordTextField.setDisable(isDisabled);
         macAddressTextField.setDisable(isDisabled);
     }
 

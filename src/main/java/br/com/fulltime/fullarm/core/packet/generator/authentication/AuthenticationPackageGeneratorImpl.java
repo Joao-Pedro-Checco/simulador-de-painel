@@ -1,6 +1,6 @@
 package br.com.fulltime.fullarm.core.packet.generator.authentication;
 
-import br.com.fulltime.fullarm.core.packet.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.panel.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import org.springframework.stereotype.Service;

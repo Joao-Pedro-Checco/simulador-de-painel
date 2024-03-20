@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.core.packet.interpreter;
+package br.com.fulltime.fullarm.core.packet;
 
 public interface PackageInterpreter {
     void interpretPackage(String hexString);

@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.core.packet.interpreter;
+package br.com.fulltime.fullarm.core.packet;
 
 import br.com.fulltime.fullarm.infra.HexStringFormatter;
 import br.com.fulltime.fullarm.infra.packet.processor.ProcessorFactory;

@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.core.panel.handler;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;

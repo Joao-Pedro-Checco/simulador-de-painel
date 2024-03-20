@@ -1,6 +1,6 @@
 package br.com.fulltime.fullarm.core.packet.generator.event;
 
-import br.com.fulltime.fullarm.core.packet.EventPackage;
+import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
