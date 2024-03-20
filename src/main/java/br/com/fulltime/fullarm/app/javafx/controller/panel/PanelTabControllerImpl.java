@@ -5,6 +5,7 @@ import br.com.fulltime.fullarm.app.javafx.generator.list.pgm.PgmListGenerator;
 import br.com.fulltime.fullarm.app.javafx.generator.list.sector.SectorListGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
+import br.com.fulltime.fullarm.core.panel.components.Zone;
 import br.com.fulltime.fullarm.core.panel.handler.PanelHandler;
 import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import javafx.fxml.FXML;
@@ -13,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class PanelTabControllerImpl implements PanelTabController {
@@ -147,36 +150,48 @@ public class PanelTabControllerImpl implements PanelTabController {
         nextPartitionButton.setDisable(disabled);
     }
 
-    @Override
     public void updateArmStatus(boolean armed) {
         boolean anyPartitionIsActivated = Panel.getPartitions().stream().anyMatch(Partition::isActivated);
         partitionToggle.setDisable(anyPartitionIsActivated);
 
+        Partition partition = Panel.getPartitions().get(currentPartition - 1);
         if (Panel.isPartitioned()) {
-            armed = Panel.getPartitions().get(currentPartition - 1).isActivated();
+            armed = partition.isActivated();
         }
 
         if (!armed) {
+            updateBypassCheckBox(partition);
             panelStatusLabel.setText("Desarmado");
             panelStatusLabel.setTextFill(Colors.GREEN);
             armPanelButton.setText("Armar");
             return;
         }
 
+        updateBypassCheckBox(partition);
         panelStatusLabel.setText("Armado");
         panelStatusLabel.setTextFill(Colors.RED);
         armPanelButton.setText("Desarmar");
+    }
+
+    private void updateBypassCheckBox(Partition partition) {
+        List<Zone> zones = partition.getZones();
+        for (int i = 0; i < zones.size(); i++) {
+            HBox hBox = sectorListView.getItems().get(i);
+            CheckBox checkBox = (CheckBox) hBox.getChildren().get(2);
+            checkBox.setSelected(zones.get(i).isBypassed());
+        }
     }
 
     @FXML
     private void initialize() {
         panelStatusListener.setController(this);
         updatePanelConnection(Panel.isConnected());
+        updateSectorList(currentPartition);
+        updatePgmList();
+
         if (Panel.isConnected()) {
             updateArmStatus(Panel.isArmed());
         }
-        updateSectorList(currentPartition);
-        updatePgmList();
     }
 
     @Override
@@ -191,5 +206,11 @@ public class PanelTabControllerImpl implements PanelTabController {
 
     private void updatePgmList() {
         pgmListGenerator.generateList(pgmListView);
+    }
+
+    @Override
+    public void updateInterface() {
+        updateArmStatus(Panel.isArmed());
+        updatePgmList();
     }
 }

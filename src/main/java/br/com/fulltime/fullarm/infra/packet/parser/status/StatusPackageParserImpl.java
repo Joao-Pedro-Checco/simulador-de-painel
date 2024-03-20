@@ -28,6 +28,11 @@ public class StatusPackageParserImpl implements StatusPackageParser {
     public String parsePackage(GenericPackage genericPackage) {
         StatusPackage statusPackage = (StatusPackage) genericPackage;
         List<Zone> zones = statusPackage.getZones();
+        zones.forEach(z -> {
+            boolean isViolated = z.isMemory() || z.isOpen() || z.isTampered() ||
+                    z.isShortCircuit() || z.isBatteryLowOnWirelessSensor();
+            z.setViolated(isViolated);
+        });
         List<Boolean> activatedPartitions = statusPackage.getActivatedPartitions();
         List<Pgm> pgmList = statusPackage.getPgmList();
 

@@ -3,6 +3,7 @@ package br.com.fulltime.fullarm.core.panel.components;
 public class Zone {
     private int zoneNumber;
     private Partition partition;
+    private boolean memory;
     private boolean open;
     private boolean violated;
     private boolean bypassed;
@@ -32,6 +33,14 @@ public class Zone {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public boolean isMemory() {
+        return memory;
+    }
+
+    public void setMemory(boolean memory) {
+        this.memory = memory;
     }
 
     public boolean isViolated() {

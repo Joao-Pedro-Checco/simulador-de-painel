@@ -62,6 +62,8 @@ public class PanelHandlerImpl implements PanelHandler {
     @Override
     public void armPartition(Partition partition) {
         Logger.log("Armando Partição " + partition.getPartitionNumber());
+        List<Zone> zones = partition.getZones();
+        zones.forEach(z -> z.setMemory(false));
 
         boolean anyPartitionIsArmed = Panel.getPartitions().stream().anyMatch(Partition::isActivated);
         if (!anyPartitionIsArmed) {
@@ -71,7 +73,7 @@ public class PanelHandlerImpl implements PanelHandler {
         partition.setActivated(true);
         sendEvent(EventCode.ARM, partition, 0);
 
-        List<Zone> openZones = partition.getZones().stream().filter(Zone::isOpen).collect(Collectors.toList());
+        List<Zone> openZones = zones.stream().filter(Zone::isOpen).collect(Collectors.toList());
         if (!openZones.isEmpty()) {
             openZones.forEach(z -> sendEvent(EventCode.BURGLARY_ALARM, partition, z.getZoneNumber()));
         }
@@ -80,8 +82,7 @@ public class PanelHandlerImpl implements PanelHandler {
     @Override
     public void disarmPartition(Partition partition) {
         Logger.log("Desarmando Partição " + partition.getPartitionNumber());
-        List<Partition> activatedPartitions = Panel.getPartitions().stream()
-                .filter(Partition::isActivated).collect(Collectors.toList());
+        List<Partition> activatedPartitions = Panel.getPartitions().stream().filter(Partition::isActivated).collect(Collectors.toList());
         if (activatedPartitions.size() == 1) {
             Panel.setArmed(false);
         }
@@ -89,30 +90,6 @@ public class PanelHandlerImpl implements PanelHandler {
         partition.setActivated(false);
         partition.getZones().forEach(z -> z.setBypassed(false));
         sendEvent(EventCode.DISARM, partition, 0);
-    }
-
-    @Override
-    public void openZone(Zone zone) {
-        Logger.log("Abrindo zona " + zone.getZoneNumber());
-        zone.setOpen(true);
-
-        if (Panel.isArmed() && !zone.isBypassed()) {
-            Partition partition = zone.getPartition();
-            int argument = zone.getZoneNumber();
-            sendEvent(EventCode.BURGLARY_ALARM, partition, argument);
-        }
-    }
-
-    @Override
-    public void closeZone(Zone zone) {
-        Logger.log("Fechando zona " + zone.getZoneNumber());
-        zone.setOpen(false);
-
-        if (Panel.isArmed() && !zone.isBypassed()) {
-            Partition partition = zone.getPartition();
-            int argument = zone.getZoneNumber();
-            sendEvent(EventCode.ALARM_RESTORE, partition, argument);
-        }
     }
 
     @Override

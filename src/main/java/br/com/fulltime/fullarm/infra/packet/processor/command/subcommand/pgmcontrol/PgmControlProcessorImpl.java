@@ -7,8 +7,10 @@ import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
+import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;
+import javafx.application.Platform;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -19,10 +21,14 @@ import java.util.stream.Collectors;
 public class PgmControlProcessorImpl implements PgmControlProcessor {
     private final PackageSender packageSender;
     private final EventPackageGenerator eventPackageGenerator;
+    private final PanelStatusListener panelStatusListener;
 
-    public PgmControlProcessorImpl(PackageSender packageSender, EventPackageGenerator eventPackageGenerator) {
+    public PgmControlProcessorImpl(PackageSender packageSender,
+                                   EventPackageGenerator eventPackageGenerator,
+                                   PanelStatusListener panelStatusListener) {
         this.packageSender = packageSender;
         this.eventPackageGenerator = eventPackageGenerator;
+        this.panelStatusListener = panelStatusListener;
     }
 
     @Override
@@ -35,11 +41,19 @@ public class PgmControlProcessorImpl implements PgmControlProcessor {
         if (pgmCommand.equals("4C")) {
             turnPgmsOn(pgmBytes);
             packageSender.sendPackage(new AckPackage());
+            updateInterface();
             return;
         }
 
         turnPgmsOff(pgmBytes);
         packageSender.sendPackage(new AckPackage());
+        updateInterface();
+    }
+
+    private void updateInterface() {
+        if (panelStatusListener != null) {
+            Platform.runLater(panelStatusListener::onUpdate);
+        }
     }
 
     @Override

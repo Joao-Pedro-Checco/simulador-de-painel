@@ -39,7 +39,7 @@ public class ArmProcessorImpl implements ArmProcessor {
         packageSender.sendPackage(new AckPackage());
 
         if (panelStatusListener != null) {
-            Platform.runLater(panelStatusListener::onArm);
+            Platform.runLater(panelStatusListener::onUpdate);
         }
 
         new Thread(() -> {

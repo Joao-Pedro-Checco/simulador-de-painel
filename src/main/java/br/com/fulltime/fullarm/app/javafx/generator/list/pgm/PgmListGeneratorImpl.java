@@ -6,6 +6,7 @@ import br.com.fulltime.fullarm.core.panel.components.Partition;
 import br.com.fulltime.fullarm.core.panel.components.Pgm;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

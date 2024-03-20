@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -34,24 +36,61 @@
             <Font size="18.0" />
          </font>
       </CheckBox>
-      <Text layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Setores" wrappingWidth="101.60000991821289">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <ListView fx:id="sectorListView" disable="true" layoutX="1.0" layoutY="223.0" prefHeight="373.0" prefWidth="400.0" />
-      <Label fx:id="partitionLabel" layoutX="1.0" layoutY="136.0" prefHeight="45.0" prefWidth="124.0" text="Partição 1" visible="false">
+      <Label fx:id="partitionLabel" layoutY="127.0" prefHeight="45.0" prefWidth="124.0" text="Partição 1" visible="false">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button fx:id="nextPartitionButton" disable="true" layoutX="236.0" layoutY="146.0" mnemonicParsing="false" onAction="#goToNextPartition" text="Próxima" visible="false" />
-      <Button fx:id="previousPartitionButton" disable="true" layoutX="148.0" layoutY="146.0" mnemonicParsing="false" onAction="#goToPreviousPartition" text="Anterior" visible="false" />
-      <ListView fx:id="pgmListView" disable="true" layoutX="435.0" layoutY="223.0" prefHeight="373.0" prefWidth="400.0" />
-      <Text layoutX="435.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PGMs" wrappingWidth="72.04058837890625">
+      <Button fx:id="nextPartitionButton" disable="true" layoutX="235.0" layoutY="137.0" mnemonicParsing="false" onAction="#goToNextPartition" text="Próxima" visible="false" />
+      <Button fx:id="previousPartitionButton" disable="true" layoutX="147.0" layoutY="137.0" mnemonicParsing="false" onAction="#goToPreviousPartition" text="Anterior" visible="false" />
+      <ListView fx:id="pgmListView" disable="true" layoutX="592.0" layoutY="213.0" prefHeight="380.0" prefWidth="260.0" />
+      <Text layoutX="592.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PGMs" wrappingWidth="72.04058837890625">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
+      <VBox layoutY="188.0" prefHeight="418.0" prefWidth="519.0">
+         <children>
+            <HBox prefHeight="28.0" prefWidth="546.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Setor" wrappingWidth="60.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aberto" wrappingWidth="70.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Inibido" wrappingWidth="70.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tamper" wrappingWidth="80.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Curto" wrappingWidth="70.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bateria Fraca" wrappingWidth="110.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox prefHeight="373.0" prefWidth="546.0">
+               <children>
+                  <ListView fx:id="sectorListView" prefHeight="380.0" prefWidth="520.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

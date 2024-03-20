@@ -29,8 +29,6 @@ public class Panel {
         for (int i = 0; i < 64; i++) {
             Zone zone = new Zone();
             zone.setZoneNumber(i + 1);
-            zone.setOpen(false);
-            zone.setViolated(false);
             zone.setPartition(Panel.getPartitions().get(0));
             add(zone);
         }

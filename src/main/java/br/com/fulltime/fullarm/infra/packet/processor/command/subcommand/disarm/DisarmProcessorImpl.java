@@ -40,7 +40,7 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         packageSender.sendPackage(new AckPackage());
 
         if (panelStatusListener != null) {
-            Platform.runLater(panelStatusListener::onDisarm);
+            Platform.runLater(panelStatusListener::onUpdate);
         }
 
         new Thread(() -> {

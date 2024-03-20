@@ -11,8 +11,6 @@ public interface PanelHandler {
     void unPartitionPanel();
     void armPartition(Partition partition);
     void disarmPartition(Partition partition);
-    void openZone(Zone zone);
-    void closeZone(Zone zone);
     void turnPgmOn(Pgm pgm);
     void turnPgmOff(Pgm pgm);
 }
