@@ -3,13 +3,15 @@ package br.com.fulltime.fullarm.app.javafx.controller.panel;
 import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.app.javafx.generator.list.pgm.PgmListGenerator;
 import br.com.fulltime.fullarm.app.javafx.generator.list.sector.SectorListGenerator;
+import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
+import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
+import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
 import br.com.fulltime.fullarm.core.panel.handler.PanelHandler;
 import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -26,7 +28,7 @@ public class PanelPaneControllerImpl implements PanelPaneController {
     @FXML
     private Button armPanelButton;
     @FXML
-    private CheckBox partitionToggle;
+    private Button connectPanelButton;
     @FXML
     private ListView<HBox> sectorListView;
     @FXML
@@ -45,6 +47,12 @@ public class PanelPaneControllerImpl implements PanelPaneController {
     private PanelHandler panelHandler;
     @Autowired
     private PgmListGenerator pgmListGenerator;
+    @Autowired
+    private ConnectionInitializer connectionInitializer;
+    @Autowired
+    private ConnectionTerminator connectionTerminator;
+    @Autowired
+    private ConnectionListener connectionListener;
     private int currentPartition = 1;
 
     public void armDisarmPanel() {
@@ -68,21 +76,16 @@ public class PanelPaneControllerImpl implements PanelPaneController {
         updateArmStatus(Panel.isArmed());
     }
 
-    public void partitionPanel() {
-        if (partitionToggle.isSelected()) {
-            panelHandler.partitionPanel();
-            setPartitionVisibility(true);
-            updateSectorList(currentPartition);
-            updateArmStatus(Panel.isArmed());
+    public void connectDisconnectPanel() {
+        if (!Panel.isConnected()) {
+            connectionInitializer.initializeConnection();
+            panelStatusLabel.setText("Conectando...");
+            panelStatusLabel.setTextFill(Colors.YELLOW);
             return;
         }
 
-        panelHandler.unPartitionPanel();
-        setPartitionVisibility(false);
-        currentPartition = 1;
-        partitionLabel.setText("Partição 1");
-        updateSectorList(currentPartition);
-        updateArmStatus(Panel.isArmed());
+        connectionTerminator.terminateConnection();
+        updateConnectionStatus(false);
     }
 
     private void setPartitionVisibility(boolean isVisible) {
@@ -130,32 +133,29 @@ public class PanelPaneControllerImpl implements PanelPaneController {
         updateArmStatus(isArmed);
     }
 
-    public void updatePanelConnection(boolean connected) {
+    @Override
+    public void updateConnectionStatus(boolean connected) {
         if (!connected) {
             panelStatusLabel.setText("Desconectado");
             panelStatusLabel.setTextFill(Colors.GREY);
+            connectPanelButton.setText("Conectar");
             changeFieldsDisableStatus(true);
             return;
         }
 
         panelStatusLabel.setText("Desarmado");
         panelStatusLabel.setTextFill(Colors.GREEN);
+        connectPanelButton.setText("Desconectar");
         changeFieldsDisableStatus(false);
     }
 
     private void changeFieldsDisableStatus(boolean disabled) {
         armPanelButton.setDisable(disabled);
-        partitionToggle.setDisable(disabled);
-        sectorListView.setDisable(disabled);
-        pgmListView.setDisable(disabled);
         previousPartitionButton.setDisable(disabled);
         nextPartitionButton.setDisable(disabled);
     }
 
     public void updateArmStatus(boolean armed) {
-        boolean anyPartitionIsActivated = Panel.getPartitions().stream().anyMatch(Partition::isActivated);
-        partitionToggle.setDisable(anyPartitionIsActivated);
-
         Partition partition = Panel.getPartitions().get(currentPartition - 1);
         if (Panel.isPartitioned()) {
             armed = partition.isActivated();
@@ -176,9 +176,11 @@ public class PanelPaneControllerImpl implements PanelPaneController {
     @FXML
     private void initialize() {
         panelStatusListener.setController(this);
-        updatePanelConnection(Panel.isConnected());
+        connectionListener.setController(this);
+        updateConnectionStatus(Panel.isConnected());
         updateSectorList(currentPartition);
         updatePgmList();
+        setPartitionVisibility(Panel.isPartitioned());
 
         if (Panel.isConnected()) {
             updateArmStatus(Panel.isArmed());

@@ -7,7 +7,10 @@ import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.List;
 
 @Service
 public class BypassProcessorImpl implements BypassProcessor {

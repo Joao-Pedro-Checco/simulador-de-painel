@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Panel {
-    private static ConnectionType connectionType;
+    private static String host;
+    private static Integer port;
+    private static ConnectionType connectionType = ConnectionType.ETHERNET;
     private static String account;
     private static String password;
+    private static String macAddress;
     private static final PanelModel model = PanelModel.AMT4010SMART;
     private static boolean connected;
     private static boolean armed;
@@ -46,6 +49,22 @@ public class Panel {
         }
     }};
 
+    public static String getHost() {
+        return host;
+    }
+
+    public static void setHost(String host) {
+        Panel.host = host;
+    }
+
+    public static Integer getPort() {
+        return port;
+    }
+
+    public static void setPort(Integer port) {
+        Panel.port = port;
+    }
+
     public static ConnectionType getConnectionType() {
         return connectionType;
     }
@@ -68,6 +87,14 @@ public class Panel {
 
     public static void setPassword(String password) {
         Panel.password = password;
+    }
+
+    public static String getMacAddress() {
+        return macAddress;
+    }
+
+    public static void setMacAddress(String macAddress) {
+        Panel.macAddress = macAddress;
     }
 
     public static PanelModel getModel() {

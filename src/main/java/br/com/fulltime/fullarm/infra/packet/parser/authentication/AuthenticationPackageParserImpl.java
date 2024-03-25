@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.parser.authentication;
 
-import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
+import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import br.com.fulltime.fullarm.infra.ChecksumGenerator;
 import org.springframework.stereotype.Service;

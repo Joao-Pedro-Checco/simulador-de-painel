@@ -1,8 +1,8 @@
 package br.com.fulltime.fullarm.infra.packet.parser.event;
 
-import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
+import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.infra.ChecksumGenerator;
 import org.springframework.stereotype.Service;
 

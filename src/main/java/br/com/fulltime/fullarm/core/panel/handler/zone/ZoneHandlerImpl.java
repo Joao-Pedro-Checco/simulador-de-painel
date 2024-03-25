@@ -1,8 +1,8 @@
 package br.com.fulltime.fullarm.core.panel.handler.zone;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
+import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
@@ -74,9 +74,11 @@ public class ZoneHandlerImpl implements ZoneHandler {
     }
 
     private void sendEvent(EventCode eventCode, Zone zone) {
-        Partition partition = zone.getPartition();
-        int argument = zone.getZoneNumber();
-        EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode, partition, argument);
-        packageSender.sendPackage(eventPackage);
+        if (Panel.isConnected()) {
+            Partition partition = zone.getPartition();
+            int argument = zone.getZoneNumber();
+            EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode, partition, argument);
+            packageSender.sendPackage(eventPackage);
+        }
     }
 }

@@ -2,11 +2,9 @@ package br.com.fulltime.fullarm.app.javafx.generator.hbox.sector;
 
 import br.com.fulltime.fullarm.core.panel.components.Zone;
 import br.com.fulltime.fullarm.core.panel.handler.zone.ZoneHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import org.controlsfx.control.ToggleSwitch;
 import org.springframework.stereotype.Component;
 
 @Component

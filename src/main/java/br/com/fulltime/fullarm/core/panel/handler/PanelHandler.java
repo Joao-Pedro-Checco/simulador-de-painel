@@ -2,7 +2,6 @@ package br.com.fulltime.fullarm.core.panel.handler;
 
 import br.com.fulltime.fullarm.core.panel.components.Partition;
 import br.com.fulltime.fullarm.core.panel.components.Pgm;
-import br.com.fulltime.fullarm.core.panel.components.Zone;
 
 public interface PanelHandler {
     void armPanel();

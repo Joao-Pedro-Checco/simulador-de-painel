@@ -1,7 +1,7 @@
 package br.com.fulltime.fullarm.infra.packet.parser.ack;
 
-import br.com.fulltime.fullarm.core.packet.ack.AckPackage;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
+import br.com.fulltime.fullarm.core.packet.ack.AckPackage;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
 import org.springframework.stereotype.Service;
 

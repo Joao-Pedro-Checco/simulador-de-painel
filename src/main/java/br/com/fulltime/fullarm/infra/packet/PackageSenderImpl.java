@@ -4,7 +4,6 @@ import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.infra.HexStringConverter;
 import br.com.fulltime.fullarm.infra.connection.Connection;
-import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
 import br.com.fulltime.fullarm.infra.packet.parser.PackageParserFactory;
 import org.springframework.stereotype.Service;
 

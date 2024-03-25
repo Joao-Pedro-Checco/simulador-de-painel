@@ -17,8 +17,6 @@ public class MainController implements Controller {
     @FXML
     private StackPane contentPane;
     @FXML
-    private Button connectionPaneButton;
-    @FXML
     private Button panelPaneButton;
     @FXML
     private Button configPaneButton;
@@ -27,7 +25,7 @@ public class MainController implements Controller {
 
     @FXML
     private void initialize() {
-        setConnectionPane();
+        setPanelPane();
     }
 
     public void setContent(String path) {
@@ -44,10 +42,6 @@ public class MainController implements Controller {
         Pane root = controller.getRoot();
         contentPane.getChildren().add(root);
         controller.onLoad();
-    }
-
-    public void setConnectionPane() {
-        setContent("/view/connectionPane.fxml");
     }
 
     public void setPanelPane() {

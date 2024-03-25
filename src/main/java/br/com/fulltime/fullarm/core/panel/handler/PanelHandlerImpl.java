@@ -1,8 +1,8 @@
 package br.com.fulltime.fullarm.core.panel.handler;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
+import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
@@ -120,7 +120,9 @@ public class PanelHandlerImpl implements PanelHandler {
     }
 
     private void sendEvent(EventCode eventCode, Partition partition, Integer argument) {
-        EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode, partition, argument);
-        packageSender.sendPackage(eventPackage);
+        if (Panel.isConnected()) {
+            EventPackage eventPackage = eventPackageGenerator.generateEvent(eventCode, partition, argument);
+            packageSender.sendPackage(eventPackage);
+        }
     }
 }

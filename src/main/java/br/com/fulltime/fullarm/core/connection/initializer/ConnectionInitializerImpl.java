@@ -4,6 +4,7 @@ import br.com.fulltime.fullarm.core.connection.authenticator.PanelAuthenticator;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.sender.KeepAliveSender;
 import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
+import br.com.fulltime.fullarm.core.packet.generator.authentication.AuthenticationPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.infra.connection.handler.ConnectionHandler;
 import javafx.application.Platform;
@@ -14,20 +15,24 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
     private final ConnectionHandler connectionHandler;
     private final PanelAuthenticator panelAuthenticator;
     private final KeepAliveSender keepAliveSender;
+    private final AuthenticationPackageGenerator authenticationPackageGenerator;
     private ConnectionListener connectionListener;
 
     public ConnectionInitializerImpl(ConnectionHandler connectionHandler,
                                      PanelAuthenticator panelAuthenticator,
-                                     KeepAliveSender keepAliveSender) {
+                                     KeepAliveSender keepAliveSender,
+                                     AuthenticationPackageGenerator authenticationPackageGenerator) {
         this.connectionHandler = connectionHandler;
         this.panelAuthenticator = panelAuthenticator;
         this.keepAliveSender = keepAliveSender;
+        this.authenticationPackageGenerator = authenticationPackageGenerator;
     }
 
     @Override
-    public void initializeConnection(String host, Integer port, AuthenticationPackage authenticationPackage) {
+    public void initializeConnection() {
         new Thread(() -> {
-            connectionHandler.connect(host, port);
+            connectionHandler.connect(Panel.getHost(), Panel.getPort());
+            AuthenticationPackage authenticationPackage = authenticationPackageGenerator.generatePackage();
             boolean connected = panelAuthenticator.authenticatePanel(authenticationPackage);
             Panel.setConnected(connected);
 

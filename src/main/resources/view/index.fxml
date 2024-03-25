@@ -12,11 +12,6 @@
       <StackPane fx:id="contentPane" layoutX="154.4" layoutY="-1.0" maxHeight="600.0" maxWidth="850.0" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="850.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="154.0" spacing="50.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="connectionPaneButton" mnemonicParsing="false" onAction="#setConnectionPane" prefHeight="30.0" prefWidth="110.0" text="Conexão">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
             <Button fx:id="panelPaneButton" mnemonicParsing="false" onAction="#setPanelPane" prefHeight="30.0" prefWidth="110.0" text="Paniel">
                <font>
                   <Font size="14.0" />

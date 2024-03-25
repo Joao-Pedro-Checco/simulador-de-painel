@@ -1,8 +1,8 @@
 package br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.status;
 
 import br.com.fulltime.fullarm.core.logger.Logger;
-import br.com.fulltime.fullarm.core.packet.status.StatusPackage;
 import br.com.fulltime.fullarm.core.packet.generator.status.PanelStatusGenerator;
+import br.com.fulltime.fullarm.core.packet.status.StatusPackage;
 import br.com.fulltime.fullarm.infra.packet.PackageSender;
 import br.com.fulltime.fullarm.infra.packet.constants.SubcommandIdentifier;
 import org.springframework.stereotype.Service;

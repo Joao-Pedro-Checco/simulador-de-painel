@@ -2,7 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -17,24 +20,27 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configurações gerais" wrappingWidth="178.89453125">
+      <Text layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configurações gerais" wrappingWidth="178.89453125">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="14.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tempo de Keep-Alive (minutos)">
+      <Text layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tempo de Keep-Alive (minutos)">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Spinner fx:id="keepAliveTimeSpinner" editable="true" layoutX="219.0" layoutY="112.0" prefHeight="26.0" prefWidth="76.0" />
-      <Button fx:id="saveConfigurationsButton" layoutX="760.0" layoutY="24.0" mnemonicParsing="false" onAction="#saveConfigurations" prefHeight="26.0" prefWidth="76.0" text="Salvar" />
-      <Text layoutX="14.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Setores" wrappingWidth="66.89453125">
+      <Spinner fx:id="keepAliveTimeSpinner" editable="true" layoutX="205.0" layoutY="98.0" prefHeight="26.0" prefWidth="76.0" />
+      <Button fx:id="saveConfigurationsButton" layoutX="725.0" layoutY="546.0" mnemonicParsing="false" onAction="#saveConfigurations" prefHeight="40.0" prefWidth="110.0" text="Salvar">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Text layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Setores" wrappingWidth="66.89453125">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <VBox layoutX="14.0" layoutY="266.0" prefHeight="320.0" prefWidth="275.0">
+      <VBox layoutY="273.0" prefHeight="325.0" prefWidth="275.0">
          <children>
             <HBox prefHeight="22.0" prefWidth="360.0" spacing="25.0">
                <children>
@@ -55,16 +61,75 @@
                   </Text>
                </children>
             </HBox>
-            <ListView fx:id="sectorListView" prefHeight="320.0" prefWidth="250.0" />
+            <ListView fx:id="sectorListView" prefHeight="325.0" prefWidth="250.0" />
          </children>
       </VBox>
-      <Button fx:id="enableAllButton" layoutX="14.0" layoutY="228.0" mnemonicParsing="false" onAction="#enableAllSectors" text="Habilitar todos" />
-      <Button fx:id="disableAllButton" layoutX="158.0" layoutY="228.0" mnemonicParsing="false" onAction="#disableAllSectors" text="Desabilitar todos" />
-      <ToggleSwitch fx:id="openSectorsArmSwitch" layoutX="239.0" layoutY="160.0" prefHeight="18.0" prefWidth="34.0" />
-      <Text layoutX="14.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Permitir arme com setores abertos">
+      <Button fx:id="enableAllButton" layoutY="235.0" mnemonicParsing="false" onAction="#enableAllSectors" text="Habilitar todos" />
+      <Button fx:id="disableAllButton" layoutX="144.0" layoutY="235.0" mnemonicParsing="false" onAction="#disableAllSectors" text="Desabilitar todos" />
+      <ToggleSwitch fx:id="openSectorsArmSwitch" layoutX="225.0" layoutY="175.0" prefHeight="20.0" prefWidth="35.0" />
+      <Text layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Permitir arme com setores abertos">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
+      <Text layoutX="425.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Configurações de conexão">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="425.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Host">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="hostTextField" layoutX="425.0" layoutY="126.0" prefHeight="25.0" prefWidth="200.0" promptText="localhost" text="gateways.dev.fullarm.com" />
+      <Text layoutX="649.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Porta">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="portTextField" layoutX="649.0" layoutY="125.0" prefHeight="25.0" prefWidth="60.0" promptText="8080" text="9071" />
+      <Text layoutX="425.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Conta">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="accountTextField" layoutX="425.0" layoutY="194.0" prefHeight="25.0" prefWidth="100.0" promptText="1234" text="1234" />
+      <Text layoutX="555.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Senha">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="passwordTextField" layoutX="555.0" layoutY="194.0" prefHeight="25.0" prefWidth="100.0" promptText="1234" text="123456" />
+      <Text layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Particionar painel">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <ToggleSwitch fx:id="partitionPanelSwitch" layoutX="124.0" layoutY="142.0" prefHeight="20.0" prefWidth="35.0" />
+      <Text layoutX="425.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Endereço MAC">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="macAddressTextField" layoutX="425.0" layoutY="260.0" prefHeight="25.0" prefWidth="130.0" promptText="123456" text="280501" />
+      <Text layoutX="577.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo de conexão">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Text>
+      <RadioButton fx:id="ethernetRadio" layoutX="579.0" layoutY="264.0" mnemonicParsing="false" text="Ethernet">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="connectionType" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="gprsRadio" layoutX="691.0" layoutY="264.0" mnemonicParsing="false" text="GPRS" toggleGroup="$connectionType">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </RadioButton>
    </children>
 </AnchorPane>

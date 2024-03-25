@@ -2,8 +2,8 @@ package br.com.fulltime.fullarm.infra.packet.processor.command.subcommand.pgmcon
 
 import br.com.fulltime.fullarm.core.logger.Logger;
 import br.com.fulltime.fullarm.core.packet.ack.AckPackage;
-import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
+import br.com.fulltime.fullarm.core.packet.event.EventPackage;
 import br.com.fulltime.fullarm.core.packet.generator.event.EventPackageGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;

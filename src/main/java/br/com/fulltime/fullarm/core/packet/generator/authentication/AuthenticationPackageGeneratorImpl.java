@@ -1,18 +1,17 @@
 package br.com.fulltime.fullarm.core.packet.generator.authentication;
 
 import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
-import br.com.fulltime.fullarm.core.panel.constants.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationPackageGeneratorImpl implements AuthenticationPackageGenerator {
     @Override
-    public AuthenticationPackage generatePackage(ConnectionType connectionType, String macAddress) {
+    public AuthenticationPackage generatePackage() {
         AuthenticationPackage authenticationPackage = new AuthenticationPackage();
-        authenticationPackage.setConnectionType(connectionType);
+        authenticationPackage.setConnectionType(Panel.getConnectionType());
         authenticationPackage.setAccount(Panel.getAccount());
-        authenticationPackage.setMacAddress(macAddress);
+        authenticationPackage.setMacAddress(Panel.getMacAddress());
 
         return authenticationPackage;
     }

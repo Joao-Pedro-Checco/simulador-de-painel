@@ -1,7 +1,6 @@
 package br.com.fulltime.fullarm.app.javafx;
 
 public enum Panes {
-    CONNECTION("/view/connectionPane.fxml"),
     PANEL("/view/panelPane.fxml"),
     CONFIGURATION("/view/configPane.fxml"),
     UNKNOWN("");
