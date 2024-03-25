@@ -2,7 +2,7 @@ package br.com.fulltime.fullarm.core.packet.authentication;
 
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
-import br.com.fulltime.fullarm.core.panel.ConnectionType;
+import br.com.fulltime.fullarm.core.panel.constants.ConnectionType;
 
 public class AuthenticationPackage extends GenericPackage {
     private ConnectionType connectionType;

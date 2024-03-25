@@ -1,6 +1,8 @@
 package br.com.fulltime.fullarm.core.panel;
 
 import br.com.fulltime.fullarm.core.panel.components.*;
+import br.com.fulltime.fullarm.core.panel.constants.ConnectionType;
+import br.com.fulltime.fullarm.core.panel.constants.PanelModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +14,10 @@ public class Panel {
     private static final PanelModel model = PanelModel.AMT4010SMART;
     private static boolean connected;
     private static boolean armed;
-    private static boolean isAuthenticated;
+    private static boolean authenticated;
     private static boolean partitioned;
+    private static boolean canArmWithOpenZones;
+    private static Integer keepAliveTime = 1;
     private static Siren siren;
     private static Battery battery;
     private static final List<Partition> partitions = new ArrayList<Partition>(){{
@@ -28,6 +32,7 @@ public class Panel {
         for (int i = 0; i < 64; i++) {
             Zone zone = new Zone();
             zone.setZoneNumber(i + 1);
+            zone.setEnabled(true);
             zone.setPartition(Panel.getPartitions().get(0));
             add(zone);
         }
@@ -85,12 +90,12 @@ public class Panel {
         Panel.armed = armed;
     }
 
-    public static boolean isIsAuthenticated() {
-        return isAuthenticated;
+    public static boolean isAuthenticated() {
+        return authenticated;
     }
 
-    public static void setIsAuthenticated(boolean isAuthenticated) {
-        Panel.isAuthenticated = isAuthenticated;
+    public static void setAuthenticated(boolean authenticated) {
+        Panel.authenticated = authenticated;
     }
 
     public static boolean isPartitioned() {
@@ -99,6 +104,22 @@ public class Panel {
 
     public static void setPartitioned(boolean partitioned) {
         Panel.partitioned = partitioned;
+    }
+
+    public static boolean isCanArmWithOpenZones() {
+        return canArmWithOpenZones;
+    }
+
+    public static void setCanArmWithOpenZones(boolean canArmWithOpenZones) {
+        Panel.canArmWithOpenZones = canArmWithOpenZones;
+    }
+
+    public static Integer getKeepAliveTime() {
+        return keepAliveTime;
+    }
+
+    public static void setKeepAliveTime(Integer keepAliveTime) {
+        Panel.keepAliveTime = keepAliveTime;
     }
 
     public static Siren getSiren() {

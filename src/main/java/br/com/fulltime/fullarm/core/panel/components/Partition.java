@@ -2,7 +2,6 @@ package br.com.fulltime.fullarm.core.panel.components;
 
 import br.com.fulltime.fullarm.core.panel.Panel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

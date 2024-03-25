@@ -26,7 +26,7 @@ public class ZoneHandlerImpl implements ZoneHandler {
         Logger.log(logMessage);
 
         zone.setOpen(!zone.isOpen());
-        if (Panel.isArmed() && !zone.isBypassed()) {
+        if (Panel.isArmed() && !zone.isBypassed() && zone.isEnabled()) {
             zone.setMemory(true);
             EventCode eventCode = zone.isOpen() ? EventCode.BURGLARY_ALARM :  EventCode.ALARM_RESTORE;
             sendEvent(eventCode, zone);

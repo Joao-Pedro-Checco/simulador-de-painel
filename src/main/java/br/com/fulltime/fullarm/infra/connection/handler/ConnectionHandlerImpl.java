@@ -22,7 +22,7 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     @Override
     public void connect(String host, Integer port) {
         try {
-            Panel.setIsAuthenticated(false);
+            Panel.setAuthenticated(false);
             Logger.log(String.format("Conectando ao servidor (host: %s | port: %d)", host, port));
             Connection.setSocket(new Socket(host, port));
             Connection.setHost(host);
@@ -40,7 +40,7 @@ public class ConnectionHandlerImpl implements ConnectionHandler {
     @Override
     public void disconnect() {
         try {
-            Panel.setIsAuthenticated(false);
+            Panel.setAuthenticated(false);
 
             if (messageReader != null) {
                 messageReader.interrupt();

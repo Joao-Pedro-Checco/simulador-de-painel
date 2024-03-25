@@ -1,12 +1,11 @@
 package br.com.fulltime.fullarm.core.panel.listener;
 
-import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabController;
-import br.com.fulltime.fullarm.core.panel.Panel;
+import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelPaneController;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PanelStatusListenerImpl implements PanelStatusListener {
-    private PanelTabController controller;
+    private PanelPaneController controller;
 
 
     @Override
@@ -17,7 +16,7 @@ public class PanelStatusListenerImpl implements PanelStatusListener {
     }
 
     @Override
-    public void setController(PanelTabController controller) {
+    public void setController(PanelPaneController controller) {
         this.controller = controller;
     }
 }

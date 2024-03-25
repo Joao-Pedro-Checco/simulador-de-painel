@@ -3,7 +3,7 @@ package br.com.fulltime.fullarm.core.packet.event;
 import br.com.fulltime.fullarm.core.packet.GenericPackage;
 import br.com.fulltime.fullarm.core.packet.constants.EventCode;
 import br.com.fulltime.fullarm.core.packet.constants.PackageType;
-import br.com.fulltime.fullarm.core.panel.ConnectionType;
+import br.com.fulltime.fullarm.core.panel.constants.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
 
 public class EventPackage extends GenericPackage {

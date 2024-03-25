@@ -17,7 +17,7 @@ public class AckProcessorImpl implements AckProcessor {
     @Override
     public void processPackage(String hexString) {
         Logger.log("Processando pacote ACK");
-        if (!Panel.isIsAuthenticated()) {
+        if (!Panel.isAuthenticated()) {
             timeoutHandler.messageArrived();
         }
     }

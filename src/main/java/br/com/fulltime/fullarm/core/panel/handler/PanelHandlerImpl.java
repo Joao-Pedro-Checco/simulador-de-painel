@@ -26,13 +26,21 @@ public class PanelHandlerImpl implements PanelHandler {
 
     @Override
     public void armPanel() {
+        boolean anyZoneIsOpen = Panel.getZones().stream().filter(Zone::isEnabled).anyMatch(Zone::isOpen);
+        if (!Panel.isCanArmWithOpenZones() && anyZoneIsOpen) {
+            return;
+        }
+
         Logger.log("Armando painel");
         Panel.setArmed(true);
         Panel.getPartitions().forEach(p -> p.setActivated(true));
         Partition partition = Panel.getPartitions().get(0);
         sendEvent(EventCode.ARM, partition, 0);
 
-        List<Zone> openZones = Panel.getZones().stream().filter(Zone::isOpen).collect(Collectors.toList());
+        List<Zone> openZones = Panel.getZones().stream()
+                .filter(Zone::isEnabled)
+                .filter(Zone::isOpen)
+                .collect(Collectors.toList());
         if (!openZones.isEmpty()) {
             openZones.forEach(z -> sendEvent(EventCode.BURGLARY_ALARM, partition, z.getZoneNumber()));
         }
@@ -61,8 +69,13 @@ public class PanelHandlerImpl implements PanelHandler {
 
     @Override
     public void armPartition(Partition partition) {
-        Logger.log("Armando Partição " + partition.getPartitionNumber());
         List<Zone> zones = partition.getZones();
+        boolean anyZoneIsOpen = zones.stream().anyMatch(Zone::isOpen);
+        if (!Panel.isCanArmWithOpenZones() && anyZoneIsOpen) {
+            return;
+        }
+
+        Logger.log("Armando Partição " + partition.getPartitionNumber());
         zones.forEach(z -> z.setMemory(false));
 
         boolean anyPartitionIsArmed = Panel.getPartitions().stream().anyMatch(Partition::isActivated);

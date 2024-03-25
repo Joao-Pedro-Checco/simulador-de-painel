@@ -94,10 +94,6 @@ public class DisarmProcessorImpl implements DisarmProcessor {
         }
 
         List<Integer> partitions = parsePartitions(bytes.subList(1, bytes.size()));
-        Panel.getZones().forEach(z -> {
-            if (partitions.contains(z.getPartition())) {
-                z.setBypassed(false);
-            }
-        });
+        Panel.getPartitions().get(partitions.get(0)).getZones().forEach(z -> z.setBypassed(false));
     }
 }

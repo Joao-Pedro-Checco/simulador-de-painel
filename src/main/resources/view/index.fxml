@@ -22,6 +22,11 @@
                   <Font size="14.0" />
                </font>
             </Button>
+            <Button fx:id="configPaneButton" mnemonicParsing="false" onAction="#setConfigPane" prefHeight="30.0" prefWidth="110.0" text="Configurações">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children>
          <padding>
             <Insets top="100.0" />

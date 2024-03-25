@@ -26,8 +26,10 @@ public class SectorListGeneratorImpl implements SectorListGenerator {
 
         List<Zone> zones = Panel.isPartitioned() ? partition.getZones() : Panel.getZones();
         zones.forEach(zone -> {
-            HBox hBox = sectorHBoxGenerator.generateSector(zone);
-            listView.getItems().add(hBox);
+            if (zone.isEnabled()) {
+                HBox hBox = sectorHBoxGenerator.generateSector(zone);
+                listView.getItems().add(hBox);
+            }
         });
     }
 }

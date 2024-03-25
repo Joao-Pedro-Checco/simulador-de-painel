@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import org.controlsfx.control.ToggleSwitch;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,6 +28,12 @@ public class SectorHBoxGeneratorImpl implements SectorHBoxGenerator {
         CheckBox tamperCheckBox = new CheckBox();
         CheckBox shortCircuitCheckBox = new CheckBox();
         CheckBox lowBatteryCheckBox = new CheckBox();
+
+        openCheckBox.setSelected(zone.isOpen());
+        bypassCheckBox.setSelected(zone.isBypassed());
+        tamperCheckBox.setSelected(zone.isTampered());
+        shortCircuitCheckBox.setSelected(zone.isShortCircuit());
+        lowBatteryCheckBox.setSelected(zone.isBatteryLowOnWirelessSensor());
 
         openCheckBox.setOnAction(event -> zoneHandler.toggleZoneOpenState(zone));
         bypassCheckBox.setOnAction(event -> zoneHandler.toggleZoneBypassState(zone));

@@ -5,22 +5,22 @@ import br.com.fulltime.fullarm.app.javafx.generator.list.pgm.PgmListGenerator;
 import br.com.fulltime.fullarm.app.javafx.generator.list.sector.SectorListGenerator;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import br.com.fulltime.fullarm.core.panel.components.Partition;
-import br.com.fulltime.fullarm.core.panel.components.Zone;
 import br.com.fulltime.fullarm.core.panel.handler.PanelHandler;
 import br.com.fulltime.fullarm.core.panel.listener.PanelStatusListener;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-public class PanelTabControllerImpl implements PanelTabController {
+public class PanelPaneControllerImpl implements PanelPaneController {
     @FXML
-    private Pane panelTab;
+    private Pane panelPane;
     @FXML
     private Label panelStatusLabel;
     @FXML
@@ -72,6 +72,8 @@ public class PanelTabControllerImpl implements PanelTabController {
         if (partitionToggle.isSelected()) {
             panelHandler.partitionPanel();
             setPartitionVisibility(true);
+            updateSectorList(currentPartition);
+            updateArmStatus(Panel.isArmed());
             return;
         }
 
@@ -160,26 +162,15 @@ public class PanelTabControllerImpl implements PanelTabController {
         }
 
         if (!armed) {
-            updateBypassCheckBox(partition);
             panelStatusLabel.setText("Desarmado");
             panelStatusLabel.setTextFill(Colors.GREEN);
             armPanelButton.setText("Armar");
             return;
         }
 
-        updateBypassCheckBox(partition);
         panelStatusLabel.setText("Armado");
         panelStatusLabel.setTextFill(Colors.RED);
         armPanelButton.setText("Desarmar");
-    }
-
-    private void updateBypassCheckBox(Partition partition) {
-        List<Zone> zones = partition.getZones();
-        for (int i = 0; i < zones.size(); i++) {
-            HBox hBox = sectorListView.getItems().get(i);
-            CheckBox checkBox = (CheckBox) hBox.getChildren().get(2);
-            checkBox.setSelected(zones.get(i).isBypassed());
-        }
     }
 
     @FXML
@@ -195,8 +186,13 @@ public class PanelTabControllerImpl implements PanelTabController {
     }
 
     @Override
+    public void onLoad() {
+        initialize();
+    }
+
+    @Override
     public Pane getRoot() {
-        return panelTab;
+        return panelPane;
     }
 
     private void updateSectorList(int currentPartition) {
@@ -211,6 +207,7 @@ public class PanelTabControllerImpl implements PanelTabController {
     @Override
     public void updateInterface() {
         updateArmStatus(Panel.isArmed());
+        updateSectorList(currentPartition);
         updatePgmList();
     }
 }

@@ -1,9 +1,9 @@
 package br.com.fulltime.fullarm.core.connection.listener;
 
-import br.com.fulltime.fullarm.app.javafx.controller.connection.ConnectionTabController;
+import br.com.fulltime.fullarm.app.javafx.controller.connection.ConnectionPaneController;
 
 public interface ConnectionListener {
     void onConnect(boolean connected);
 
-    void setConnectionController(ConnectionTabController connectionController);
+    void setConnectionController(ConnectionPaneController connectionController);
 }

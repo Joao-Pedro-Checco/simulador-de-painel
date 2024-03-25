@@ -20,6 +20,8 @@ public class MainController implements Controller {
     private Button connectionPaneButton;
     @FXML
     private Button panelPaneButton;
+    @FXML
+    private Button configPaneButton;
     @Autowired
     private SceneLoader sceneLoader;
 
@@ -41,14 +43,24 @@ public class MainController implements Controller {
 
         Pane root = controller.getRoot();
         contentPane.getChildren().add(root);
+        controller.onLoad();
     }
 
     public void setConnectionPane() {
-        setContent("/view/connectionTab.fxml");
+        setContent("/view/connectionPane.fxml");
     }
 
     public void setPanelPane() {
-        setContent("/view/panelTab.fxml");
+        setContent("/view/panelPane.fxml");
+    }
+
+    public void setConfigPane() {
+        setContent("/view/configPane.fxml");
+    }
+
+    @Override
+    public void onLoad() {
+
     }
 
     @Override

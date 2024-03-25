@@ -1,4 +1,4 @@
-package br.com.fulltime.fullarm.core.panel;
+package br.com.fulltime.fullarm.core.panel.constants;
 
 public enum ConnectionType {
     ETHERNET("45", "11"),

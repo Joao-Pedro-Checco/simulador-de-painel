@@ -3,13 +3,13 @@ package br.com.fulltime.fullarm.app.javafx.controller.connection;
 import br.com.fulltime.fullarm.app.UserInputValidator;
 import br.com.fulltime.fullarm.app.javafx.Colors;
 import br.com.fulltime.fullarm.app.javafx.Panes;
-import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelTabControllerImpl;
+import br.com.fulltime.fullarm.app.javafx.controller.panel.PanelPaneControllerImpl;
 import br.com.fulltime.fullarm.core.connection.initializer.ConnectionInitializer;
 import br.com.fulltime.fullarm.core.connection.listener.ConnectionListener;
 import br.com.fulltime.fullarm.core.connection.terminator.ConnectionTerminator;
 import br.com.fulltime.fullarm.core.packet.authentication.AuthenticationPackage;
 import br.com.fulltime.fullarm.core.packet.generator.authentication.AuthenticationPackageGenerator;
-import br.com.fulltime.fullarm.core.panel.ConnectionType;
+import br.com.fulltime.fullarm.core.panel.constants.ConnectionType;
 import br.com.fulltime.fullarm.core.panel.Panel;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -22,9 +22,9 @@ import org.springframework.stereotype.Component;
 import static br.com.fulltime.fullarm.app.javafx.PaneMap.paneMap;
 
 @Component
-public class ConnectionTabControllerImpl implements ConnectionTabController {
+public class ConnectionPaneControllerImpl implements ConnectionPaneController {
     @FXML
-    private Pane connectionTab;
+    private Pane connectionPane;
     @FXML
     private Label connectionStatusLabel;
     @FXML
@@ -55,7 +55,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     private ConnectionListener connectionListener;
     @Autowired
     private AuthenticationPackageGenerator authenticationPackageGenerator;
-    private PanelTabControllerImpl panelTabController;
+    private PanelPaneControllerImpl panelTabController;
 
     public void connectPanel() {
         String host = hostTextField.getText();
@@ -87,7 +87,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
     public void disconnectPanel() {
         connectionTerminator.terminateConnection();
 
-        panelTabController = (PanelTabControllerImpl) paneMap.get(Panes.PANEL);
+        panelTabController = (PanelPaneControllerImpl) paneMap.get(Panes.PANEL);
         if (panelTabController != null) {
             panelTabController.updatePanelConnection(false);
         }
@@ -137,7 +137,7 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
             return;
         }
 
-        panelTabController = (PanelTabControllerImpl) paneMap.get(Panes.PANEL);
+        panelTabController = (PanelPaneControllerImpl) paneMap.get(Panes.PANEL);
         if (panelTabController != null) {
             panelTabController.updatePanelConnection(true);
         }
@@ -161,7 +161,12 @@ public class ConnectionTabControllerImpl implements ConnectionTabController {
 
 
     @Override
+    public void onLoad() {
+
+    }
+
+    @Override
     public Pane getRoot() {
-        return connectionTab;
+        return connectionPane;
     }
 }
